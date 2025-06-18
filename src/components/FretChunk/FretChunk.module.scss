@@ -1,0 +1,7 @@
+@use '../../colors.scss';
+
+.FretChunk {
+  padding: 1.5rem;
+  min-height: 4.25rem;
+  border-bottom: 2px solid colors.$black;
+}
