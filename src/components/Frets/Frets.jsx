@@ -1,3 +1,4 @@
+import { DragDropContext } from '@hello-pangea/dnd';
 import { nanoid } from 'nanoid';
 import { useCallback, useMemo, useRef, useState } from 'react';
 
@@ -5,11 +6,21 @@ import { ContextMenu } from '../ContextMenu';
 import { Fret } from '../Fret';
 import { FretChunk } from '../FretChunk';
 
-import { addFretAfter, addFretBefore, addStringAtFretBottom, addStringAtFretTop, getNoteIndexInFret, removeFret, removeString, shouldAddRightBorderOnFretChunk } from './functions';
+import { addFretAfter, addFretBefore, addStringAtFretBottom, addStringAtFretTop, getNoteIndexInFret, loadOnDragEnd, removeFret, removeString, shouldAddRightBorderOnFretChunk } from './functions';
 
 import style from './Frets.module.scss';
 
 const mockedFrets = [
+  {
+    id: nanoid(),
+    chunks: [
+      { id: nanoid(), text: '' },
+      { id: nanoid(), text: '' },
+      { id: nanoid(), text: '' },
+      { id: nanoid(), text: '' },
+      { id: nanoid(), text: '' },
+    ],
+  },
   {
     id: nanoid(),
     chunks: [
@@ -204,8 +215,11 @@ const Frets = () => {
     contextMenuFnsRef.current?.setContextMenuData(data);
   }, [contextMenuFnsRef]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const onDragEnd = useCallback(loadOnDragEnd(setFrets), [setFrets]);
+
   return (
-    <>
+    <DragDropContext onDragEnd={onDragEnd}>
       <div className={style.FretsContainer}>
         {frets.map((fret, fretIndex) => {
           const hasNextFret = frets.length > fretIndex + 1;
@@ -213,8 +227,7 @@ const Frets = () => {
           const currentFretNoteIndex = getNoteIndexInFret(fret);
 
           return (
-            <Fret
-              key={fret.id}>
+            <Fret key={fret.id} fretIndex={fretIndex}>
               {fret.chunks.map((chunk, chunkIndex) => {
                 return (
                   <FretChunk
@@ -236,7 +249,7 @@ const Frets = () => {
           contextMenuFnsRef={contextMenuFnsRef}
         />
       </div>
-    </>
+    </DragDropContext>
   );
 };
 
