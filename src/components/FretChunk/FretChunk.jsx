@@ -13,18 +13,8 @@ const FretChunk = (props) => {
   const [editInputValue, setEditInputValue] = useState(text);
 
   const onDoubleClickChunk = useCallback(() => {
-    setEditMode(currentEditMode => {
-      if(currentEditMode) {
-        onEditFretChunkText({
-          text: editInputValue,
-          fretIndex,
-          chunkIndex,
-        });
-      }
-
-      return !currentEditMode;
-    });
-  }, [chunkIndex, editInputValue, fretIndex, onEditFretChunkText]);
+    setEditMode(currentEditMode => !currentEditMode);
+  }, []);
 
   useEffect(() => {
     setEditInputValue(text);
@@ -60,10 +50,19 @@ const FretChunk = (props) => {
           {
             editMode ?
               <input
+                autoFocus
                 type="text"
                 name="fret-chunk-edit-input"
                 value={editInputValue}
                 onChange={(event) => setEditInputValue(event.target.value)}
+                onBlur={() => {
+                  setEditMode(false);
+                  onEditFretChunkText({
+                    text: editInputValue,
+                    fretIndex,
+                    chunkIndex,
+                  });
+                }}
               />
               : <span>{text}</span>
           }
