@@ -6,12 +6,13 @@ const FretChunk = (props) => {
   const { text, chunkIndex, fretIndex, hasRightBorder, onOpenContextMenu } = props;
 
   const noteIndex = (chunkIndex % 12) + 1;
+  const isDragDisabled = !text || fretIndex == 0;
 
   return (
     <Draggable
       draggableId={`fret-chunk-${fretIndex}-${chunkIndex}`}
       index={chunkIndex}
-      isDragDisabled={!text || fretIndex == 0}>
+      isDragDisabled={isDragDisabled}>
       {(provided) => (
         <div
           className={style.FretChunk}
@@ -25,6 +26,7 @@ const FretChunk = (props) => {
               left: e.pageX,
             });
           }}
+          data-is-drag-disabled={isDragDisabled ? 'true' : 'false'}
           data-note-index={noteIndex}
           data-has-text={text ? 'true' : 'false'}
           data-has-right-border={hasRightBorder}

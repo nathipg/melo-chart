@@ -22,4 +22,8 @@
       }
     }
   }
+
+  &[data-is-drag-disabled='false'] {
+    cursor: move;
+  }
 }
