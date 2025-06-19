@@ -1,16 +1,26 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 import style from './ContextMenu.module.scss';
 
 const ContextMenu = (props) => {
-  const { items, top, left, contextMenuPosition, setContextMenuPosition } = props;
+  const { items, contextMenuFnsRef } = props;
+
+  const [contextMenuData, setContextMenuData] = useState(null);
 
   const wrapperRef = useRef(null);
+
+  useImperativeHandle(contextMenuFnsRef, () => {
+    return {
+      setContextMenuData(data) {
+        setContextMenuData(data);
+      },
+    };
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(event) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-        setContextMenuPosition(null);
+        setContextMenuData(null);
       }
     }
 
@@ -19,24 +29,24 @@ const ContextMenu = (props) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [setContextMenuPosition, wrapperRef, contextMenuPosition]);
+  }, [setContextMenuData, wrapperRef]);
 
-  return (
-    <div 
+  return contextMenuData ? (
+    <div
       ref={wrapperRef}
-      className={style.ContextMenu} 
+      className={style.ContextMenu}
       style={{
-        top, 
-        left, 
+        top: contextMenuData?.top,
+        left: contextMenuData?.left,
       }}>
       {items.map(item => {
         return (
-          <span 
+          <span
             key={`item-${item.label}`}
             className={style.ContextMenuItem}
             onClick={() => {
-              setContextMenuPosition(null);
-              item.onClick(contextMenuPosition);
+              setContextMenuData(null);
+              item.onClick(contextMenuData);
             }}
             data-type={item.type}>
             {item.label}
@@ -44,7 +54,7 @@ const ContextMenu = (props) => {
         );
       })}
     </div>
-  );
+  ) : <></>;
 };
 
 export { ContextMenu };
