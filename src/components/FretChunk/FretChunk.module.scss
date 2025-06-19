@@ -1,7 +1,25 @@
+@use 'sass:list';
+
 @use '../../colors.scss';
 
 .FretChunk {
   padding: 1.5rem;
   min-height: 4.25rem;
-  border-bottom: 2px solid colors.$black;
+  border-bottom: 2px solid colors.$string-color;
+
+  &[data-has-text='true'] {
+    @for $i from 1 through 12 {
+      &[data-note-index='#{$i}'] {
+        border-bottom-color: list.nth(colors.$notes-colors, $i);
+      }
+    }
+  }
+
+  &[data-has-right-border='true'] {
+    @for $i from 1 through 12 {
+      &[data-note-index='#{$i}'] {
+        border-right: 2px solid list.nth(colors.$notes-colors, $i);
+      }
+    }
+  }
 }
