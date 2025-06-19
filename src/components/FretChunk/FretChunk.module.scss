@@ -7,6 +7,18 @@
   min-height: 4.25rem;
   border-bottom: 2px solid colors.$lightgray;
 
+  &:has(input) {
+    padding-bottom: 1rem;
+  }
+
+  input {
+    width: 100px;
+  }
+
+  span {
+    cursor: text;
+  }
+
   &[data-has-text='true'] {
     @for $i from 1 through 12 {
       &[data-note-index='#{$i}'] {

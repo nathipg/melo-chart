@@ -6,7 +6,7 @@ import { ContextMenu } from '../ContextMenu';
 import { Fret } from '../Fret';
 import { FretChunk } from '../FretChunk';
 
-import { addFretAfter, addFretBefore, addStringAtFretBottom, addStringAtFretTop, getNoteIndexInFret, loadOnDragEnd, removeFret, removeString, shouldAddRightBorderOnFretChunk } from './functions';
+import { addFretAfter, addFretBefore, addStringAtFretBottom, addStringAtFretTop, getNoteIndexInFret, loadOnDragEnd, loadOnEditFretChunkText, removeFret, removeString, shouldAddRightBorderOnFretChunk } from './functions';
 
 import style from './Frets.module.scss';
 
@@ -218,6 +218,9 @@ const Frets = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onDragEnd = useCallback(loadOnDragEnd(setFrets), [setFrets]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const onEditFretChunkText = useCallback(loadOnEditFretChunkText(setFrets), [setFrets]);
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className={style.FretsContainer}>
@@ -237,6 +240,7 @@ const Frets = () => {
                     text={chunk.text}
                     hasRightBorder={hasNextFret ? shouldAddRightBorderOnFretChunk(chunkIndex, currentFretNoteIndex, nextFretNoteIndex) : false}
                     onOpenContextMenu={onOpenContextMenu}
+                    onEditFretChunkText={onEditFretChunkText}
                   />
                 );
               })}

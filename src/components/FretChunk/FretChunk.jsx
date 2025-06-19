@@ -1,12 +1,34 @@
 import { Draggable } from '@hello-pangea/dnd';
+import { useCallback, useEffect, useState } from 'react';
 
 import style from './FretChunk.module.scss';
 
 const FretChunk = (props) => {
-  const { text, chunkIndex, fretIndex, hasRightBorder, onOpenContextMenu } = props;
+  const { text, chunkIndex, fretIndex, hasRightBorder, onOpenContextMenu, onEditFretChunkText } = props;
 
   const noteIndex = (chunkIndex % 12) + 1;
   const isDragDisabled = !text || fretIndex == 0;
+
+  const [editMode, setEditMode] = useState(false);
+  const [editInputValue, setEditInputValue] = useState(text);
+
+  const onDoubleClickChunk = useCallback(() => {
+    setEditMode(currentEditMode => {
+      if(currentEditMode) {
+        onEditFretChunkText({
+          text: editInputValue,
+          fretIndex,
+          chunkIndex,
+        });
+      }
+
+      return !currentEditMode;
+    });
+  }, [chunkIndex, editInputValue, fretIndex, onEditFretChunkText]);
+
+  useEffect(() => {
+    setEditInputValue(text);
+  }, [text]);
 
   return (
     <Draggable
@@ -26,15 +48,25 @@ const FretChunk = (props) => {
               left: e.pageX,
             });
           }}
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          onDoubleClick={onDoubleClickChunk}
           data-is-drag-disabled={isDragDisabled ? 'true' : 'false'}
           data-note-index={noteIndex}
           data-has-text={text ? 'true' : 'false'}
           data-has-right-border={hasRightBorder}
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
         >
-          {text}
+          {
+            editMode ?
+              <input
+                type="text"
+                name="fret-chunk-edit-input"
+                value={editInputValue}
+                onChange={(event) => setEditInputValue(event.target.value)}
+              />
+              : <span>{text}</span>
+          }
         </div>
       )}
     </Draggable>
