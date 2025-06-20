@@ -9,8 +9,8 @@ const FretChunk = (props) => {
   const noteIndex = (chunkIndex % 12) + 1;
   const isDragDisabled = !text || fretIndex == 0;
 
-  const [editMode, setEditMode] = useState(false);
-  const [editInputValue, setEditInputValue] = useState(text);
+  const [ editMode, setEditMode ] = useState(false);
+  const [ editInputValue, setEditInputValue ] = useState(text);
 
   const onDoubleClickChunk = useCallback(() => {
     setEditMode(currentEditMode => !currentEditMode);
@@ -18,7 +18,7 @@ const FretChunk = (props) => {
 
   useEffect(() => {
     setEditInputValue(text);
-  }, [text]);
+  }, [ text ]);
 
   return (
     <Draggable

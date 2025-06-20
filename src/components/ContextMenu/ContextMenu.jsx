@@ -5,7 +5,7 @@ import style from './ContextMenu.module.scss';
 const ContextMenu = (props) => {
   const { items, contextMenuFnsRef } = props;
 
-  const [contextMenuData, setContextMenuData] = useState(null);
+  const [ contextMenuData, setContextMenuData ] = useState(null);
 
   const wrapperRef = useRef(null);
 
@@ -29,7 +29,7 @@ const ContextMenu = (props) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [setContextMenuData, wrapperRef]);
+  }, [ setContextMenuData, wrapperRef ]);
 
   return contextMenuData ? (
     <div

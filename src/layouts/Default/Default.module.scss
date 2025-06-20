@@ -1,0 +1,18 @@
+@use '../../colors.scss';
+
+.Header {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  gap: 1rem;
+
+  ul {
+    list-style: none;
+  }
+}
+
+.ContentContainer {
+  padding: 0.5rem 1rem;
+  padding-top: 0;
+}

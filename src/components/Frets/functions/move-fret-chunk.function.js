@@ -9,7 +9,7 @@ export const moveFretChunk = (params) => {
 
   setFrets((currentFrets) => {
     const sourceFret = currentFrets[source.fretIndex];
-    const chunks = [...sourceFret.chunks];
+    const chunks = [ ...sourceFret.chunks ];
     const chunk = chunks.splice(source.chunkIndex, 1)[0];
     chunks.splice(destination.chunkIndex, 0, chunk);
 
@@ -22,7 +22,7 @@ export const moveFretChunk = (params) => {
       ...fretsWithoutDragged.slice(0, destinationIndex),
       {
         ...sourceFret,
-        chunks: [...chunks],
+        chunks: [ ...chunks ],
       },
       ...fretsWithoutDragged.slice(destinationIndex),
     ];

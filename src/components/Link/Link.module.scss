@@ -1,0 +1,13 @@
+@use 'sass:color';
+
+@use '../../colors.scss';
+
+.Link {
+  text-decoration: none;
+  color: colors.$blue;
+  font-weight: 600;
+
+  &:hover {
+    color: color.adjust(colors.$blue, $lightness: -20%);
+  }
+}

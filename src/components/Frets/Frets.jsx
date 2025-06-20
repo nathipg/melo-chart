@@ -1,6 +1,5 @@
 import { DragDropContext } from '@hello-pangea/dnd';
-import { nanoid } from 'nanoid';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useImperativeHandle, useMemo, useRef, useState } from 'react';
 
 import { ContextMenu } from '../ContextMenu';
 import { Fret } from '../Fret';
@@ -10,161 +9,11 @@ import { addFretAfter, addFretBefore, addStringAtFretBottom, addStringAtFretTop,
 
 import style from './Frets.module.scss';
 
-const mockedFrets = [
-  {
-    id: nanoid(),
-    chunks: [
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-    ],
-  },
-  {
-    id: nanoid(),
-    chunks: [
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: 'Quem' },
-    ],
-  },
-  {
-    id: nanoid(),
-    chunks: [
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: 'não' },
-    ],
-  },
-  {
-    id: nanoid(),
-    chunks: [
-      { id: nanoid(), text: 'tem' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-    ],
-  },
-  {
-    id: nanoid(),
-    chunks: [
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: 'te' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-    ],
-  },
-  {
-    id: nanoid(),
-    chunks: [
-      { id: nanoid(), text: 'to' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-    ],
-  },
-  {
-    id: nanoid(),
-    chunks: [
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: 'de' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-    ],
-  },
-  {
-    id: nanoid(),
-    chunks: [
-      { id: nanoid(), text: 'vi-dro' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-    ],
-  },
-  {
-    id: nanoid(),
-    chunks: [
-      { id: nanoid(), text: 'que' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-    ],
-  },
-  {
-    id: nanoid(),
-    chunks: [
-      { id: nanoid(), text: 'a' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-    ],
-  },
-  {
-    id: nanoid(),
-    chunks: [
-      { id: nanoid(), text: 'ti' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-    ],
-  },
-  {
-    id: nanoid(),
-    chunks: [
-      { id: nanoid(), text: 'rea' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-    ],
-  },
-  {
-    id: nanoid(),
-    chunks: [
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: 'pri' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-    ],
-  },
-  {
-    id: nanoid(),
-    chunks: [
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: 'mei' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-    ],
-  },
-  {
-    id: nanoid(),
-    chunks: [
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: 'ra' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-      { id: nanoid(), text: '' },
-    ],
-  },
-];
+const Frets = (props) => {
+  const { frets: initialFrets, fretsFnsRef } = props;
 
-const Frets = () => {
-  const [frets, setFrets] = useState(mockedFrets);
+  const [ frets, setFrets ] = useState(initialFrets);
+  const [ wrapFrets, setWrapFrets ] = useState(false);
 
   const contextMenuFnsRef = useRef(null);
 
@@ -211,19 +60,27 @@ const Frets = () => {
     ];
   }, [ setFrets ]);
 
+  useImperativeHandle(fretsFnsRef, () => {
+    return {
+      setWrapFrets(value) {
+        setWrapFrets(value);
+      },
+    };
+  });
+
   const onOpenContextMenu = useCallback((data) => {
     contextMenuFnsRef.current?.setContextMenuData(data);
-  }, [contextMenuFnsRef]);
+  }, [ contextMenuFnsRef ]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onDragEnd = useCallback(loadOnDragEnd(setFrets), [setFrets]);
+  const onDragEnd = useCallback(loadOnDragEnd(setFrets), [ setFrets ]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onEditFretChunkText = useCallback(loadOnEditFretChunkText(setFrets), [setFrets]);
+  const onEditFretChunkText = useCallback(loadOnEditFretChunkText(setFrets), [ setFrets ]);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className={style.FretsContainer}>
+      <div className={style.FretsContainer} data-wrap-frets={wrapFrets}>
         {frets.map((fret, fretIndex) => {
           const hasNextFret = frets.length > fretIndex + 1;
           const nextFretNoteIndex = hasNextFret ? getNoteIndexInFret(frets[fretIndex + 1]) : null;

@@ -6,6 +6,7 @@
   padding: 1.5rem;
   min-height: 4.25rem;
   border-bottom: 2px solid colors.$lightgray;
+  white-space: nowrap;
 
   &:has(input) {
     padding-bottom: 1rem;
