@@ -65,6 +65,9 @@ const Frets = (props) => {
       setWrapFrets(value) {
         setWrapFrets(value);
       },
+      getFrets() {
+        return [ ...frets ];
+      },
     };
   });
 

@@ -1,4 +1,5 @@
 import { nanoid } from 'nanoid';
+import { useState } from 'react';
 import { Route, Routes } from 'react-router';
 
 import { Default } from './layouts';
@@ -591,12 +592,14 @@ const mockedSongs = [
 ];
 
 const App = () => {
+  const [ songs, setSongs ] = useState(mockedSongs);
+
   return (
     <>
       <Routes>
         <Route path="/" element={<Default />}>
-          <Route path="/" element={<Home songs={mockedSongs} />} />
-          <Route path="/chart" element={<Chart songs={mockedSongs} />} />
+          <Route path="/" element={<Home songs={songs} setSongs={setSongs} />} />
+          <Route path="/chart" element={<Chart songs={songs} setSongs={setSongs} />} />
         </Route>
       </Routes>
     </>

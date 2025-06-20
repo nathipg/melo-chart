@@ -1,6 +1,5 @@
 .FretsContainer {
   display: flex;
-  margin: 1rem 0;
 
   &[data-wrap-frets='true'] {
     flex-wrap: wrap;

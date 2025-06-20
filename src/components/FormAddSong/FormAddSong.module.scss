@@ -1,0 +1,15 @@
+.FormAddSong {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  h2 {
+    margin-bottom: 0.5rem;
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+}
