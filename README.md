@@ -14,6 +14,5 @@ App created to map the melody of songs
 -- Change to not break sections on wrap
 -- Add option to remove empty frets from the end
 -- Add option to remove empty frets from the start/end
--- Add option to add multiple frets at once
 -- Add option to add multiple string at once
 -- Export to image

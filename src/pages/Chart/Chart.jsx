@@ -43,11 +43,16 @@ const Chart = (props) => {
     fretsFnsRef.current?.setWrapFrets(value);
   }, []);
 
+  const onAddMultipleFrets = useCallback((qty) => {
+    fretsFnsRef.current?.addMultipleFrets(qty);
+  }, []);
+
   return (
     <div className={style.Chart}>
       <ChartControllers
         onSaveSong={onSaveSong}
         onChangeWrapCheckbox={onChangeWrapCheckbox}
+        onAddMultipleFrets={onAddMultipleFrets}
       />
       
       <Song

@@ -5,7 +5,19 @@ import { ContextMenu } from '../ContextMenu';
 import { Fret } from '../Fret';
 import { FretChunk } from '../FretChunk';
 
-import { addFretAfter, addFretBefore, addStringAtFretBottom, addStringAtFretTop, getNoteIndexInFret, loadOnDragEnd, loadOnEditFretChunkText, removeFret, removeString, shouldAddRightBorderOnFretChunk } from './functions';
+import {
+  addFretAfter,
+  addFretBefore,
+  addMultipleFrets,
+  addStringAtFretBottom,
+  addStringAtFretTop,
+  getNoteIndexInFret,
+  loadOnDragEnd,
+  loadOnEditFretChunkText,
+  removeFret,
+  removeString,
+  shouldAddRightBorderOnFretChunk,
+} from './functions';
 
 import style from './Frets.module.scss';
 
@@ -67,6 +79,9 @@ const Frets = (props) => {
       },
       getFrets() {
         return [ ...frets ];
+      },
+      addMultipleFrets(qty) {
+        addMultipleFrets({ setFrets, qty });
       },
     };
   });
