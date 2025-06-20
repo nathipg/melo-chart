@@ -7,6 +7,7 @@ App created to map the melody of songs
 - General
 -- Add global state
 -- Add local database to save data
+-- App Logo
 
 - Chart
 -- Add option to define sections
