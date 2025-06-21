@@ -2,6 +2,7 @@ export * from './add-fret-after.function';
 export * from './add-fret-before.function';
 export * from './add-fret.function';
 export * from './add-multiple-frets.function';
+export * from './add-multiple-strings.function';
 export * from './add-string-at-fret-bottom.function';
 export * from './add-string-at-fret-top.function';
 export * from './generate-new-fret-chunk.function';

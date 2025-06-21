@@ -2,11 +2,12 @@ import { Button } from '../Button';
 import { Checkbox } from '../Checkbox';
 
 import { NewFretsOption } from './NewFretsOption';
+import { NewStringsOption } from './NewStringsOption';
 
 import style from './ChartControllers.module.scss';
 
 const ChartControllers = (props) => {
-  const { onSaveSong, onChangeWrapCheckbox, onAddMultipleFrets } = props;
+  const { onSaveSong, onChangeWrapCheckbox, onAddMultipleFrets, onAddMultipleStrings } = props;
 
   return (
     <div className={style.ChartControllers}>
@@ -20,6 +21,10 @@ const ChartControllers = (props) => {
 
       <NewFretsOption
         onAddMultipleFrets={onAddMultipleFrets}
+      />
+
+      <NewStringsOption
+        onAddMultipleStrings={onAddMultipleStrings}
       />
     </div>
   );

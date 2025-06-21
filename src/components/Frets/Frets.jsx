@@ -7,6 +7,7 @@ import { FretChunk } from '../FretChunk';
 
 import {
   addFretAfter,
+  addMultipleStrings,
   addFretBefore,
   addMultipleFrets,
   addStringAtFretBottom,
@@ -82,6 +83,9 @@ const Frets = (props) => {
       },
       addMultipleFrets(qty) {
         addMultipleFrets({ setFrets, qty });
+      },
+      onAddMultipleStrings(qty) {
+        addMultipleStrings({ setFrets, qty });
       },
     };
   });
