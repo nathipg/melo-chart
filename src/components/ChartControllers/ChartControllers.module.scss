@@ -1,5 +1,19 @@
 .ChartControllers {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+  display: grid; 
+  grid-template-columns: min-content min-content; 
+  grid-template-rows: min-content min-content min-content; 
+  gap: 0.5rem 1rem;
+
+  grid-template-areas: 
+    "save save"
+    "frets strings"
+    "wrap wrap"; 
+}
+
+.SaveSongButton {
+  grid-area: save;
+}
+
+.WrapCheckbox {
+  grid-area: wrap;
 }

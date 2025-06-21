@@ -1,8 +1,16 @@
+import style from './Button.module.scss';
+
 const Button = (props) => {
-  const { onClick, children } = props;
+  const { category, onClick, children, className = '' } = props;
 
   return (
-    <button onClick={onClick}>{children}</button>
+    <button
+      className={`${style.Button} ${className}`}
+      onClick={onClick}
+      data-category={category}
+    >
+      {children}
+    </button>
   );
 };
 

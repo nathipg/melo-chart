@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import style from './Checkbox.module.scss';
 
 const Checkbox = (props) => {
-  const { label, initialValue, onChange } = props;
+  const { label, initialValue, className = '', onChange } = props;
   const [ checked, setChecked ] = useState(initialValue);
 
   useEffect(() => {
@@ -11,7 +11,7 @@ const Checkbox = (props) => {
   }, [ checked, onChange ]);
 
   return (
-    <label className={style.Checkbox}>
+    <label className={`${style.Checkbox} ${className}`}>
       <input
         type="checkbox"
         checked={checked}

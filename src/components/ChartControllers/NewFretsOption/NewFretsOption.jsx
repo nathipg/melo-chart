@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import { Button } from '../../Button';
+import { Button, ButtonConstants } from '../../Button';
 import { InlineInput } from '../../InlineInput/InlineInput';
 
 import style from './NewFretsOption.module.scss';
@@ -22,7 +22,7 @@ const NewFretsOption = (props) => {
         name="qty"
       />
 
-      <Button>Add</Button>
+      <Button category={ButtonConstants.ButtonCategories.PRIMARY}>Add</Button>
     </form>
   );
 };

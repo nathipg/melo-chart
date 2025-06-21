@@ -1,4 +1,4 @@
-import { Button } from '../Button';
+import { Button, ButtonConstants } from '../Button';
 import { Checkbox } from '../Checkbox';
 
 import { NewFretsOption } from './NewFretsOption';
@@ -11,13 +11,13 @@ const ChartControllers = (props) => {
 
   return (
     <div className={style.ChartControllers}>
-      <Button onClick={onSaveSong}>Save Changes</Button>
-
-      <Checkbox
-        label="Wrap"
-        initialValue={true}
-        onChange={onChangeWrapCheckbox}
-      />
+      <Button
+        className={style.SaveSongButton}
+        onClick={onSaveSong}
+        category={ButtonConstants.ButtonCategories.SUCCESS}
+      >
+        Save Changes
+      </Button>
 
       <NewFretsOption
         onAddMultipleFrets={onAddMultipleFrets}
@@ -25,6 +25,13 @@ const ChartControllers = (props) => {
 
       <NewStringsOption
         onAddMultipleStrings={onAddMultipleStrings}
+      />
+
+      <Checkbox
+        className={style.WrapCheckbox}
+        label="Wrap"
+        initialValue={true}
+        onChange={onChangeWrapCheckbox}
       />
     </div>
   );
