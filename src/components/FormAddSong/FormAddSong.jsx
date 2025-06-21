@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 
 import { Button } from '../Button';
+import { InlineInput } from '../InlineInput/InlineInput';
 
 import { generateNewSong } from './functions';
 
@@ -39,11 +40,11 @@ const FormAddSong = (props) => {
     <form className={style.FormAddSong} onSubmit={onSubmitForm}>
       <h2>Add Song</h2>
 
-      <label>
-        <span>Title</span>
-
-        <input type="text" name="title" />
-      </label>
+      <InlineInput
+        label="Title"
+        type="text"
+        name="title"
+      />
 
       <div>
         <Button>Add</Button>
