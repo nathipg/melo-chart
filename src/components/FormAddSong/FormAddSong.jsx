@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import { Button } from '../Button';
+import { Button, ButtonConstants } from '../Button';
 import { InlineInput } from '../InlineInput/InlineInput';
 
 import { generateNewSong } from './functions';
@@ -40,14 +40,14 @@ const FormAddSong = (props) => {
     <form className={style.FormAddSong} onSubmit={onSubmitForm}>
       <h2>Add Song</h2>
 
-      <InlineInput
-        label="Title"
-        type="text"
-        name="title"
-      />
+      <div className={style.FieldsContainer}>
+        <InlineInput
+          label="Title"
+          type="text"
+          name="title"
+        />
 
-      <div>
-        <Button>Add</Button>
+        <Button category={ButtonConstants.ButtonCategories.SUCCESS}>Add</Button>
       </div>
     </form>
   );

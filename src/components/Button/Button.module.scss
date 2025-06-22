@@ -1,4 +1,7 @@
+@use 'sass:color';
+
 @use '../../colors.scss';
+@use '../../mixins.scss';
 
 .Button {
   padding: 0.25rem 1rem;
@@ -6,14 +9,19 @@
   border: 0;
   border-radius: 5px;
   width: fit-content;
+  cursor: pointer;
+
+  &[data-category="DEFAULT"] {
+    @include mixins.background-with-hover(colors.$lightgray);
+  }
 
   &[data-category="PRIMARY"] {
-    background-color: colors.$blue;
+    @include mixins.background-with-hover(colors.$blue);
     color: colors.$white;
   }
 
   &[data-category="SUCCESS"] {
-    background-color: colors.$green;
+    @include mixins.background-with-hover(colors.$green);
     color: colors.$white;
   }
 }

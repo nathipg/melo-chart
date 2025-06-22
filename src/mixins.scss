@@ -1,0 +1,9 @@
+@use 'sass:color';
+
+@mixin background-with-hover($color) {
+  background-color: $color;
+
+  &:hover {
+    background-color: color.adjust($color, $lightness: -20%);
+  }
+}

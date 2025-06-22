@@ -1,7 +1,9 @@
+import { ButtonCategories } from './constants';
+
 import style from './Button.module.scss';
 
 const Button = (props) => {
-  const { category, onClick, children, className = '' } = props;
+  const { category = ButtonCategories.DEFAULT, onClick, children, className = '' } = props;
 
   return (
     <button

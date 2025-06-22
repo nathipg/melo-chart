@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef } from 'react';
-import { useSearchParams } from 'react-router';
+import { Navigate, useSearchParams } from 'react-router';
 
 import { ChartControllers, Song } from '../../components';
 
@@ -10,13 +10,14 @@ import style from './Chart.module.scss';
 const Chart = (props) => {
   const { songs, setSongs } = props;
 
-  const [ searchParams, _ ] = useSearchParams();
+  const [ searchParams ] = useSearchParams();
+  const songId = searchParams.get('id') || null;
 
   const fretsFnsRef = useRef(null);
 
   const song = useMemo(() => {
-    return getSongById(searchParams.get('id'), songs);
-  }, [ searchParams, songs ]);
+    return songId ? getSongById(songId, songs) : null;
+  }, [ songId, songs ]);
 
   const onSaveSong = useCallback(() => {
     const updatedFrets = fretsFnsRef.current?.getFrets();
@@ -37,7 +38,7 @@ const Chart = (props) => {
         ...curSongs.slice(curSongIndex + 1),
       ];
     });
-  }, [ setSongs, song.id, songs ]);
+  }, [ setSongs, song, songs ]);
 
   const onChangeWrapCheckbox = useCallback((value) => {
     fretsFnsRef.current?.setWrapFrets(value);
@@ -50,6 +51,10 @@ const Chart = (props) => {
   const onAddMultipleStrings = useCallback((qty) => {
     fretsFnsRef.current?.onAddMultipleStrings(qty);
   }, []);
+
+  if(!song) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div className={style.Chart}>
