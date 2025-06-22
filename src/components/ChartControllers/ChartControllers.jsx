@@ -1,24 +1,19 @@
-import { Button, ButtonConstants } from '../Button';
-import { Checkbox } from '../Checkbox';
-
 import { NewFretsOption } from './NewFretsOption';
 import { NewStringsOption } from './NewStringsOption';
+import { TrimOptions } from './TrimOptions';
 
 import style from './ChartControllers.module.scss';
 
 const ChartControllers = (props) => {
-  const { onSaveSong, onChangeWrapCheckbox, onAddMultipleFrets, onAddMultipleStrings } = props;
+  const {
+    onAddMultipleFrets,
+    onAddMultipleStrings,
+    onTrimStrings,
+    onRemoveEmptyFretsAtTheEnd,
+  } = props;
 
   return (
     <div className={style.ChartControllers}>
-      <Button
-        className={style.SaveSongButton}
-        onClick={onSaveSong}
-        category={ButtonConstants.ButtonCategories.SUCCESS}
-      >
-        Save Changes
-      </Button>
-
       <NewFretsOption
         onAddMultipleFrets={onAddMultipleFrets}
       />
@@ -27,12 +22,11 @@ const ChartControllers = (props) => {
         onAddMultipleStrings={onAddMultipleStrings}
       />
 
-      <Checkbox
-        className={style.WrapCheckbox}
-        label="Wrap"
-        initialValue={true}
-        onChange={onChangeWrapCheckbox}
+      <TrimOptions
+        onTrimStrings={onTrimStrings}
+        onRemoveEmptyFretsAtTheEnd={onRemoveEmptyFretsAtTheEnd}
       />
+
     </div>
   );
 };

@@ -8,5 +8,6 @@ export * from './FretChunk';
 export * from './Frets';
 export * from './InlineInput';
 export * from './Link';
+export * from './SaveChartOption';
 export * from './Song';
 export * from './SongList';

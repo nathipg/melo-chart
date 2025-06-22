@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useRef } from 'react';
 import { Navigate, useSearchParams } from 'react-router';
 
-import { ChartControllers, Song } from '../../components';
+import { ChartControllers, SaveChartOption, Song } from '../../components';
 
 import { getSongById, getSongIndexById } from './functions';
 
@@ -40,16 +40,20 @@ const Chart = (props) => {
     });
   }, [ setSongs, song, songs ]);
 
-  const onChangeWrapCheckbox = useCallback((value) => {
-    fretsFnsRef.current?.setWrapFrets(value);
-  }, []);
-
   const onAddMultipleFrets = useCallback((qty) => {
     fretsFnsRef.current?.addMultipleFrets(qty);
   }, []);
 
   const onAddMultipleStrings = useCallback((qty) => {
-    fretsFnsRef.current?.onAddMultipleStrings(qty);
+    fretsFnsRef.current?.addMultipleStrings(qty);
+  }, []);
+
+  const onTrimStrings = useCallback(() => {
+    fretsFnsRef.current?.trimStrings();
+  }, []);
+
+  const onRemoveEmptyFretsAtTheEnd = useCallback(() => {
+    fretsFnsRef.current?.removeEmptyFretsAtTheEnd();
   }, []);
 
   if(!song) {
@@ -59,10 +63,14 @@ const Chart = (props) => {
   return (
     <div className={style.Chart}>
       <ChartControllers
-        onSaveSong={onSaveSong}
-        onChangeWrapCheckbox={onChangeWrapCheckbox}
         onAddMultipleFrets={onAddMultipleFrets}
         onAddMultipleStrings={onAddMultipleStrings}
+        onTrimStrings={onTrimStrings}
+        onRemoveEmptyFretsAtTheEnd={onRemoveEmptyFretsAtTheEnd}
+      />
+
+      <SaveChartOption
+        onSaveSong={onSaveSong}
       />
       
       <Song

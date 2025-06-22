@@ -24,4 +24,14 @@
     @include mixins.background-with-hover(colors.$green);
     color: colors.$white;
   }
+
+  &[data-category="TEXT_DANGER"] {
+    color: colors.$red;
+    background: none;
+    padding: 0;
+
+    &:hover {
+      color: color.adjust(colors.$red, $lightness: -20%);
+    }
+  }
 }

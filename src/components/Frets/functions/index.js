@@ -13,6 +13,8 @@ export * from './get-string-qty.function';
 export * from './load-on-drag-end.thunk';
 export * from './load-on-edit-fret-chunk-text.thunk';
 export * from './move-fret-chunk.function';
+export * from './remove-empty-frets-at-the-end.function';
 export * from './remove-fret.function';
 export * from './remove-string.function';
 export * from './should-add-right-border-on-fret-chunk.function';
+export * from './trim-strings.function';

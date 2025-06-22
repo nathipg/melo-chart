@@ -18,6 +18,8 @@ import {
   removeFret,
   removeString,
   shouldAddRightBorderOnFretChunk,
+  removeEmptyFretsAtTheEnd,
+  trimStrings,
 } from './functions';
 
 import style from './Frets.module.scss';
@@ -84,8 +86,14 @@ const Frets = (props) => {
       addMultipleFrets(qty) {
         addMultipleFrets({ setFrets, qty });
       },
-      onAddMultipleStrings(qty) {
+      addMultipleStrings(qty) {
         addMultipleStrings({ setFrets, qty });
+      },
+      removeEmptyFretsAtTheEnd() {
+        removeEmptyFretsAtTheEnd({ setFrets });
+      },
+      trimStrings() {
+        trimStrings({ setFrets });
       },
     };
   });
