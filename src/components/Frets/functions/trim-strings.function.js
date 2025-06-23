@@ -11,6 +11,12 @@ export const trimStrings = (params) => {
     const fretsTrimmedTop = trimStringsTop(curFrets);
     const fretsTrimmed = trimStringsBottom(fretsTrimmedTop);
 
+    if(!fretsTrimmed[0].chunks.length) {
+      return [
+        ...curFrets,
+      ];
+    }
+
     return [
       ...fretsTrimmed,
     ];

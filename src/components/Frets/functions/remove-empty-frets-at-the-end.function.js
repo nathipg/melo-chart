@@ -14,8 +14,16 @@ export const removeEmptyFretsAtTheEnd = (params) => {
       lastIndexNull = i;
     }
 
+    const updatedFrets = curFrets.slice(0, lastIndexNull);
+
+    if(!updatedFrets.length) {
+      return [
+        ...curFrets,
+      ];
+    }
+
     return [
-      ...curFrets.slice(0, lastIndexNull),
+      ...updatedFrets,
     ];
   });
 };
