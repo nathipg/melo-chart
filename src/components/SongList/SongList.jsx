@@ -6,7 +6,7 @@ const SongList = (props) => {
   const { songs } = props;
 
   return (
-    <div>
+    <div className={style.SongListContainer}>
       <h2>Song List</h2>
       <ul className={style.SongList}>
         {renderSongs(songs)}
