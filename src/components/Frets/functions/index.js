@@ -5,6 +5,7 @@ export * from './add-multiple-frets.function';
 export * from './add-multiple-strings.function';
 export * from './add-string-at-fret-bottom.function';
 export * from './add-string-at-fret-top.function';
+export * from './add-words-as-notes.function';
 export * from './generate-new-fret-chunk.function';
 export * from './generate-new-fret.function';
 export * from './get-index-from-drag-id.function';

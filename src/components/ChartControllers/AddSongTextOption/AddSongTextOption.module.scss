@@ -1,0 +1,10 @@
+.AddSongTextOption {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  
+  textarea {
+    resize: none;
+    height: 500px;
+  }
+}

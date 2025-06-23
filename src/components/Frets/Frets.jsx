@@ -20,6 +20,7 @@ import {
   shouldAddRightBorderOnFretChunk,
   removeEmptyFretsAtTheEnd,
   trimStrings,
+  addWordsAsNotes,
 } from './functions';
 
 import style from './Frets.module.scss';
@@ -94,6 +95,9 @@ const Frets = (props) => {
       },
       trimStrings() {
         trimStrings({ setFrets });
+      },
+      addWordsAsNotes(songText) {
+        addWordsAsNotes({ setFrets, songText });
       },
     };
   });

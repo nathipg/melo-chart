@@ -1,3 +1,4 @@
+import { AddSongTextOption } from './AddSongTextOption';
 import { NewFretsOption } from './NewFretsOption';
 import { NewStringsOption } from './NewStringsOption';
 import { TrimOptions } from './TrimOptions';
@@ -10,10 +11,15 @@ const ChartControllers = (props) => {
     onAddMultipleStrings,
     onTrimStrings,
     onRemoveEmptyFretsAtTheEnd,
+    onAddWordsAsNotes,
   } = props;
 
   return (
     <div className={style.ChartControllers}>
+      <AddSongTextOption
+        onAddWordsAsNotes={onAddWordsAsNotes}
+      />
+
       <NewFretsOption
         onAddMultipleFrets={onAddMultipleFrets}
       />

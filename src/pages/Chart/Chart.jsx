@@ -36,6 +36,10 @@ const Chart = (props) => {
     fretsFnsRef.current?.removeEmptyFretsAtTheEnd();
   }, []);
 
+  const onAddWordsAsNotes = useCallback((songText) => {
+    fretsFnsRef.current?.addWordsAsNotes(songText);
+  }, []);
+
   if(!songId) {
     return <Navigate to="/" replace />;
   }
@@ -50,6 +54,7 @@ const Chart = (props) => {
               onAddMultipleStrings={onAddMultipleStrings}
               onTrimStrings={onTrimStrings}
               onRemoveEmptyFretsAtTheEnd={onRemoveEmptyFretsAtTheEnd}
+              onAddWordsAsNotes={onAddWordsAsNotes}
             />
 
             <SaveChartOption
