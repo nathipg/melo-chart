@@ -17,11 +17,24 @@ const FretChunk = (props) => {
     setEditMode(currentEditMode => !currentEditMode);
   }, []);
 
-  const blurOnEnter = useCallback((event) => {
+  const onKeyDownChunk = useCallback((event) => {
     if(event.key == 'Enter') {
       event.target.blur();
+    } else if(event.key == 'Tab') {
+      event.preventDefault();
+
+      const fretToBeClickedIndex = event.shiftKey ? fretIndex - 1 : fretIndex + 1;
+      const nextChunk = document.querySelector(`#fret-chunk-${fretToBeClickedIndex}-${chunkIndex}`);
+
+      if(nextChunk) {
+        nextChunk.dispatchEvent(new MouseEvent('dblclick', {
+          'view': window,
+          'bubbles': true,
+          'cancelable': true,
+        }));
+      }
     }
-  }, []);
+  }, [ chunkIndex, fretIndex ]);
 
   useEffect(() => {
     setEditInputValue(text);
@@ -34,20 +47,22 @@ const FretChunk = (props) => {
       isDragDisabled={isDragDisabled}>
       {(provided) => (
         <div
+          id={`fret-chunk-${fretIndex}-${chunkIndex}`}
           className={style.FretChunk}
           onContextMenu={(e) => {
             e.preventDefault();
-          
+
             onOpenContextMenu({
               chunkIndex,
               fretIndex,
-              top: e.pageY,
-              left: e.pageX,
+              top: e.pageY - window.scrollY,
+              left: e.pageX - window.scrollX,
             });
           }}
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
+          // onFocus={!isEditionDisabled ? onDoubleClickChunk : null}
           onDoubleClick={!isEditionDisabled ? onDoubleClickChunk : null}
           data-is-drag-disabled={isDragDisabled ? 'true' : 'false'}
           data-note-index={noteIndex}
@@ -61,7 +76,7 @@ const FretChunk = (props) => {
                 type="text"
                 name="fret-chunk-edit-input"
                 value={editInputValue}
-                onKeyDown={blurOnEnter}
+                onKeyDown={onKeyDownChunk}
                 onChange={(event) => setEditInputValue(event.target.value)}
                 onBlur={() => {
                   setEditMode(false);

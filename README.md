@@ -14,8 +14,12 @@ App created to map the melody of songs
 - General
 -- Add global state
 -- App Logo
+-- Add option to delete song
 
 - Chart
 -- Add option to define sections
 -- Change to not break sections on wrap
 -- Export to image
+
+- Know Issues
+-- When a fret is added, drag n drop stops working

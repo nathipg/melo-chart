@@ -41,6 +41,10 @@ const SaveChartOption = (props) => {
           ...curSongs.slice(curSongIndex + 1),
         ];
       });
+
+      setTimeout(() => {
+        setSaveState(null);
+      }, 10000);
     } else {
       setSaveState({
         state: 'error',
