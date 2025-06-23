@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 
+import { songService } from '../../services';
 import { Button, ButtonConstants } from '../Button';
 import { InlineInput } from '../InlineInput/InlineInput';
 
@@ -28,12 +29,18 @@ const FormAddSong = (props) => {
 
     titleInput.value = '';
 
-    setSongs(curSongs => {
-      return [
-        ...curSongs,
-        generateNewSong(title),
-      ];
-    });
+    const newSong = generateNewSong(title);
+
+    const ok = songService.addSong(newSong);
+
+    if(ok) {
+      setSongs(curSongs => {
+        return [
+          ...curSongs,
+          newSong,
+        ];
+      });
+    }
   }, [ setSongs, songs ]);
 
   return (

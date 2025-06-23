@@ -2,11 +2,17 @@
 
 App created to map the melody of songs
 
+## How to use
+
+- Install dependencies
+- Create `db.json` using `db.json.example` as a template
+- Run `yarn run server` to start the local api
+- Run `yarn dev` to start the app
+
 ## TODO
 
 - General
 -- Add global state
--- Add local database to save data
 -- App Logo
 
 - Chart

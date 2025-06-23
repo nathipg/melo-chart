@@ -2,6 +2,7 @@ import { useCallback, useMemo, useRef } from 'react';
 import { Navigate, useSearchParams } from 'react-router';
 
 import { ChartControllers, SaveChartOption, Song } from '../../components';
+import { songService } from '../../services';
 
 import { getSongById, getSongIndexById } from './functions';
 
@@ -22,22 +23,26 @@ const Chart = (props) => {
   const onSaveSong = useCallback(() => {
     const updatedFrets = fretsFnsRef.current?.getFrets();
 
-    setSongs(curSongs => {
-      const curSong = getSongById(song.id, songs);
-      const curSongIndex = getSongIndexById(song.id, songs);
-      const updatedSong = {
-        ...curSong,
-        frets: [
-          ...updatedFrets,
-        ],
-      };
+    const curSong = getSongById(song.id, songs);
+    const curSongIndex = getSongIndexById(song.id, songs);
+    const updatedSong = {
+      ...curSong,
+      frets: [
+        ...updatedFrets,
+      ],
+    };
 
-      return [
-        ...curSongs.slice(0, curSongIndex),
-        updatedSong,
-        ...curSongs.slice(curSongIndex + 1),
-      ];
-    });
+    const ok = songService.updateSong(updatedSong);
+
+    if(ok) {
+      setSongs(curSongs => {
+        return [
+          ...curSongs.slice(0, curSongIndex),
+          updatedSong,
+          ...curSongs.slice(curSongIndex + 1),
+        ];
+      });
+    }
   }, [ setSongs, song, songs ]);
 
   const onAddMultipleFrets = useCallback((qty) => {
@@ -56,27 +61,35 @@ const Chart = (props) => {
     fretsFnsRef.current?.removeEmptyFretsAtTheEnd();
   }, []);
 
-  if(!song) {
+  if(!songId) {
     return <Navigate to="/" replace />;
   }
 
   return (
     <div className={style.Chart}>
-      <ChartControllers
-        onAddMultipleFrets={onAddMultipleFrets}
-        onAddMultipleStrings={onAddMultipleStrings}
-        onTrimStrings={onTrimStrings}
-        onRemoveEmptyFretsAtTheEnd={onRemoveEmptyFretsAtTheEnd}
-      />
+      {
+        song ? (
+          <>
+            <ChartControllers
+              onAddMultipleFrets={onAddMultipleFrets}
+              onAddMultipleStrings={onAddMultipleStrings}
+              onTrimStrings={onTrimStrings}
+              onRemoveEmptyFretsAtTheEnd={onRemoveEmptyFretsAtTheEnd}
+            />
 
-      <SaveChartOption
-        onSaveSong={onSaveSong}
-      />
+            <SaveChartOption
+              onSaveSong={onSaveSong}
+            />
       
-      <Song
-        song={song}
-        fretsFnsRef={fretsFnsRef}
-      />
+            <Song
+              song={song}
+              fretsFnsRef={fretsFnsRef}
+            />
+          </>
+        ) : (
+          <p>Song not found</p>
+        )
+      }
     </div>
   );
 };

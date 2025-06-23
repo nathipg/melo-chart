@@ -15,6 +15,11 @@
     @include mixins.background-with-hover(colors.$lightgray);
   }
 
+  &[data-category="DANGER"] {
+    @include mixins.background-with-hover(colors.$red);
+    color: colors.$white;
+  }
+
   &[data-category="PRIMARY"] {
     @include mixins.background-with-hover(colors.$blue);
     color: colors.$white;

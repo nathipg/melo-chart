@@ -1,4 +1,4 @@
-import { Link } from '../Link';
+import { renderSongs } from './functions';
 
 import style from './SongList.module.scss';
 
@@ -9,13 +9,7 @@ const SongList = (props) => {
     <div>
       <h2>Song List</h2>
       <ul className={style.SongList}>
-        {songs.map(song => {
-          return (
-            <li key={song.id}>
-              <Link to={{ pathname: '/chart', search: `?id=${song.id}` }}>{song.title}</Link>
-            </li>
-          );
-        })}
+        {renderSongs(songs)}
       </ul>
     </div>
   );
