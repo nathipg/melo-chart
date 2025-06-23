@@ -1,0 +1,18 @@
+@use '../../../colors.scss';
+
+.SaveChartOption {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+.SaveStatusText {
+  &[data-state='ok'] {
+    color: colors.$green;
+  }
+
+  &[data-state='error'] {
+    color: colors.$red;
+  }
+}

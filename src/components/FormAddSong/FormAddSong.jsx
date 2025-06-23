@@ -11,7 +11,7 @@ import style from './FormAddSong.module.scss';
 const FormAddSong = (props) => {
   const { songs, setSongs } = props;
 
-  const onSubmitForm = useCallback((event) => {
+  const onSubmitForm = useCallback(async (event) => {
     event.preventDefault();
 
     const titleInput = event.target.title;
@@ -31,7 +31,7 @@ const FormAddSong = (props) => {
 
     const newSong = generateNewSong(title);
 
-    const ok = songService.addSong(newSong);
+    const ok = await songService.addSong(newSong);
 
     if(ok) {
       setSongs(curSongs => {

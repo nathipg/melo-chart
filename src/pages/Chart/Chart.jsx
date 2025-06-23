@@ -1,10 +1,10 @@
 import { useCallback, useMemo, useRef } from 'react';
 import { Navigate, useSearchParams } from 'react-router';
 
-import { ChartControllers, SaveChartOption, Song } from '../../components';
-import { songService } from '../../services';
+import { ChartControllers, Song } from '../../components';
 
-import { getSongById, getSongIndexById } from './functions';
+import { getSongById } from './functions';
+import { SaveChartOption } from './SaveChartOption';
 
 import style from './Chart.module.scss';
 
@@ -19,31 +19,6 @@ const Chart = (props) => {
   const song = useMemo(() => {
     return songId ? getSongById(songId, songs) : null;
   }, [ songId, songs ]);
-
-  const onSaveSong = useCallback(() => {
-    const updatedFrets = fretsFnsRef.current?.getFrets();
-
-    const curSong = getSongById(song.id, songs);
-    const curSongIndex = getSongIndexById(song.id, songs);
-    const updatedSong = {
-      ...curSong,
-      frets: [
-        ...updatedFrets,
-      ],
-    };
-
-    const ok = songService.updateSong(updatedSong);
-
-    if(ok) {
-      setSongs(curSongs => {
-        return [
-          ...curSongs.slice(0, curSongIndex),
-          updatedSong,
-          ...curSongs.slice(curSongIndex + 1),
-        ];
-      });
-    }
-  }, [ setSongs, song, songs ]);
 
   const onAddMultipleFrets = useCallback((qty) => {
     fretsFnsRef.current?.addMultipleFrets(qty);
@@ -78,7 +53,10 @@ const Chart = (props) => {
             />
 
             <SaveChartOption
-              onSaveSong={onSaveSong}
+              song={song}
+              songs={songs}
+              setSongs={setSongs}
+              fretsFnsRef={fretsFnsRef}
             />
       
             <Song
