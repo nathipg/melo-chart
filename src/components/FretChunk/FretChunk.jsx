@@ -62,7 +62,6 @@ const FretChunk = (props) => {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          // onFocus={!isEditionDisabled ? onDoubleClickChunk : null}
           onDoubleClick={!isEditionDisabled ? onDoubleClickChunk : null}
           data-is-drag-disabled={isDragDisabled ? 'true' : 'false'}
           data-note-index={noteIndex}
