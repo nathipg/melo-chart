@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef } from 'react';
-import { Navigate, useSearchParams } from 'react-router';
+import { useSearchParams } from 'react-router';
 
 import { ChartControllers, Song } from '../../components';
 
@@ -39,10 +39,6 @@ const Chart = (props) => {
   const onAddWordsAsNotes = useCallback((songText) => {
     fretsFnsRef.current?.addWordsAsNotes(songText);
   }, []);
-
-  if(!songId) {
-    return <Navigate to="/" replace />;
-  }
 
   return (
     <div className={style.Chart}>

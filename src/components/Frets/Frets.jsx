@@ -29,7 +29,7 @@ const Frets = (props) => {
   const { frets: initialFrets, fretsFnsRef } = props;
 
   const [ frets, setFrets ] = useState(initialFrets);
-  const [ wrapFrets, setWrapFrets ] = useState(false);
+  const [ wrapFrets, setWrapFrets ] = useState(true);
 
   const contextMenuFnsRef = useRef(null);
 
