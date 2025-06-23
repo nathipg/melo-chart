@@ -1,4 +1,4 @@
-import { useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { memo, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 import style from './ContextMenu.module.scss';
 
@@ -57,4 +57,6 @@ const ContextMenu = (props) => {
   ) : <></>;
 };
 
-export { ContextMenu };
+const ContextMenuMemo = memo(ContextMenu);
+
+export { ContextMenuMemo as ContextMenu };

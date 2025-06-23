@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import style from './InlineInput.module.scss';
 
 const InlineInput = (props) => {
@@ -11,4 +13,6 @@ const InlineInput = (props) => {
   );
 };
 
-export { InlineInput };
+const InlineInputMemo = memo(InlineInput);
+
+export { InlineInputMemo as InlineInput };

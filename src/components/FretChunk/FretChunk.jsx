@@ -1,14 +1,22 @@
 import { Draggable } from '@hello-pangea/dnd';
-import { useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
+
+import { getNoteIndexInFret, shouldAddRightBorderOnFretChunk } from '../Frets/functions';
 
 import style from './FretChunk.module.scss';
 
 const FretChunk = (props) => {
-  const { text, chunkIndex, fretIndex, hasRightBorder, onOpenContextMenu, onEditFretChunkText } = props;
+  const { fret, frets, text, chunkIndex, fretIndex, onOpenContextMenu, onEditFretChunkText } = props;
 
   const noteIndex = (chunkIndex % 12) + 1;
   const isDragDisabled = !text || fretIndex == 0;
   const isEditionDisabled = fretIndex == 0;
+
+  const hasNextFret = frets.length > fretIndex + 1;
+  const nextFretNoteIndex = hasNextFret ? getNoteIndexInFret(frets[fretIndex + 1]) : null;
+  const currentFretNoteIndex = getNoteIndexInFret(fret);
+
+  const hasRightBorder = hasNextFret ? shouldAddRightBorderOnFretChunk(chunkIndex, currentFretNoteIndex, nextFretNoteIndex) : false;
 
   const [ editMode, setEditMode ] = useState(false);
   const [ editInputValue, setEditInputValue ] = useState(text);
@@ -94,4 +102,6 @@ const FretChunk = (props) => {
   );
 };
 
-export { FretChunk };
+const FretChunkMemo = memo(FretChunk);
+
+export { FretChunkMemo as FretChunk  };

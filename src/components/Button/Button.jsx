@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { ButtonCategories } from './constants';
 
 import style from './Button.module.scss';
@@ -16,4 +18,6 @@ const Button = (props) => {
   );
 };
 
-export { Button };
+const ButtonMemo = memo(Button);
+
+export { ButtonMemo as Button };

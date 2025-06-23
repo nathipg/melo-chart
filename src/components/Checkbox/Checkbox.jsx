@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 
 import style from './Checkbox.module.scss';
 
@@ -26,4 +26,6 @@ const Checkbox = (props) => {
   );
 };
 
-export { Checkbox };
+const CheckboxMemo = memo(Checkbox);
+
+export { CheckboxMemo as Checkbox };

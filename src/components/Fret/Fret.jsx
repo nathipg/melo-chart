@@ -1,4 +1,5 @@
 import { Droppable } from '@hello-pangea/dnd';
+import { memo } from 'react';
 
 import { DRAG_TYPES } from '../../constants';
 
@@ -25,4 +26,6 @@ const Fret = (props) => {
   );
 };
 
-export { Fret };
+const FretMemo = memo(Fret);
+
+export { FretMemo as Fret };

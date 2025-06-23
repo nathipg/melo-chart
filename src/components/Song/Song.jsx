@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { memo, useCallback } from 'react';
 
 import { Checkbox } from '../Checkbox';
 import { Frets } from '../Frets';
@@ -33,4 +33,6 @@ const Song = (props) => {
   );
 };
 
-export { Song };
+const SongMemo = memo(Song);
+
+export { SongMemo as Song };

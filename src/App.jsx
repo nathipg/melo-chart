@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router';
 
 import { Default } from './layouts';
@@ -29,4 +29,6 @@ const App = () => {
   );
 };
 
-export default App;
+const AppMemo = memo(App);
+
+export { AppMemo as App };

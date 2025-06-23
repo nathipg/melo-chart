@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { memo, useCallback } from 'react';
 
 import { Button, ButtonConstants } from '../../Button';
 import { InlineInput } from '../../InlineInput/InlineInput';
@@ -27,4 +27,6 @@ const NewFretsOption = (props) => {
   );
 };
 
-export { NewFretsOption };
+const NewFretsOptionMemo = memo(NewFretsOption);
+
+export { NewFretsOptionMemo as NewFretsOption };

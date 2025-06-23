@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 
 import { Button, ButtonConstants } from '../../../components';
 import { songService } from '../../../services';
@@ -76,4 +76,6 @@ const SaveChartOption = (props) => {
   );
 };
 
-export { SaveChartOption };
+const SaveChartOptionMemo = memo(SaveChartOption);
+
+export { SaveChartOptionMemo as SaveChartOption };

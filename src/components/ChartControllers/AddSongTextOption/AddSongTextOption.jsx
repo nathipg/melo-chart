@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 
 import { Button, ButtonConstants } from '../../Button';
 
@@ -45,4 +45,6 @@ const AddSongTextOption = (props) => {
   );
 };
 
-export { AddSongTextOption };
+const AddSongTextOptionMemo = memo(AddSongTextOption);
+
+export { AddSongTextOptionMemo as AddSongTextOption };

@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { AddSongTextOption } from './AddSongTextOption';
 import { NewFretsOption } from './NewFretsOption';
 import { NewStringsOption } from './NewStringsOption';
@@ -37,4 +39,6 @@ const ChartControllers = (props) => {
   );
 };
 
-export { ChartControllers };
+const ChartControllersMemo = memo(ChartControllers);
+
+export { ChartControllersMemo as ChartControllers };

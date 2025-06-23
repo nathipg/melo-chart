@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Link as RRLink } from 'react-router';
 
 import style from './Link.module.scss';
@@ -12,4 +13,6 @@ const Link = (props) => {
   );
 };
 
-export { Link };
+const LinkMemo = memo(Link);
+
+export { LinkMemo as Link };

@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { renderSongs } from './functions';
 
 import style from './SongList.module.scss';
@@ -15,4 +17,6 @@ const SongList = (props) => {
   );
 };
 
-export { SongList };
+const SongListMemo = memo(SongList);
+
+export { SongListMemo as SongList };

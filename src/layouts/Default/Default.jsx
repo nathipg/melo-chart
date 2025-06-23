@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Outlet } from 'react-router';
 
 import { Link } from '../../components';
@@ -39,4 +40,6 @@ const Default = () => {
   );
 };
 
-export { Default };
+const DefaultMemo = memo(Default);
+
+export { DefaultMemo as Default };

@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { FormAddSong, SongList } from '../../components';
 
 import style from './Home.module.scss';
@@ -13,4 +15,6 @@ const Home = (props) => {
   );
 };
 
-export { Home };
+const HomeMemo = memo(Home);
+
+export { HomeMemo as Home };

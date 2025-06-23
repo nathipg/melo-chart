@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { memo, useCallback } from 'react';
 
 import { songService } from '../../services';
 import { Button, ButtonConstants } from '../Button';
@@ -60,4 +60,6 @@ const FormAddSong = (props) => {
   );
 };
 
-export { FormAddSong };
+const FormAddSongMemo = memo(FormAddSong);
+
+export { FormAddSongMemo as FormAddSong };

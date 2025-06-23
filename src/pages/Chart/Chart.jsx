@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef } from 'react';
+import { memo, useCallback, useMemo, useRef } from 'react';
 import { useSearchParams } from 'react-router';
 
 import { ChartControllers, Song } from '../../components';
@@ -73,4 +73,6 @@ const Chart = (props) => {
   );
 };
 
-export { Chart };
+const ChartMemo = memo(Chart);
+
+export { ChartMemo as Chart };

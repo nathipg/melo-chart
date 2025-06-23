@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { memo, useCallback } from 'react';
 
 import { Button, ButtonConstants } from '../../Button';
 
@@ -24,4 +24,6 @@ const TrimOptions = (props) => {
   );
 };
 
-export { TrimOptions };
+const TrimOptionsMemo = memo(TrimOptions);
+
+export { TrimOptionsMemo as TrimOptions };

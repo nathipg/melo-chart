@@ -12,12 +12,10 @@ import {
   addMultipleFrets,
   addStringAtFretBottom,
   addStringAtFretTop,
-  getNoteIndexInFret,
   loadOnDragEnd,
   loadOnEditFretChunkText,
   removeFret,
   removeString,
-  shouldAddRightBorderOnFretChunk,
   removeEmptyFretsAtTheEnd,
   trimStrings,
   addWordsAsNotes,
@@ -116,20 +114,17 @@ const Frets = (props) => {
     <DragDropContext onDragEnd={onDragEnd}>
       <div className={style.FretsContainer} data-wrap-frets={wrapFrets}>
         {frets.map((fret, fretIndex) => {
-          const hasNextFret = frets.length > fretIndex + 1;
-          const nextFretNoteIndex = hasNextFret ? getNoteIndexInFret(frets[fretIndex + 1]) : null;
-          const currentFretNoteIndex = getNoteIndexInFret(fret);
-
           return (
             <Fret key={fret.id} fretIndex={fretIndex}>
               {fret.chunks.map((chunk, chunkIndex) => {
                 return (
                   <FretChunk
+                    fret={fret}
+                    frets={frets}
                     key={chunk.id}
                     chunkIndex={chunkIndex}
                     fretIndex={fretIndex}
                     text={chunk.text}
-                    hasRightBorder={hasNextFret ? shouldAddRightBorderOnFretChunk(chunkIndex, currentFretNoteIndex, nextFretNoteIndex) : false}
                     onOpenContextMenu={onOpenContextMenu}
                     onEditFretChunkText={onEditFretChunkText}
                   />
