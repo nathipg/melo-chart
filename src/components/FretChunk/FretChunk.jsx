@@ -17,6 +17,12 @@ const FretChunk = (props) => {
     setEditMode(currentEditMode => !currentEditMode);
   }, []);
 
+  const blurOnEnter = useCallback((event) => {
+    if(event.key == 'Enter') {
+      event.target.blur();
+    }
+  }, []);
+
   useEffect(() => {
     setEditInputValue(text);
   }, [ text ]);
@@ -55,6 +61,7 @@ const FretChunk = (props) => {
                 type="text"
                 name="fret-chunk-edit-input"
                 value={editInputValue}
+                onKeyDown={blurOnEnter}
                 onChange={(event) => setEditInputValue(event.target.value)}
                 onBlur={() => {
                   setEditMode(false);
