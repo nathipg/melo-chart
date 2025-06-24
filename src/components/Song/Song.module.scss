@@ -1,3 +1,5 @@
+@use '../../colors.scss';
+
 .Song {
   display: flex;
   flex-direction: column;
@@ -8,8 +10,13 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+
+  position: sticky;
+  top: 0;
+  background-color: colors.$white;
+  z-index: 1;
 }
 
-.WrapCheckbox {
+.CheckboxContainer {
   align-items: center;
 }

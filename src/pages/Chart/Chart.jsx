@@ -4,7 +4,6 @@ import { useSearchParams } from 'react-router';
 import { ChartControllers, Song } from '../../components';
 
 import { getSongById } from './functions';
-import { SaveChartOption } from './SaveChartOption';
 
 import style from './Chart.module.scss';
 
@@ -52,16 +51,11 @@ const Chart = (props) => {
               onRemoveEmptyFretsAtTheEnd={onRemoveEmptyFretsAtTheEnd}
               onAddWordsAsNotes={onAddWordsAsNotes}
             />
-
-            <SaveChartOption
-              song={song}
-              songs={songs}
-              setSongs={setSongs}
-              fretsFnsRef={fretsFnsRef}
-            />
       
             <Song
               song={song}
+              songs={songs}
+              setSongs={setSongs}
               fretsFnsRef={fretsFnsRef}
             />
           </>

@@ -2,14 +2,19 @@ import { memo, useCallback } from 'react';
 
 import { Checkbox } from '../Checkbox';
 import { Frets } from '../Frets';
+import { SaveChartOption } from '../SaveChartOption';
 
 import style from './Song.module.scss';
 
 const Song = (props) => {
-  const { song, fretsFnsRef }= props;
+  const { song, songs, setSongs, fretsFnsRef }= props;
 
   const onChangeWrapCheckbox = useCallback((value) => {
     fretsFnsRef.current?.setWrapFrets(value);
+  }, [ fretsFnsRef ]);
+
+  const onChangeStringNumberCheckbox = useCallback((value) => {
+    fretsFnsRef.current?.setShowStringNumber(value);
   }, [ fretsFnsRef ]);
 
   return (
@@ -18,10 +23,24 @@ const Song = (props) => {
         <h2>{song.title}</h2>
 
         <Checkbox
-          className={style.WrapCheckbox}
+          className={style.CheckboxContainer}
           label="Wrap"
           initialValue={true}
           onChange={onChangeWrapCheckbox}
+        />
+
+        <Checkbox
+          className={style.CheckboxContainer}
+          label="String Number"
+          initialValue={false}
+          onChange={onChangeStringNumberCheckbox}
+        />
+
+        <SaveChartOption
+          song={song}
+          songs={songs}
+          setSongs={setSongs}
+          fretsFnsRef={fretsFnsRef}
         />
       </div>
 

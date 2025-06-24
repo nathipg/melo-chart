@@ -28,6 +28,7 @@ const Frets = (props) => {
 
   const [ frets, setFrets ] = useState(initialFrets);
   const [ wrapFrets, setWrapFrets ] = useState(true);
+  const [ showStringNumber, setShowStringNumber ] = useState(false);
 
   const contextMenuFnsRef = useRef(null);
 
@@ -79,6 +80,9 @@ const Frets = (props) => {
       setWrapFrets(value) {
         setWrapFrets(value);
       },
+      setShowStringNumber(value) {
+        setShowStringNumber(value);
+      },
       getFrets() {
         return [ ...frets ];
       },
@@ -112,7 +116,7 @@ const Frets = (props) => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className={style.FretsContainer} data-wrap-frets={wrapFrets}>
+      <div className={style.FretsContainer} data-wrap-frets={wrapFrets} data-show-string-number={showStringNumber}>
         {frets.map((fret, fretIndex) => {
           return (
             <Fret

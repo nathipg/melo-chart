@@ -20,6 +20,7 @@ App created to map the melody of songs
 -- Add option to define sections
 -- Change to not break sections on wrap
 -- Export to image
+-- Add leave page confirmation
 
 - Know Issues
 -- Performance editing Frets is not good

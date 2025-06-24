@@ -8,6 +8,19 @@
   border-bottom: 2px solid colors.$lightgray;
   white-space: nowrap;
 
+  position: relative;
+
+  [data-show-string-number='true'] & {
+    &::before {
+      content: attr(data-note-index);
+      color: colors.$lightgray;
+      position: absolute;
+      bottom: 0;
+      transform: translateX(-50%);
+      left: 50%;
+    }
+  }
+
   &:has(input) {
     padding-bottom: 1rem;
   }

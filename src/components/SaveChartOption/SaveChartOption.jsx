@@ -1,8 +1,9 @@
 import { memo, useCallback, useState } from 'react';
 
-import { Button, ButtonConstants } from '../../../components';
-import { songService } from '../../../services';
-import { getSongIndexById } from '../functions';
+import { Button, ButtonConstants } from '..';
+import { songService } from '../../services';
+
+import { getSongIndexById } from './functions';
 
 import style from './SaveChartOption.module.scss';
 
