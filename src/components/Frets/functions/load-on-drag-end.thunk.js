@@ -1,6 +1,5 @@
 import { DRAG_TYPES } from '../../../constants';
 
-import { getIndexFromDragId } from './get-index-from-drag-id.function';
 import { moveFretChunk } from './move-fret-chunk.function';
 
 export const loadOnDragEnd = (setFrets) => (dragData) => {
@@ -10,11 +9,11 @@ export const loadOnDragEnd = (setFrets) => (dragData) => {
     moveFretChunk({
       setFrets,
       source: {
-        fretIndex: getIndexFromDragId(source.droppableId),
+        fretId: source.droppableId.replace('fret-', ''),
         chunkIndex: source.index,
       },
       destination: {
-        fretIndex: getIndexFromDragId(destination.droppableId),
+        fretId: destination.droppableId.replace('fret-', ''),
         chunkIndex: destination.index,
       },
     });

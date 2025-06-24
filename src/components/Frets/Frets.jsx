@@ -115,11 +115,15 @@ const Frets = (props) => {
       <div className={style.FretsContainer} data-wrap-frets={wrapFrets}>
         {frets.map((fret, fretIndex) => {
           return (
-            <Fret key={fret.id} fretIndex={fretIndex}>
+            <Fret
+              key={fret.id}
+              fret={fret}
+            >
               {fret.chunks.map((chunk, chunkIndex) => {
                 return (
                   <FretChunk
                     fret={fret}
+                    chunk={chunk}
                     frets={frets}
                     key={chunk.id}
                     chunkIndex={chunkIndex}

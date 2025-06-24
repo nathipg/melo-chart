@@ -23,4 +23,3 @@ App created to map the melody of songs
 
 - Know Issues
 -- Performance editing Frets is not good
--- When a fret is added, drag n drop stops working

@@ -6,7 +6,7 @@ import { getNoteIndexInFret, shouldAddRightBorderOnFretChunk } from '../Frets/fu
 import style from './FretChunk.module.scss';
 
 const FretChunk = (props) => {
-  const { fret, frets, text, chunkIndex, fretIndex, onOpenContextMenu, onEditFretChunkText } = props;
+  const { chunk, fret, frets, text, chunkIndex, fretIndex, onOpenContextMenu, onEditFretChunkText } = props;
 
   const noteIndex = (chunkIndex % 12) + 1;
   const isDragDisabled = !text || fretIndex == 0;
@@ -50,7 +50,7 @@ const FretChunk = (props) => {
 
   return (
     <Draggable
-      draggableId={`fret-chunk-${fretIndex}-${chunkIndex}`}
+      draggableId={`fret-chunk-${fret.id}-${chunk.id}`}
       index={chunkIndex}
       isDragDisabled={isDragDisabled}>
       {(provided) => (

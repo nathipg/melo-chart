@@ -6,10 +6,10 @@ import { DRAG_TYPES } from '../../constants';
 import style from './Fret.module.scss';
 
 const Fret = (props) => {
-  const { children, fretIndex } = props;
+  const { children, fret } = props;
 
   return (
-    <Droppable droppableId={`fret-${fretIndex}`} type={DRAG_TYPES.CHUNKS_IN_FRET}>
+    <Droppable droppableId={`fret-${fret.id}`} type={DRAG_TYPES.CHUNKS_IN_FRET}>
       {(provided) => (
         <div
           className={style.Fret}
