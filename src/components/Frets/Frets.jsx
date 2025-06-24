@@ -1,9 +1,8 @@
 import { DragDropContext } from '@hello-pangea/dnd';
-import { useCallback, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useImperativeHandle, useMemo, useRef, useState } from 'react';
 
 import { ContextMenu } from '../ContextMenu';
 import { Fret } from '../Fret';
-import { FretChunk } from '../FretChunk';
 
 import {
   addFretAfter,
@@ -13,12 +12,12 @@ import {
   addStringAtFretBottom,
   addStringAtFretTop,
   loadOnDragEnd,
-  loadOnEditFretChunkText,
   removeFret,
   removeString,
   removeEmptyFretsAtTheEnd,
   trimStrings,
   addWordsAsNotes,
+  getNoteIndexInFret,
 } from './functions';
 
 import style from './Frets.module.scss';
@@ -104,41 +103,25 @@ const Frets = (props) => {
     };
   });
 
-  const onOpenContextMenu = useCallback((data) => {
-    contextMenuFnsRef.current?.setContextMenuData(data);
-  }, [ contextMenuFnsRef ]);
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onDragEnd = useCallback(loadOnDragEnd(setFrets), [ setFrets ]);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onEditFretChunkText = useCallback(loadOnEditFretChunkText(setFrets), [ setFrets ]);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className={style.FretsContainer} data-wrap-frets={wrapFrets} data-show-string-number={showStringNumber}>
         {frets.map((fret, fretIndex) => {
+          const hasNextFret = frets.length > fretIndex + 1;
+          const nextFretNoteIndex = hasNextFret ? getNoteIndexInFret(frets[fretIndex + 1]) : null;
+
           return (
             <Fret
               key={fret.id}
               fret={fret}
-            >
-              {fret.chunks.map((chunk, chunkIndex) => {
-                return (
-                  <FretChunk
-                    fret={fret}
-                    chunk={chunk}
-                    frets={frets}
-                    key={chunk.id}
-                    chunkIndex={chunkIndex}
-                    fretIndex={fretIndex}
-                    text={chunk.text}
-                    onOpenContextMenu={onOpenContextMenu}
-                    onEditFretChunkText={onEditFretChunkText}
-                  />
-                );
-              })}
-            </Fret>
+              fretIndex={fretIndex}
+              hasNextFret={hasNextFret}
+              nextFretNoteIndex={nextFretNoteIndex}
+              contextMenuFnsRef={contextMenuFnsRef}
+            />
           );
         })}
 
@@ -151,4 +134,6 @@ const Frets = (props) => {
   );
 };
 
-export { Frets };
+const FretsMemo = memo(Frets);
+
+export { FretsMemo as Frets };

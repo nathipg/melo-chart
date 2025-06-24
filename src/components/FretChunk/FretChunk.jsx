@@ -1,22 +1,22 @@
 import { Draggable } from '@hello-pangea/dnd';
-import { memo, useCallback, useEffect, useState } from 'react';
-
-import { getNoteIndexInFret, shouldAddRightBorderOnFretChunk } from '../Frets/functions';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 import style from './FretChunk.module.scss';
 
 const FretChunk = (props) => {
-  const { chunk, fret, frets, text, chunkIndex, fretIndex, onOpenContextMenu, onEditFretChunkText } = props;
-
-  const noteIndex = (chunkIndex % 12) + 1;
-  const isDragDisabled = !text || fretIndex == 0;
-  const isEditionDisabled = fretIndex == 0;
-
-  const hasNextFret = frets.length > fretIndex + 1;
-  const nextFretNoteIndex = hasNextFret ? getNoteIndexInFret(frets[fretIndex + 1]) : null;
-  const currentFretNoteIndex = getNoteIndexInFret(fret);
-
-  const hasRightBorder = hasNextFret ? shouldAddRightBorderOnFretChunk(chunkIndex, currentFretNoteIndex, nextFretNoteIndex) : false;
+  const {
+    chunk,
+    fret,
+    text,
+    chunkIndex,
+    fretIndex,
+    noteIndex,
+    isDragDisabled,
+    isEditionDisabled,
+    hasRightBorder,
+    onOpenContextMenu,
+    onEditFretChunkText,
+  } = props;
 
   const [ editMode, setEditMode ] = useState(false);
   const [ editInputValue, setEditInputValue ] = useState(text);
@@ -48,14 +48,16 @@ const FretChunk = (props) => {
     setEditInputValue(text);
   }, [ text ]);
 
+  const draggableId = useMemo(() => `fret-chunk-${fret.id}-${chunk.id}`, [ chunk.id, fret.id ]);
+
   return (
     <Draggable
-      draggableId={`fret-chunk-${fret.id}-${chunk.id}`}
+      draggableId={draggableId}
       index={chunkIndex}
       isDragDisabled={isDragDisabled}>
       {(provided) => (
         <div
-          id={`fret-chunk-${fretIndex}-${chunkIndex}`}
+          id={draggableId}
           className={style.FretChunk}
           onContextMenu={(e) => {
             e.preventDefault();
