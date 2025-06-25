@@ -12,15 +12,19 @@ App created to map the melody of songs
 ## TODO
 
 - General
--- Add global state
--- App Logo
--- Add option to delete song
+  - Add global state
+  - App Logo
+  - Add option to delete song
 
 - Chart
--- Add option to define sections
--- Change to not break sections on wrap
--- Export to image
--- Add leave page confirmation
+  - Add option to define sections
+  - Change to not break sections on wrap
+  - Export to image
+  - Add leave page confirmation
 
 - Know Issues
--- Performance editing Frets is not good
+  - Performance editing Frets is not good
+
+- User suggestion
+  - Add space to define notes
+  - Change components names to make sense with the mapping
