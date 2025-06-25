@@ -23,5 +23,5 @@ App created to map the melody of songs
   - Add leave page confirmation
 
 - User suggestion
-  - Add space to define notes
+  - Add place to define notes
   - Change components names to make sense with the mapping
