@@ -22,9 +22,6 @@ App created to map the melody of songs
   - Export to image
   - Add leave page confirmation
 
-- Know Issues
-  - Performance editing Frets is not good
-
 - User suggestion
   - Add space to define notes
   - Change components names to make sense with the mapping

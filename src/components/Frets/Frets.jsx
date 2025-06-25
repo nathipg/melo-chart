@@ -1,5 +1,4 @@
-import { DragDropContext } from '@hello-pangea/dnd';
-import { memo, useCallback, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { memo, useImperativeHandle, useMemo, useRef, useState } from 'react';
 
 import { ContextMenu } from '../ContextMenu';
 import { Fret } from '../Fret';
@@ -11,7 +10,6 @@ import {
   addMultipleFrets,
   addStringAtFretBottom,
   addStringAtFretTop,
-  loadOnDragEnd,
   removeFret,
   removeString,
   removeEmptyFretsAtTheEnd,
@@ -103,35 +101,30 @@ const Frets = (props) => {
     };
   });
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onDragEnd = useCallback(loadOnDragEnd(setFrets), [ setFrets ]);
-
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <div className={style.FretsContainer} data-wrap-frets={wrapFrets} data-show-string-number={showStringNumber}>
-        {frets.map((fret, fretIndex) => {
-          const hasNextFret = frets.length > fretIndex + 1;
-          const nextFretNoteIndex = hasNextFret ? getNoteIndexInFret(frets[fretIndex + 1]) : null;
+    <div className={style.FretsContainer} data-wrap-frets={wrapFrets} data-show-string-number={showStringNumber}>
+      {frets.map((fret, fretIndex) => {
+        const hasNextFret = frets.length > fretIndex + 1;
+        const nextFretNoteIndex = hasNextFret ? getNoteIndexInFret(frets[fretIndex + 1]) : null;
 
-          return (
-            <Fret
-              key={fret.id}
-              setFrets={setFrets}
-              fret={fret}
-              fretIndex={fretIndex}
-              hasNextFret={hasNextFret}
-              nextFretNoteIndex={nextFretNoteIndex}
-              contextMenuFnsRef={contextMenuFnsRef}
-            />
-          );
-        })}
+        return (
+          <Fret
+            key={fret.id}
+            setFrets={setFrets}
+            fret={fret}
+            fretIndex={fretIndex}
+            hasNextFret={hasNextFret}
+            nextFretNoteIndex={nextFretNoteIndex}
+            contextMenuFnsRef={contextMenuFnsRef}
+          />
+        );
+      })}
 
-        <ContextMenu
-          items={contextMenuItems}
-          contextMenuFnsRef={contextMenuFnsRef}
-        />
-      </div>
-    </DragDropContext>
+      <ContextMenu
+        items={contextMenuItems}
+        contextMenuFnsRef={contextMenuFnsRef}
+      />
+    </div>
   );
 };
 
