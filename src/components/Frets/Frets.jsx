@@ -116,6 +116,7 @@ const Frets = (props) => {
           return (
             <Fret
               key={fret.id}
+              setFrets={setFrets}
               fret={fret}
               fretIndex={fretIndex}
               hasNextFret={hasNextFret}
