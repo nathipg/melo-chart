@@ -2,7 +2,7 @@ import { memo, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { REQUEST_STATUS } from '../../constants';
-import { songsSliceFns } from '../../store/slices/song-slice';
+import { songsSliceFns } from '../../store/slices';
 import { isRequestLoading } from '../../utils';
 import { Button, ButtonConstants } from '../Button';
 import { GrowlFns } from '../Growl';

@@ -2,7 +2,7 @@ import { memo, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { REQUEST_STATUS } from '../../constants';
-import { songsSliceFns } from '../../store/slices/song-slice';
+import { songsSliceFns } from '../../store/slices';
 
 import { renderSongs } from './functions';
 

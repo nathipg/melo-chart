@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router';
 
 import { Default } from './layouts';
 import { Chart, Home } from './pages';
-import { songsSliceFns } from './store/slices/song-slice';
+import { songsSliceFns } from './store/slices';
 
 import './global.scss';
 

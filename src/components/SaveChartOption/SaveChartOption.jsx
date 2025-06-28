@@ -2,7 +2,7 @@ import { memo, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, ButtonConstants, GrowlFns } from '..';
-import { songsSliceFns } from '../../store/slices/song-slice';
+import { songsSliceFns } from '../../store/slices';
 import { isRequestLoading } from '../../utils';
 
 import style from './SaveChartOption.module.scss';

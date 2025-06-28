@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router';
 
 import { ChartControllers, Song } from '../../components';
 import { REQUEST_STATUS } from '../../constants';
-import { songsSliceFns } from '../../store/slices/song-slice';
+import { songsSliceFns } from '../../store/slices';
 
 import style from './Chart.module.scss';
 
