@@ -1,5 +1,6 @@
 import { memo, useCallback, useMemo, useRef } from 'react';
 import { useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router';
 
 import { ChartControllers, Song } from '../../components';
 import { REQUEST_STATUS } from '../../constants';
@@ -12,6 +13,12 @@ const Chart = () => {
   const songsError = useSelector(songsSliceFns.selectSongsError);
 
   const fretsFnsRef = useRef(null);
+
+  const [ searchParams ] = useSearchParams();
+
+  const songId = searchParams.get('id') || null;
+
+  const song = useSelector(songsSliceFns.selectSongById(songId));
 
   const onAddMultipleFrets = useCallback((qty) => {
     fretsFnsRef.current?.addMultipleFrets(qty);
@@ -38,20 +45,27 @@ const Chart = () => {
       [REQUEST_STATUS.LOADING]: <span>Loading...</span>,
       [REQUEST_STATUS.FAILED]: <span>{songsError}</span>,
       [REQUEST_STATUS.SUCCEEDED]: (
-        <>
-          <ChartControllers
-            onAddMultipleFrets={onAddMultipleFrets}
-            onAddMultipleStrings={onAddMultipleStrings}
-            onTrimStrings={onTrimStrings}
-            onRemoveEmptyFretsAtTheEnd={onRemoveEmptyFretsAtTheEnd}
-            onAddWordsAsNotes={onAddWordsAsNotes}
-          />
+        song ? (
+          <>
+            <ChartControllers
+              onAddMultipleFrets={onAddMultipleFrets}
+              onAddMultipleStrings={onAddMultipleStrings}
+              onTrimStrings={onTrimStrings}
+              onRemoveEmptyFretsAtTheEnd={onRemoveEmptyFretsAtTheEnd}
+              onAddWordsAsNotes={onAddWordsAsNotes}
+            />
     
-          <Song fretsFnsRef={fretsFnsRef} />
-        </>
+            <Song
+              fretsFnsRef={fretsFnsRef}
+              song={song}
+            />
+          </>
+        ) : (
+          <span>Song not found</span>
+        )
       ),
     };
-  }, [ onAddMultipleFrets, onAddMultipleStrings, onAddWordsAsNotes, onRemoveEmptyFretsAtTheEnd, onTrimStrings, songsError ]);
+  }, [ onAddMultipleFrets, onAddMultipleStrings, onAddWordsAsNotes, onRemoveEmptyFretsAtTheEnd, onTrimStrings, song, songsError ]);
 
   return (
     <div className={style.Chart}>
