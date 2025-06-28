@@ -1,10 +1,9 @@
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 
-import style from './FretChunk.module.scss';
+import { EDIT_CHUNK_KEY_DOWN_EVENT_FN_MAPPER } from './constants';
+import { onDragOver } from './functions';
 
-const onDragOver = (event) => {
-  event.preventDefault();
-};
+import style from './FretChunk.module.scss';
 
 const FretChunk = (props) => {
   const {
@@ -52,23 +51,16 @@ const FretChunk = (props) => {
   }, [ fretIndex, text ]);
 
   const onKeyDownChunk = useCallback((event) => {
-    if(event.key == 'Enter') {
-      event.target.blur();
-    } else if(event.key == 'Tab') {
-      event.preventDefault();
+    const fn = EDIT_CHUNK_KEY_DOWN_EVENT_FN_MAPPER[event.key];
 
-      const fretToBeClickedIndex = event.shiftKey ? fretIndex - 1 : fretIndex + 1;
-      const nextChunk = document.querySelector(`[data-fret-index="${fretToBeClickedIndex}"][data-chunk-index="${chunkIndex}"]`);
-
-      if(nextChunk) {
-        nextChunk.dispatchEvent(new MouseEvent('dblclick', {
-          'view': window,
-          'bubbles': true,
-          'cancelable': true,
-        }));
-      }
-    }
-  }, [ chunkIndex, fretIndex ]);
+    fn && fn({
+      event,
+      chunkIndex,
+      fretIndex,
+      originalText: text,
+      setEditInputValue,
+    });
+  }, [ chunkIndex, fretIndex, text ]);
 
   useEffect(() => {
     setEditInputValue(text);
