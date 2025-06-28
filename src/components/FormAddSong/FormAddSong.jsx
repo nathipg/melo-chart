@@ -5,6 +5,7 @@ import { REQUEST_STATUS } from '../../constants';
 import { songsSliceFns } from '../../store/slices/song-slice';
 import { isRequestLoading } from '../../utils';
 import { Button, ButtonConstants } from '../Button';
+import { GrowlFns } from '../Growl';
 import { InlineInput } from '../InlineInput';
 
 import { generateNewSong } from './functions';
@@ -37,16 +38,11 @@ const FormAddSong = () => {
             <Button category={ButtonConstants.ButtonCategories.SUCCESS}>
                 Add{isRequestLoading(addSongStatus) ? 'ing...' : ''}
             </Button>
-            {
-              addSongError ? (
-                <span>{addSongError}</span>
-              ) : <></>
-            }
           </>
         </>
       ),
     };
-  }, [ addSongError, addSongStatus, songsError ]);
+  }, [ addSongStatus, songsError ]);
 
   const onSubmitForm = useCallback(async (event) => {
     event.preventDefault();
@@ -59,12 +55,14 @@ const FormAddSong = () => {
     const title = titleInput.value.trim();
 
     if(!title) {
+      dispatch(songsSliceFns.setAddSongError('Please, insert a song title'));
       return;
     }
 
     const isSongAlreadyRegistered = songs.some(song => song.title == title);
 
     if(isSongAlreadyRegistered) {
+      dispatch(songsSliceFns.setAddSongError('This song already exist'));
       return;
     }
 
@@ -77,6 +75,14 @@ const FormAddSong = () => {
     }));
   }, [ addSongStatus, dispatch, songs ]);
 
+  const onCloseAddSongErrorGrowl = useCallback(() => {
+    dispatch(songsSliceFns.clearAddSongError());
+  }, [ dispatch ]);
+
+  const onCloseAddSongSuccessGrowl = useCallback(() => {
+    dispatch(songsSliceFns.clearAddSongStatus());
+  }, [ dispatch ]);
+
   return (
     <form className={style.FormAddSong} onSubmit={onSubmitForm}>
       <h2>Add Song</h2>
@@ -84,6 +90,16 @@ const FormAddSong = () => {
       <div className={style.FieldsContainer}>
         {CONTENT_MAPPER[songsStatus]}
       </div>
+
+      {GrowlFns.renderSavedGrowl({
+        requestStatus: addSongStatus,
+        onCloseGrowl: onCloseAddSongSuccessGrowl,
+      })}
+
+      {GrowlFns.renderErrorGrowl({
+        message: addSongError,
+        onCloseGrowl: onCloseAddSongErrorGrowl,
+      })}
     </form>
   );
 };

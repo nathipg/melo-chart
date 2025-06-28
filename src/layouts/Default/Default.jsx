@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Outlet } from 'react-router';
 
-import { Link } from '../../components';
+import { GrowlContainer, Link } from '../../components';
 
 import style from './Default.module.scss';
 
@@ -31,6 +31,8 @@ const ContentContainer = (props) => {
 const Default = () => {
   return (
     <div>
+      <GrowlContainer />
+      
       <Header />
 
       <ContentContainer>

@@ -26,6 +26,7 @@ App created to map the melody of songs
   - Add option to share all songs with other user
   - Improve user feedback
   - Login
+  - i18n
 
 - User suggestion
   - Add place to define notes

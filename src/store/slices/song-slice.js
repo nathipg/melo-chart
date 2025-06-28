@@ -5,10 +5,6 @@ import { songsService } from '../../services';
 
 const SLICE_NAME = 'songs';
 
-const getErrorMessage = (message) => {
-  return `Something went wrong ${message}`;
-};
-
 const initialState = {
   songs: [],
   songsStatus: REQUEST_STATUS.IDLE,
@@ -28,7 +24,26 @@ const saveSong = createAsyncThunk(`${SLICE_NAME}/saveSong`, async (song) => awai
 const songsSlice = createSlice({
   name: SLICE_NAME,
   initialState,
-  reducers: {},
+  reducers: {
+    // Add song
+    setAddSongError(state, action) {
+      state.addSongError = action.payload;
+    },
+    clearAddSongError(state) {
+      state.addSongError = null;
+    },
+    clearAddSongStatus(state) {
+      state.addSongStatus = REQUEST_STATUS.IDLE;
+    },
+
+    // Save song
+    clearSaveSongError(state) {
+      state.saveSongError = null;
+    },
+    clearSaveSongStatus(state) {
+      state.saveSongStatus = REQUEST_STATUS.IDLE;
+    },
+  },
   extraReducers(builder) {
     builder
       // fetchSongs
@@ -39,26 +54,27 @@ const songsSlice = createSlice({
         state.songsStatus = REQUEST_STATUS.SUCCEEDED;
         state.songs = action.payload;
       })
-      .addCase(fetchSongs.rejected, (state) => {
+      .addCase(fetchSongs.rejected, (state, action) => {
         state.songsStatus = REQUEST_STATUS.FAILED;
-        state.songsError = getErrorMessage('loading songs');
+        state.songsError = action.error.message;
       })
       // addSong
       .addCase(addSong.pending, (state) => {
         state.addSongStatus = REQUEST_STATUS.LOADING;
+        state.addSongError = null;
       })
       .addCase(addSong.fulfilled, (state, action) => {
         state.addSongStatus = REQUEST_STATUS.SUCCEEDED;
         state.songs.push(action.payload);
       })
-      .addCase(addSong.rejected, (state) => {
+      .addCase(addSong.rejected, (state, action) => {
         state.addSongStatus = REQUEST_STATUS.FAILED;
-        state.addSongError = getErrorMessage('adding song');
+        state.addSongError = action.error.message;
       })
       // saveSong
       .addCase(saveSong.pending, (state) => {
         state.saveSongStatus = REQUEST_STATUS.LOADING;
-        console.log(1);
+        state.saveSongError = null;
       })
       .addCase(saveSong.fulfilled, (state, action) => {
         state.saveSongStatus = REQUEST_STATUS.SUCCEEDED;
@@ -67,12 +83,10 @@ const songsSlice = createSlice({
 
         const existingSong = state.songs.find(song => song.id === updatedSong.id);
         existingSong.frets = updatedSong.frets;
-        console.log(2);
       })
-      .addCase(saveSong.rejected, (state) => {
+      .addCase(saveSong.rejected, (state, action) => {
         state.saveSongStatus = REQUEST_STATUS.FAILED;
-        state.saveSongError = getErrorMessage('saving song');
-        console.log(3);
+        state.saveSongError = action.error.message;
       })
     ;
   },
@@ -80,7 +94,13 @@ const songsSlice = createSlice({
 
 export default songsSlice.reducer;
 
-// const { addSong } = songsSlice.actions;
+const {
+  clearAddSongError,
+  clearAddSongStatus,
+  setAddSongError,
+  clearSaveSongError,
+  clearSaveSongStatus,
+} = songsSlice.actions;
 
 const selectAllSongs = state => state.songs.songs;
 const selectSongById = songId => state => state.songs.songs.find(song => song.id === songId);
@@ -95,14 +115,19 @@ const selectSaveSongStatus = state => state.songs.saveSongStatus;
 
 export const songsSliceFns = {
   addSong,
+  clearAddSongError,
+  clearAddSongStatus,
   fetchSongs,
   saveSong,
+  selectAddSongError,
+  selectAddSongStatus,
   selectAllSongs,
+  selectSaveSongError,
+  selectSaveSongStatus,
   selectSongById,
   selectSongsError,
   selectSongsStatus,
-  selectAddSongError,
-  selectAddSongStatus,
-  selectSaveSongStatus,
-  selectSaveSongError,
+  setAddSongError,
+  clearSaveSongError,
+  clearSaveSongStatus,
 };

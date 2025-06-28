@@ -1,0 +1,51 @@
+@use 'sass:color';
+
+@use '../../colors.scss';
+@use '../../mixins.scss';
+
+@mixin growl-color($color) {
+  border-color: $color;
+  background-color: color.adjust($color, $lightness: 40%);
+  color: color.adjust($color, $lightness: -20%);
+}
+
+.GrowlContainer {
+  position: fixed;
+  top: 0;
+  right: 0.75rem;
+}
+
+.Growl {
+  padding: 0.75rem;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  min-width: 20rem;
+  max-width: 20rem;
+  margin: 0.75rem 0;
+  position: relative;
+
+  &[data-level="INFO"] {
+    @include growl-color(colors.$blue);
+  }
+
+  &[data-level="ERROR"] {
+    @include growl-color(colors.$red);
+  }
+
+  &[data-level="WARN"] {
+    @include growl-color(colors.$yellow);
+  }
+
+  &[data-level="SUCCESS"] {
+    @include growl-color(colors.$green);
+  }
+}
+
+.GrowlClose {
+  position: absolute;
+  top: 0;
+  right: 0.25rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}

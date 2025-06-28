@@ -1,7 +1,7 @@
 import { memo, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Button, ButtonConstants } from '..';
+import { Button, ButtonConstants, GrowlFns } from '..';
 import { songsSliceFns } from '../../store/slices/song-slice';
 import { isRequestLoading } from '../../utils';
 
@@ -28,6 +28,14 @@ const SaveChartOption = (props) => {
     return isRequestLoading(saveSongStatus) ? 'Saving Changes...' : 'Save Changes';
   }, [ saveSongStatus ]);
 
+  const onCloseSaveSongErrorGrowl = useCallback(() => {
+    dispatch(songsSliceFns.clearSaveSongError());
+  }, [ dispatch ]);
+
+  const onCloseSaveSongSuccessGrowl = useCallback(() => {
+    dispatch(songsSliceFns.clearSaveSongStatus());
+  }, [ dispatch ]);
+
   return (
     <div className={style.SaveChartOption}>
       <Button
@@ -37,13 +45,16 @@ const SaveChartOption = (props) => {
       >
         {saveButtonLabel}
       </Button>
-      {
-        saveSongError ? (
-          <span className={style.SaveStatusText}>
-            {saveSongError}
-          </span>
-        ) : <></>
-      }
+
+      {GrowlFns.renderSavedGrowl({
+        requestStatus: saveSongStatus,
+        onCloseGrowl: onCloseSaveSongSuccessGrowl,
+      })}
+
+      {GrowlFns.renderErrorGrowl({
+        message: saveSongError,
+        onCloseGrowl: onCloseSaveSongErrorGrowl,
+      })}
     </div>
   );
 };

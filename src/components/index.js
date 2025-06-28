@@ -6,6 +6,7 @@ export * from './FormAddSong';
 export * from './Fret';
 export * from './FretChunk';
 export * from './Frets';
+export * from './Growl';
 export * from './InlineInput';
 export * from './Link';
 export * from './SaveChartOption';
