@@ -1,5 +1,8 @@
 import { memo, useCallback } from 'react';
+import { useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router';
 
+import { songsSliceFns } from '../../store/slices/song-slice';
 import { Checkbox } from '../Checkbox';
 import { Frets } from '../Frets';
 import { SaveChartOption } from '../SaveChartOption';
@@ -7,7 +10,13 @@ import { SaveChartOption } from '../SaveChartOption';
 import style from './Song.module.scss';
 
 const Song = (props) => {
-  const { song, songs, setSongs, fretsFnsRef }= props;
+  const { fretsFnsRef }= props;
+
+  const [ searchParams ] = useSearchParams();
+
+  const songId = searchParams.get('id') || null;
+
+  const song = useSelector(songsSliceFns.selectSongById(songId));
 
   const onChangeWrapCheckbox = useCallback((value) => {
     fretsFnsRef.current?.setWrapFrets(value);
@@ -38,8 +47,6 @@ const Song = (props) => {
 
         <SaveChartOption
           song={song}
-          songs={songs}
-          setSongs={setSongs}
           fretsFnsRef={fretsFnsRef}
         />
       </div>

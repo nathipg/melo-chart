@@ -22,6 +22,10 @@ App created to map the melody of songs
   - Export to image
   - Add leave page confirmation
 
+- Features
+  - Add option to share all songs with other user
+  - Improve user feedback
+
 - User suggestion
   - Add place to define notes
   - Change components names to make sense with the mapping

@@ -8,11 +8,5 @@
 }
 
 .SaveStatusText {
-  &[data-state='ok'] {
-    color: colors.$green;
-  }
-
-  &[data-state='error'] {
-    color: colors.$red;
-  }
+  color: colors.$red;
 }

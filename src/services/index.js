@@ -1,1 +1,1 @@
-export * as songService from './song';
+export * as songsService from './songs';

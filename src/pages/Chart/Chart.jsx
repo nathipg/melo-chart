@@ -1,23 +1,17 @@
 import { memo, useCallback, useMemo, useRef } from 'react';
-import { useSearchParams } from 'react-router';
+import { useSelector } from 'react-redux';
 
 import { ChartControllers, Song } from '../../components';
-
-import { getSongById } from './functions';
+import { REQUEST_STATUS } from '../../constants';
+import { songsSliceFns } from '../../store/slices/song-slice';
 
 import style from './Chart.module.scss';
 
-const Chart = (props) => {
-  const { songs, setSongs } = props;
-
-  const [ searchParams ] = useSearchParams();
-  const songId = searchParams.get('id') || null;
+const Chart = () => {
+  const songsStatus = useSelector(songsSliceFns.selectSongsStatus);
+  const songsError = useSelector(songsSliceFns.selectSongsError);
 
   const fretsFnsRef = useRef(null);
-
-  const song = useMemo(() => {
-    return songId ? getSongById(songId, songs) : null;
-  }, [ songId, songs ]);
 
   const onAddMultipleFrets = useCallback((qty) => {
     fretsFnsRef.current?.addMultipleFrets(qty);
@@ -39,30 +33,29 @@ const Chart = (props) => {
     fretsFnsRef.current?.addWordsAsNotes(songText);
   }, []);
 
+  const CONTENT_MAPPER = useMemo(() => {
+    return {
+      [REQUEST_STATUS.LOADING]: <span>Loading...</span>,
+      [REQUEST_STATUS.FAILED]: <span>{songsError}</span>,
+      [REQUEST_STATUS.SUCCEEDED]: (
+        <>
+          <ChartControllers
+            onAddMultipleFrets={onAddMultipleFrets}
+            onAddMultipleStrings={onAddMultipleStrings}
+            onTrimStrings={onTrimStrings}
+            onRemoveEmptyFretsAtTheEnd={onRemoveEmptyFretsAtTheEnd}
+            onAddWordsAsNotes={onAddWordsAsNotes}
+          />
+    
+          <Song fretsFnsRef={fretsFnsRef} />
+        </>
+      ),
+    };
+  }, [ onAddMultipleFrets, onAddMultipleStrings, onAddWordsAsNotes, onRemoveEmptyFretsAtTheEnd, onTrimStrings, songsError ]);
+
   return (
     <div className={style.Chart}>
-      {
-        song ? (
-          <>
-            <ChartControllers
-              onAddMultipleFrets={onAddMultipleFrets}
-              onAddMultipleStrings={onAddMultipleStrings}
-              onTrimStrings={onTrimStrings}
-              onRemoveEmptyFretsAtTheEnd={onRemoveEmptyFretsAtTheEnd}
-              onAddWordsAsNotes={onAddWordsAsNotes}
-            />
-      
-            <Song
-              song={song}
-              songs={songs}
-              setSongs={setSongs}
-              fretsFnsRef={fretsFnsRef}
-            />
-          </>
-        ) : (
-          <p>Song not found</p>
-        )
-      }
+      {CONTENT_MAPPER[songsStatus]}
     </div>
   );
 };

@@ -1,58 +1,32 @@
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, ButtonConstants } from '..';
-import { songService } from '../../services';
-
-import { getSongIndexById } from './functions';
+import { songsSliceFns } from '../../store/slices/song-slice';
+import { isRequestLoading } from '../../utils';
 
 import style from './SaveChartOption.module.scss';
 
 const SaveChartOption = (props) => {
-  const { fretsFnsRef, song, songs, setSongs } = props;
+  const { fretsFnsRef, song } = props;
 
-  const [ saveState, setSaveState ] = useState(null);
+  const dispatch = useDispatch();
+
+  const saveSongStatus = useSelector(songsSliceFns.selectSaveSongStatus);
+  const saveSongError = useSelector(songsSliceFns.selectSaveSongError);
 
   const onSaveSong = useCallback(async () => {
     const updatedFrets = fretsFnsRef.current?.getFrets();
 
-    const curSongIndex = getSongIndexById(song.id, songs);
-    const updatedSong = {
+    dispatch(songsSliceFns.saveSong({
       ...song,
-      frets: [
-        ...updatedFrets,
-      ],
-    };
+      frets: updatedFrets,
+    }));
+  }, [ dispatch, fretsFnsRef, song ]);
 
-    setSaveState({
-      text: 'Saving...',
-    });
-
-    const ok = await songService.updateSong(updatedSong);
-
-    if(ok) {
-      setSaveState({
-        state: 'ok',
-        text: 'Saved!',
-      });
-
-      setSongs(curSongs => {
-        return [
-          ...curSongs.slice(0, curSongIndex),
-          updatedSong,
-          ...curSongs.slice(curSongIndex + 1),
-        ];
-      });
-
-      setTimeout(() => {
-        setSaveState(null);
-      }, 10000);
-    } else {
-      setSaveState({
-        state: 'error',
-        text: 'Something went wrong :C',
-      });
-    }
-  }, [ fretsFnsRef, setSongs, song, songs ]);
+  const saveButtonLabel = useMemo(() => {
+    return isRequestLoading(saveSongStatus) ? 'Saving Changes...' : 'Save Changes';
+  }, [ saveSongStatus ]);
 
   return (
     <div className={style.SaveChartOption}>
@@ -61,15 +35,12 @@ const SaveChartOption = (props) => {
         onClick={onSaveSong}
         category={ButtonConstants.ButtonCategories.SUCCESS}
       >
-        Save Changes
+        {saveButtonLabel}
       </Button>
       {
-        saveState ? (
-          <span
-            className={style.SaveStatusText}
-            data-state={saveState.state}
-          >
-            {saveState.text}
+        saveSongError ? (
+          <span className={style.SaveStatusText}>
+            {saveSongError}
           </span>
         ) : <></>
       }

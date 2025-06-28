@@ -1,28 +1,26 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router';
 
 import { Default } from './layouts';
 import { Chart, Home } from './pages';
-import { songService } from './services';
+import { songsSliceFns } from './store/slices/song-slice';
 
 import './global.scss';
 
 const App = () => {
-  const [ songs, setSongs ] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    (async () => {
-      const songList = await songService.getSongs();
-      setSongs(songList);
-    })();
-  }, []);
+    dispatch(songsSliceFns.fetchSongs());
+  }, [ dispatch ]);
 
   return (
     <>
       <Routes>
         <Route path="/" element={<Default />}>
-          <Route path="/" element={<Home songs={songs} setSongs={setSongs} />} />
-          <Route path="/chart" element={<Chart songs={songs} setSongs={setSongs} />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/chart" element={<Chart />} />
         </Route>
       </Routes>
     </>

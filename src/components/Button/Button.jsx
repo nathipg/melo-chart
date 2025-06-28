@@ -5,13 +5,13 @@ import { ButtonCategories } from './constants';
 import style from './Button.module.scss';
 
 const Button = (props) => {
-  const { category = ButtonCategories.DEFAULT, onClick, children, className = '' } = props;
+  const { category = ButtonCategories.DEFAULT, children, className = '', ...otherProps } = props;
 
   return (
     <button
       className={`${style.Button} ${className}`}
-      onClick={onClick}
       data-category={category}
+      {...otherProps}
     >
       {children}
     </button>
