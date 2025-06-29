@@ -1,6 +1,6 @@
 @use '../../colors.scss';
 
-.ConfirmationDialogUIBlocker {
+.DialogUIBlocker {
   position: fixed;
   top: 0;
   left: 0;
@@ -10,7 +10,7 @@
   background-color: rgba(colors.$black, 0.5);
 }
 
-.ConfirmationDialog {
+.Dialog {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -21,19 +21,19 @@
   border-radius: 5px;
 }
 
-.ConfirmationDialogHeader {
+.DialogHeader {
   padding: 1rem;
   border-bottom: 1px solid colors.$black;
 }
 
-.ConfirmationDialogBody {
+.DialogBody {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   padding: 1rem;
 }
 
-.ConfirmationDialogFooter {
+.DialogFooter {
   display: flex;
   gap: 1rem;
   justify-content: end;

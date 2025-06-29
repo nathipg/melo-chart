@@ -3,6 +3,7 @@ export * from './ChartControllers';
 export * from './Checkbox';
 export * from './ConfirmationDialog';
 export * from './ContextMenu';
+export * from './Dialog';
 export * from './FormAddSong';
 export * from './Growl';
 export * from './InlineInput';
