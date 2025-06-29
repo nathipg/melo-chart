@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, ButtonConstants, GrowlFns, LoadingIcon } from '..';
-import { songsSliceFns } from '../../store/slices';
+import { songsSliceActions, songsSliceSelectors } from '../../store/slices';
 import { isRequestLoading } from '../../utils';
 
 import style from './SaveChartOption.module.scss';
@@ -15,13 +15,13 @@ const SaveChartOption = (props) => {
 
   const dispatch = useDispatch();
 
-  const saveSongStatus = useSelector(songsSliceFns.selectSaveSongStatus);
-  const saveSongError = useSelector(songsSliceFns.selectSaveSongError);
+  const saveSongStatus = useSelector(songsSliceSelectors.selectSaveSongStatus);
+  const saveSongError = useSelector(songsSliceSelectors.selectSaveSongError);
 
   const onSaveSong = useCallback(async () => {
     const updatedNotes = notesFnsRef.current?.getNotes();
 
-    dispatch(songsSliceFns.saveSong({
+    dispatch(songsSliceActions.saveSong({
       ...song,
       isNewSong: false,
       notes: updatedNotes,
@@ -29,11 +29,11 @@ const SaveChartOption = (props) => {
   }, [ dispatch, notesFnsRef, song ]);
 
   const onCloseSaveSongErrorGrowl = useCallback(() => {
-    dispatch(songsSliceFns.clearSaveSongError());
+    dispatch(songsSliceActions.clearSaveSongError());
   }, [ dispatch ]);
 
   const onCloseSaveSongSuccessGrowl = useCallback(() => {
-    dispatch(songsSliceFns.clearSaveSongStatus());
+    dispatch(songsSliceActions.clearSaveSongStatus());
   }, [ dispatch ]);
 
   return (

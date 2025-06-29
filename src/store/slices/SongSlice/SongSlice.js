@@ -1,43 +1,47 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { REQUEST_STATUS } from '../../../constants';
-
-import { songSliceAsyncThunks } from './async-thunks';
+import { AddSong } from './AddSong';
 import { SONG_SLICE_NAME } from './constants';
-import { songSliceExtraReducers } from './extra-reducers';
-import { songSliceFunctions } from './functions';
-import { songSliceReducers } from './reducers';
+import { DeleteSong } from './DeleteSong';
+import { FetchSongs } from './FetchSongs';
+import { SaveSong } from './SaveSong';
 
 const initialState = {
-  songs: [],
-  songsStatus: REQUEST_STATUS.IDLE,
-  songsError: null,
-
-  addSongStatus: REQUEST_STATUS.IDLE,
-  addSongError: null,
-
-  saveSongStatus: REQUEST_STATUS.IDLE,
-  saveSongError: null,
-
-  deleteSongStatus: REQUEST_STATUS.IDLE,
-  deleteSongError: null,
+  ...FetchSongs.initialState,
+  ...AddSong.initialState,
+  ...SaveSong.initialState,
+  ...DeleteSong.initialState,
 };
 
 const songsSlice = createSlice({
   name: SONG_SLICE_NAME,
   initialState,
   reducers: {
-    ...songSliceReducers,
+    ...AddSong.reducers,
+    ...SaveSong.reducers,
+    ...DeleteSong.reducers,
   },
   extraReducers(builder) {
-    songSliceExtraReducers.addAllCases(builder);
+    FetchSongs.extraReducers.addFetchSongsCases(builder);
+    AddSong.extraReducers.addAddSongCases(builder);
+    SaveSong.extraReducers.addSaveSongCases(builder);
+    DeleteSong.extraReducers.addDeleteSongCases(builder);
   },
 });
 
 export default songsSlice.reducer;
 
-export const songsSliceFns = {
+export const songsSliceActions = {
   ...songsSlice.actions,
-  ...songSliceFunctions,
-  ...songSliceAsyncThunks,
+  ...FetchSongs.asyncThunk,
+  ...AddSong.asyncThunk,
+  ...SaveSong.asyncThunk,
+  ...DeleteSong.asyncThunk,
+};
+
+export const songsSliceSelectors = {
+  ...FetchSongs.selectors,
+  ...AddSong.selectors,
+  ...SaveSong.selectors,
+  ...DeleteSong.selectors,
 };

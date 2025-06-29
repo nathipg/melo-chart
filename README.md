@@ -15,7 +15,7 @@ App created to map the melody of songs
   - App Logo
   - Add option to share all songs with other user
   - Login
-  - Add load with block ui for initial app render
+  - Add option to rename song
 
 - Chart
   - Add option to define sections

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { REQUEST_STATUS } from '../../constants';
-import { songsSliceFns } from '../../store/slices';
+import { songsSliceSelectors } from '../../store/slices';
 import { LoadingIcon } from '../Icons';
 
 import { renderSongs } from './functions';
@@ -13,9 +13,9 @@ import style from './SongList.module.scss';
 const SongList = () => {
   const { t } = useTranslation();
 
-  const songs = useSelector(songsSliceFns.selectAllSongs);
-  const songsStatus = useSelector(songsSliceFns.selectSongsStatus);
-  const songsError = useSelector(songsSliceFns.selectSongsError);
+  const songs = useSelector(songsSliceSelectors.selectAllSongs);
+  const songsStatus = useSelector(songsSliceSelectors.selectSongsStatus);
+  const songsError = useSelector(songsSliceSelectors.selectSongsError);
 
   const CONTENT_MAPPER = useMemo(() => {
     return {

@@ -5,15 +5,15 @@ import { useBlocker, useSearchParams } from 'react-router';
 
 import { GenerateChartDialog, LeaveChartPageConfirmDialog, LoadingIcon, Song } from '../../components';
 import { REQUEST_STATUS } from '../../constants';
-import { songsSliceFns } from '../../store/slices';
+import { songsSliceSelectors } from '../../store/slices';
 
 import style from './Chart.module.scss';
 
 const Chart = () => {
   const { t } = useTranslation();
 
-  const songsStatus = useSelector(songsSliceFns.selectSongsStatus);
-  const songsError = useSelector(songsSliceFns.selectSongsError);
+  const songsStatus = useSelector(songsSliceSelectors.selectSongsStatus);
+  const songsError = useSelector(songsSliceSelectors.selectSongsError);
 
   const notesFnsRef = useRef(null);
   const generateChartDialogFnsRef = useRef(null);
@@ -22,7 +22,7 @@ const Chart = () => {
 
   const songId = searchParams.get('id') || null;
 
-  const song = useSelector(songsSliceFns.selectSongById(songId));
+  const song = useSelector(songsSliceSelectors.selectSongById(songId));
 
   const onAddWordsAsNotes = useCallback((songText) => {
     notesFnsRef.current?.addWordsAsNotes(songText);
@@ -38,25 +38,17 @@ const Chart = () => {
       [REQUEST_STATUS.FAILED]: <span>{songsError}</span>,
       [REQUEST_STATUS.SUCCEEDED]: (
         song ? (
-          <>
-            <Song
-              notesFnsRef={notesFnsRef}
-              generateChartDialogFnsRef={generateChartDialogFnsRef}
-              song={song}
-            />
-
-            <GenerateChartDialog
-              generateChartDialogFnsRef={generateChartDialogFnsRef}
-              show={song.isNewSong}
-              onAddWordsAsNotes={onAddWordsAsNotes}
-            />
-          </>
+          <Song
+            notesFnsRef={notesFnsRef}
+            generateChartDialogFnsRef={generateChartDialogFnsRef}
+            song={song}
+          />
         ) : (
           <span>{t('Song not found')}</span>
         )
       ),
     };
-  }, [ onAddWordsAsNotes, song, songsError, t ]);
+  }, [ song, songsError, t ]);
 
   const shouldConfirmLeavePage = useCallback(() => {
     if(!song) {
@@ -80,6 +72,12 @@ const Chart = () => {
         show={blocker.state === 'blocked'}
         onConfirm={() => blocker.proceed()}
         onCancel={() => blocker.reset()}
+      />
+
+      <GenerateChartDialog
+        generateChartDialogFnsRef={generateChartDialogFnsRef}
+        show={song?.isNewSong}
+        onAddWordsAsNotes={onAddWordsAsNotes}
       />
     </div>
   );

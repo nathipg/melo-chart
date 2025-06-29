@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 
 import { Default } from './layouts';
 import { Chart, Home } from './pages';
-import { songsSliceFns } from './store/slices';
+import { songsSliceActions } from './store/slices';
 
 import './global.scss';
 
@@ -23,7 +23,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(songsSliceFns.fetchSongs());
+    dispatch(songsSliceActions.fetchSongs());
   }, [ dispatch ]);
 
   return (

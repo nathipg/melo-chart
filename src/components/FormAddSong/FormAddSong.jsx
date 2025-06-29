@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { REQUEST_STATUS } from '../../constants';
-import { songsSliceFns } from '../../store/slices';
+import { songsSliceActions, songsSliceSelectors } from '../../store/slices';
 import { isRequestLoading } from '../../utils';
 import { Button, ButtonConstants } from '../Button';
 import { GrowlFns } from '../Growl';
@@ -19,12 +19,12 @@ const FormAddSong = () => {
 
   const dispatch = useDispatch();
   
-  const songs = useSelector(songsSliceFns.selectAllSongs);
-  const songsStatus = useSelector(songsSliceFns.selectSongsStatus);
-  const songsError = useSelector(songsSliceFns.selectSongsError);
+  const songs = useSelector(songsSliceSelectors.selectAllSongs);
+  const songsStatus = useSelector(songsSliceSelectors.selectSongsStatus);
+  const songsError = useSelector(songsSliceSelectors.selectSongsError);
 
-  const addSongStatus = useSelector(songsSliceFns.selectAddSongStatus);
-  const addSongError = useSelector(songsSliceFns.selectAddSongError);
+  const addSongStatus = useSelector(songsSliceSelectors.selectAddSongStatus);
+  const addSongError = useSelector(songsSliceSelectors.selectAddSongError);
 
   const CONTENT_MAPPER = useMemo(() => {
     return {
@@ -64,14 +64,14 @@ const FormAddSong = () => {
     const title = titleInput.value.trim();
 
     if(!title) {
-      dispatch(songsSliceFns.setAddSongError(t('Please, insert a song title')));
+      dispatch(songsSliceActions.setAddSongError(t('Please, insert a song title')));
       return;
     }
 
     const isSongAlreadyRegistered = songs.some(song => song.title == title);
 
     if(isSongAlreadyRegistered) {
-      dispatch(songsSliceFns.setAddSongError(t('This song already exist')));
+      dispatch(songsSliceActions.setAddSongError(t('This song already exist')));
       return;
     }
 
@@ -79,17 +79,17 @@ const FormAddSong = () => {
 
     const newSong = generateNewSong(title);
 
-    dispatch(songsSliceFns.addSong({
+    dispatch(songsSliceActions.addSong({
       song: newSong,
     }));
   }, [ addSongStatus, dispatch, songs, t ]);
 
   const onCloseAddSongErrorGrowl = useCallback(() => {
-    dispatch(songsSliceFns.clearAddSongError());
+    dispatch(songsSliceActions.clearAddSongError());
   }, [ dispatch ]);
 
   const onCloseAddSongSuccessGrowl = useCallback(() => {
-    dispatch(songsSliceFns.clearAddSongStatus());
+    dispatch(songsSliceActions.clearAddSongStatus());
   }, [ dispatch ]);
 
   return (

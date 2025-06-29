@@ -7,4 +7,3 @@ export const clearSaveSongError = (state) => {
 export const clearSaveSongStatus = (state) => {
   state.saveSongStatus = REQUEST_STATUS.IDLE;
 };
-

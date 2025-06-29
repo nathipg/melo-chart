@@ -2,7 +2,7 @@ import { memo, useCallback, useImperativeHandle, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { songsSliceFns } from '../../../store/slices';
+import { songsSliceActions, songsSliceSelectors } from '../../../store/slices';
 import { Button, ButtonConstants } from '../../Button';
 import { ConfirmationDialog } from '../../ConfirmationDialog';
 import { GrowlFns } from '../../Growl';
@@ -14,7 +14,7 @@ const DeleteSongConfirmDialog = (props) => {
 
   const dispatch = useDispatch();
 
-  const deleteSongError = useSelector(songsSliceFns.selectDeleteSongError);
+  const deleteSongError = useSelector(songsSliceSelectors.selectDeleteSongError);
 
   const [ show, setShow ] = useState(false);
 
@@ -27,11 +27,11 @@ const DeleteSongConfirmDialog = (props) => {
   });
 
   const onConfirm = useCallback(() => {
-    dispatch(songsSliceFns.deleteSong(song.id));
+    dispatch(songsSliceActions.deleteSong(song.id));
   }, [ dispatch, song.id ]);
 
   const onCloseDeleteSongErrorGrowl = useCallback(() => {
-    dispatch(songsSliceFns.clearDeleteSongError());
+    dispatch(songsSliceActions.clearDeleteSongError());
   }, [ dispatch ]);
 
   if(!show) {
