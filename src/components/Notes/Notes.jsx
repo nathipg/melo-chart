@@ -25,7 +25,6 @@ const Notes = (props) => {
 
   const [ notes, setNotes ] = useState(initialNotes);
   const [ wrapNotes, setWrapNotes ] = useState(true);
-  const [ showPitchNumber, setShowPitchNumber ] = useState(false);
 
   const contextMenuFnsRef = useRef(null);
 
@@ -77,9 +76,6 @@ const Notes = (props) => {
       setWrapNotes(value) {
         setWrapNotes(value);
       },
-      setShowPitchNumber(value) {
-        setShowPitchNumber(value);
-      },
       getNotes() {
         return [ ...notes ];
       },
@@ -102,7 +98,10 @@ const Notes = (props) => {
   });
 
   return (
-    <div className={style.NotesContainer} data-wrap-notes={wrapNotes} data-show-pitch-number={showPitchNumber}>
+    <div
+      className={style.NotesContainer}
+      data-wrap-notes={wrapNotes}
+    >
       {notes.map((note, noteIndex) => {
         const hasNextNote = notes.length > noteIndex + 1;
         const nextNoteNoteIndex = hasNextNote ? getPitchIndexInNote(notes[noteIndex + 1]) : null;

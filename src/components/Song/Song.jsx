@@ -13,10 +13,6 @@ const Song = (props) => {
     notesFnsRef.current?.setWrapNotes(value);
   }, [ notesFnsRef ]);
 
-  const onChangePitchNumberCheckbox = useCallback((value) => {
-    notesFnsRef.current?.setShowPitchNumber(value);
-  }, [ notesFnsRef ]);
-
   return (
     <div className={style.Song}>
       <div className={style.SongTitleContainer}>
@@ -27,13 +23,6 @@ const Song = (props) => {
           label="Wrap"
           initialValue={true}
           onChange={onChangeWrapCheckbox}
-        />
-
-        <Checkbox
-          className={style.CheckboxContainer}
-          label="Pitch Number"
-          initialValue={false}
-          onChange={onChangePitchNumberCheckbox}
         />
 
         <SaveChartOption
