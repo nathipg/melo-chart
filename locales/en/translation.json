@@ -13,5 +13,6 @@
       "Request failed with status code 404": "Song not found",
       "Network Error": "Network Error: Please, check your network connection"
     }
-  }
+  },
+  "Add Song": "OQQQQQ"
 }
