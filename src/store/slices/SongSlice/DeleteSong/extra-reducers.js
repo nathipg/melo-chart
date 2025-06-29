@@ -13,7 +13,7 @@ export const addDeleteSongCases = (builder) => {
     })
     .addCase(deleteSong.fulfilled, (state) => {
       state.deleteSongStatus = REQUEST_STATUS.SUCCEEDED;
-      window.location.replace('/');
+      window.location.replace('/melo-chart');
     })
     .addCase(deleteSong.rejected, (state, action) => {
       state.deleteSongStatus = REQUEST_STATUS.FAILED;
