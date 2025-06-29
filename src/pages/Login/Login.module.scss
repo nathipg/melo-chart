@@ -1,3 +1,5 @@
+@use '../../colors.scss';
+
 .LoginContainer {
   display: flex;
   flex-direction: column;
@@ -9,6 +11,7 @@
   border: 1px solid black;
   padding: 2rem;
   border-radius: 5px;
+  background-color: colors.$white;
 }
 
 .Login {
@@ -18,5 +21,6 @@
 
   input {
     width: 100%;
+    min-width: 20rem;
   }
 }
