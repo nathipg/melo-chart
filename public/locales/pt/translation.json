@@ -47,5 +47,13 @@
   "Close": "Fechar",
   "Delete Song": "Deletar Música",
   "Are you sure you want to delete this song?": "Tem certeza de que você quer deletar essa música?",
-  "This action cannot be undone": "Esta ação não poderá ser desfeita"
+  "This action cannot be undone": "Esta ação não poderá ser desfeita",
+  "Username": "Nome de Usuário",
+  "Password": "Senha",
+  "Sign in": "Entrar",
+  "Sign up": "Cadastrar",
+  "Login": "Acessar Conta",
+  "Create an Account": "Crie uma Conta",
+  "Don't have an account? Sign up": "Não tem uma conta? Cadastre-se",
+  "Go back": "Voltar"
 }

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 
 import { Default } from './layouts';
-import { Chart, Home } from './pages';
+import { Chart, Home, Login } from './pages';
 import { songsSliceActions } from './store/slices';
 
 import './global.scss';
@@ -14,6 +14,7 @@ const router = createBrowserRouter([
     element: <Default />,
     children: [
       { index: true, element: <Home /> },
+      { path: 'login', element: <Login /> },
       { path: 'chart', element: <Chart /> },
     ],
   },
