@@ -1,5 +1,7 @@
 .NotesContainer {
   display: flex;
+  max-width: 100%;
+  overflow-x: auto;
 
   &[data-wrap-notes='true'] {
     flex-wrap: wrap;
