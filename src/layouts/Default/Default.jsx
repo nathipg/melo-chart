@@ -14,7 +14,7 @@ const Header = () => {
       <h1>Melo Chart</h1>
       <ul>
         <li>
-          <Link to={{ pathname: '/' }}>{t('My songs')}</Link>
+          <Link to={{ pathname: '' }}>{t('My songs')}</Link>
         </li>
       </ul>
     </div>

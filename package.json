@@ -3,8 +3,11 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://nathipg.github.io/melo-chart/",
   "scripts": {
     "dev": "vite",
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d dist",
     "build": "vite build",
     "lint-check": "eslint .",
     "lint": "npx eslint --fix .",
@@ -17,6 +20,7 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@reduxjs/toolkit": "^2.8.2",
     "axios": "^1.10.0",
+    "firebase": "^11.9.1",
     "i18next": "^25.2.1",
     "i18next-browser-languagedetector": "^8.2.0",
     "i18next-http-backend": "^3.0.2",
@@ -40,6 +44,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "eslint-plugin-sort-exports": "^0.9.1",
+    "gh-pages": "^6.3.0",
     "globals": "^16.0.0",
     "sass": "^1.89.2",
     "vite": "^6.3.5"

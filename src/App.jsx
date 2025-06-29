@@ -10,7 +10,7 @@ import './global.scss';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/melo-chart',
     element: <Default />,
     children: [
       { index: true, element: <Home /> },

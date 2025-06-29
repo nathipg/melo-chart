@@ -13,7 +13,7 @@ export const renderSongs = (songs) => {
   return songs.map(song => {
     return (
       <li key={song.id}>
-        <Link to={{ pathname: '/chart', search: `?id=${song.id}` }}>{song.title}</Link>
+        <Link to={{ pathname: 'chart', search: `?id=${song.id}` }}>{song.title}</Link>
       </li>
     );
   });
