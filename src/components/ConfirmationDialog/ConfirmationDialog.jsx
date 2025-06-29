@@ -1,4 +1,5 @@
 import { memo, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 
 import style from './ConfirmationDialog.module.scss';
@@ -16,7 +17,7 @@ const ConfirmationDialog = (props) => {
     };
   }, []);
 
-  return (
+  return createPortal(
     <div className={style.ConfirmationDialogUIBlocker}>
       <div className={style.ConfirmationDialog}>
         <div className={style.ConfirmationDialogHeader}>
@@ -31,7 +32,8 @@ const ConfirmationDialog = (props) => {
           {footerContent}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };
 

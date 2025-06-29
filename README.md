@@ -18,7 +18,6 @@ App created to map the melody of songs
   - Login
   - Adjust loading icon
   - Add load with block ui for initial app render
-  - Change ConfirmDialog to use portal
 
 - Chart
   - Add option to define sections
