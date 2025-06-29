@@ -13,7 +13,7 @@ export const addSaveSongCases = (builder) => {
       const updatedSong = action.payload;
 
       const existingSong = state.songs.find(song => song.id === updatedSong.id);
-      existingSong.frets = updatedSong.frets;
+      existingSong.notes = updatedSong.notes;
     })
     .addCase(songSliceAsyncThunks.saveSong.rejected, (state, action) => {
       state.saveSongStatus = REQUEST_STATUS.FAILED;

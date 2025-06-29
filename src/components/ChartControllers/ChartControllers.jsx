@@ -1,7 +1,7 @@
 import { memo } from 'react';
 
 import { AddSongTextOption } from './AddSongTextOption';
-import { NewFretsOption } from './NewFretsOption';
+import { NewNotesOption } from './NewNotesOption';
 import { NewPitchesOption } from './NewPitchesOption';
 import { TrimOptions } from './TrimOptions';
 
@@ -9,10 +9,10 @@ import style from './ChartControllers.module.scss';
 
 const ChartControllers = (props) => {
   const {
-    onAddMultipleFrets,
+    onAddMultipleNotes,
     onAddMultiplePitches,
     onTrimPitches,
-    onRemoveEmptyFretsAtTheEnd,
+    onRemoveEmptyNotesAtTheEnd,
     onAddWordsAsNotes,
   } = props;
 
@@ -22,8 +22,8 @@ const ChartControllers = (props) => {
         onAddWordsAsNotes={onAddWordsAsNotes}
       />
 
-      <NewFretsOption
-        onAddMultipleFrets={onAddMultipleFrets}
+      <NewNotesOption
+        onAddMultipleNotes={onAddMultipleNotes}
       />
 
       <NewPitchesOption
@@ -32,7 +32,7 @@ const ChartControllers = (props) => {
 
       <TrimOptions
         onTrimPitches={onTrimPitches}
-        onRemoveEmptyFretsAtTheEnd={onRemoveEmptyFretsAtTheEnd}
+        onRemoveEmptyNotesAtTheEnd={onRemoveEmptyNotesAtTheEnd}
       />
 
     </div>

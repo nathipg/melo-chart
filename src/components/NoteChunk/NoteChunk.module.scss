@@ -1,0 +1,55 @@
+@use 'sass:list';
+
+@use '../../colors.scss';
+
+.NoteChunk {
+  padding: 1.5rem;
+  min-height: 4.25rem;
+  border-bottom: 2px solid colors.$lightgray;
+  white-space: nowrap;
+
+  position: relative;
+
+  [data-show-pitch-number='true'] & {
+    &::before {
+      content: attr(data-pitch-index);
+      color: colors.$lightgray;
+      position: absolute;
+      bottom: 0;
+      transform: translateX(-50%);
+      left: 50%;
+    }
+  }
+
+  &:has(input) {
+    padding-bottom: 1rem;
+  }
+
+  input {
+    width: 70px;
+  }
+
+  span {
+    cursor: text;
+  }
+
+  &[data-has-text='true'] {
+    @for $i from 1 through 12 {
+      &[data-pitch-index='#{$i}'] {
+        border-bottom-color: list.nth(colors.$notes-colors, $i);
+      }
+    }
+  }
+
+  &[data-has-right-border='true'] {
+    @for $i from 1 through 12 {
+      &[data-pitch-index='#{$i}'] {
+        border-right: 2px solid list.nth(colors.$notes-colors, $i);
+      }
+    }
+  }
+
+  &[data-is-drag-disabled='false'] {
+    cursor: move;
+  }
+}

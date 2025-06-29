@@ -1,0 +1,15 @@
+import { nanoid } from 'nanoid';
+
+import { generateNewNoteChunk } from './generate-new-note-chunk.function';
+
+export const generateNewNote = (pitchesQty) => {
+  const chunks = Array.from(
+    { length: pitchesQty },
+    () => generateNewNoteChunk(),
+  );
+
+  return {
+    id: nanoid(),
+    chunks,
+  };
+};

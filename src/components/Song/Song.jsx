@@ -1,21 +1,21 @@
 import { memo, useCallback } from 'react';
 
 import { Checkbox } from '../Checkbox';
-import { Frets } from '../Frets';
+import { Notes } from '../Notes';
 import { SaveChartOption } from '../SaveChartOption';
 
 import style from './Song.module.scss';
 
 const Song = (props) => {
-  const { fretsFnsRef, song }= props;
+  const { notesFnsRef, song }= props;
 
   const onChangeWrapCheckbox = useCallback((value) => {
-    fretsFnsRef.current?.setWrapFrets(value);
-  }, [ fretsFnsRef ]);
+    notesFnsRef.current?.setWrapNotes(value);
+  }, [ notesFnsRef ]);
 
   const onChangePitchNumberCheckbox = useCallback((value) => {
-    fretsFnsRef.current?.setShowPitchNumber(value);
-  }, [ fretsFnsRef ]);
+    notesFnsRef.current?.setShowPitchNumber(value);
+  }, [ notesFnsRef ]);
 
   return (
     <div className={style.Song}>
@@ -38,13 +38,13 @@ const Song = (props) => {
 
         <SaveChartOption
           song={song}
-          fretsFnsRef={fretsFnsRef}
+          notesFnsRef={notesFnsRef}
         />
       </div>
 
-      <Frets
-        frets={song.frets}
-        fretsFnsRef={fretsFnsRef}
+      <Notes
+        notes={song.notes}
+        notesFnsRef={notesFnsRef}
       />
     </div>
   );

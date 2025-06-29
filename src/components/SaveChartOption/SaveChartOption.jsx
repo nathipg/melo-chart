@@ -8,7 +8,7 @@ import { isRequestLoading } from '../../utils';
 import style from './SaveChartOption.module.scss';
 
 const SaveChartOption = (props) => {
-  const { fretsFnsRef, song } = props;
+  const { notesFnsRef, song } = props;
 
   const dispatch = useDispatch();
 
@@ -16,13 +16,13 @@ const SaveChartOption = (props) => {
   const saveSongError = useSelector(songsSliceFns.selectSaveSongError);
 
   const onSaveSong = useCallback(async () => {
-    const updatedFrets = fretsFnsRef.current?.getFrets();
+    const updatedNotes = notesFnsRef.current?.getNotes();
 
     dispatch(songsSliceFns.saveSong({
       ...song,
-      frets: updatedFrets,
+      notes: updatedNotes,
     }));
-  }, [ dispatch, fretsFnsRef, song ]);
+  }, [ dispatch, notesFnsRef, song ]);
 
   const saveButtonLabel = useMemo(() => {
     return isRequestLoading(saveSongStatus) ? 'Saving Changes...' : 'Save Changes';

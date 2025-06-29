@@ -1,8 +1,0 @@
-.FretsContainer {
-  display: flex;
-
-  &[data-wrap-frets='true'] {
-    flex-wrap: wrap;
-    row-gap: 2rem;
-  }
-}

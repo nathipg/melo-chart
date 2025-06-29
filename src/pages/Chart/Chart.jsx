@@ -12,7 +12,7 @@ const Chart = () => {
   const songsStatus = useSelector(songsSliceFns.selectSongsStatus);
   const songsError = useSelector(songsSliceFns.selectSongsError);
 
-  const fretsFnsRef = useRef(null);
+  const notesFnsRef = useRef(null);
 
   const [ searchParams ] = useSearchParams();
 
@@ -20,24 +20,24 @@ const Chart = () => {
 
   const song = useSelector(songsSliceFns.selectSongById(songId));
 
-  const onAddMultipleFrets = useCallback((qty) => {
-    fretsFnsRef.current?.addMultipleFrets(qty);
+  const onAddMultipleNotes = useCallback((qty) => {
+    notesFnsRef.current?.addMultipleNotes(qty);
   }, []);
 
   const onAddMultiplePitches = useCallback((qty) => {
-    fretsFnsRef.current?.addMultiplePitches(qty);
+    notesFnsRef.current?.addMultiplePitches(qty);
   }, []);
 
   const onTrimPitches = useCallback(() => {
-    fretsFnsRef.current?.trimPitches();
+    notesFnsRef.current?.trimPitches();
   }, []);
 
-  const onRemoveEmptyFretsAtTheEnd = useCallback(() => {
-    fretsFnsRef.current?.removeEmptyFretsAtTheEnd();
+  const onRemoveEmptyNotesAtTheEnd = useCallback(() => {
+    notesFnsRef.current?.removeEmptyNotesAtTheEnd();
   }, []);
 
   const onAddWordsAsNotes = useCallback((songText) => {
-    fretsFnsRef.current?.addWordsAsNotes(songText);
+    notesFnsRef.current?.addWordsAsNotes(songText);
   }, []);
 
   const CONTENT_MAPPER = useMemo(() => {
@@ -48,15 +48,15 @@ const Chart = () => {
         song ? (
           <>
             <ChartControllers
-              onAddMultipleFrets={onAddMultipleFrets}
+              onAddMultipleNotes={onAddMultipleNotes}
               onAddMultiplePitches={onAddMultiplePitches}
               onTrimPitches={onTrimPitches}
-              onRemoveEmptyFretsAtTheEnd={onRemoveEmptyFretsAtTheEnd}
+              onRemoveEmptyNotesAtTheEnd={onRemoveEmptyNotesAtTheEnd}
               onAddWordsAsNotes={onAddWordsAsNotes}
             />
     
             <Song
-              fretsFnsRef={fretsFnsRef}
+              notesFnsRef={notesFnsRef}
               song={song}
             />
           </>
@@ -65,7 +65,7 @@ const Chart = () => {
         )
       ),
     };
-  }, [ onAddMultipleFrets, onAddMultiplePitches, onAddWordsAsNotes, onRemoveEmptyFretsAtTheEnd, onTrimPitches, song, songsError ]);
+  }, [ onAddMultipleNotes, onAddMultiplePitches, onAddWordsAsNotes, onRemoveEmptyNotesAtTheEnd, onTrimPitches, song, songsError ]);
 
   return (
     <div className={style.Chart}>
