@@ -1,0 +1,42 @@
+@use '../../colors.scss';
+
+.ConfirmationDialogUIBlocker {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  background-color: rgba(colors.$black, 0.5);
+}
+
+.ConfirmationDialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  background: colors.$white;
+  border: 1px solid colors.$black;
+  border-radius: 5px;
+}
+
+.ConfirmationDialogHeader {
+  padding: 1rem;
+  border-bottom: 1px solid colors.$black;
+}
+
+.ConfirmationDialogBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+.ConfirmationDialogFooter {
+  display: flex;
+  gap: 1rem;
+  justify-content: end;
+  padding: 1rem;
+  border-top: 1px solid colors.$black;
+}

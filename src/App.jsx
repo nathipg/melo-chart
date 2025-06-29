@@ -1,12 +1,23 @@
 import { memo, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Route, Routes } from 'react-router';
+import { createBrowserRouter, RouterProvider } from 'react-router';
 
 import { Default } from './layouts';
 import { Chart, Home } from './pages';
 import { songsSliceFns } from './store/slices';
 
 import './global.scss';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Default />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: 'chart', element: <Chart /> },
+    ],
+  },
+]);
 
 const App = () => {
   const dispatch = useDispatch();
@@ -17,12 +28,7 @@ const App = () => {
 
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Default />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/chart" element={<Chart />} />
-        </Route>
-      </Routes>
+      <RouterProvider router={router} />
     </>
   );
 };

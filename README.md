@@ -12,22 +12,16 @@ App created to map the melody of songs
 ## TODO
 
 - General
-  - Add global state
   - App Logo
   - Add option to delete song
+  - Add option to share all songs with other user
+  - Login
+  - i18n
 
 - Chart
   - Add option to define sections
   - Change to not break sections on wrap
   - Export to image
-  - Add leave page confirmation
-
-- Features
-  - Add option to share all songs with other user
-  - Improve user feedback
-  - Login
-  - i18n
 
 - User suggestion
   - Add place to define notes
-  - Change components names to make sense with the mapping

@@ -1,8 +1,8 @@
 import { memo, useCallback, useMemo, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router';
+import { useBlocker, useSearchParams } from 'react-router';
 
-import { ChartControllers, Song } from '../../components';
+import { Button, ButtonConstants, ChartControllers, ConfirmationDialog, Song } from '../../components';
 import { REQUEST_STATUS } from '../../constants';
 import { songsSliceFns } from '../../store/slices';
 
@@ -67,8 +67,47 @@ const Chart = () => {
     };
   }, [ onAddMultipleNotes, onAddMultiplePitches, onAddWordsAsNotes, onRemoveEmptyNotesAtTheEnd, onTrimPitches, song, songsError ]);
 
+  const shouldConfirmLeavePage = useCallback(() => {
+    const notesStringified = JSON.stringify(song.notes);
+    const updateNotes = notesFnsRef.current?.getNotes() || [];
+    const updateNotesStringified = JSON.stringify(updateNotes);
+
+    return notesStringified != updateNotesStringified;
+  }, [ song, notesFnsRef ]);
+
+  const blocker = useBlocker(shouldConfirmLeavePage);
+
   return (
     <div className={style.Chart}>
+      {blocker.state === 'blocked' ? (
+        <>
+          <ConfirmationDialog
+            bodyContent={(
+              <>
+                <p>Are you sure you want to leave this page?</p>
+                <p>Some unsaved changes will be lost</p>
+              </>
+            )}
+            footerContent={(
+              <>
+                <Button
+                  category={ButtonConstants.ButtonCategories.DANGER}
+                  onClick={() => blocker.proceed()}
+                >
+                  Leave Page
+                </Button>
+                <Button
+                  category={ButtonConstants.ButtonCategories.DEFAULT}
+                  onClick={() => blocker.reset()}
+                >
+                  Cancel
+                </Button>
+              </>
+            )}
+          />
+        </>
+      ) : <></>}
+
       {CONTENT_MAPPER[songsStatus]}
     </div>
   );
