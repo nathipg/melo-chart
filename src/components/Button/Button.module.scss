@@ -11,32 +11,45 @@
   width: fit-content;
   cursor: pointer;
 
-  &[data-category="DEFAULT"] {
-    @include mixins.background-with-hover(colors.$lightgray);
+  &[data-text-only="false"] {
+    &[data-category="DEFAULT"] {
+      @include mixins.background-with-hover(colors.$lightgray);
+    }
+  
+    &[data-category="DANGER"] {
+      @include mixins.background-with-hover(colors.$red);
+      color: colors.$white;
+    }
+  
+    &[data-category="PRIMARY"] {
+      @include mixins.background-with-hover(colors.$blue);
+      color: colors.$white;
+    }
+  
+    &[data-category="SUCCESS"] {
+      @include mixins.background-with-hover(colors.$green);
+      color: colors.$white;
+    }
   }
 
-  &[data-category="DANGER"] {
-    @include mixins.background-with-hover(colors.$red);
-    color: colors.$white;
-  }
-
-  &[data-category="PRIMARY"] {
-    @include mixins.background-with-hover(colors.$blue);
-    color: colors.$white;
-  }
-
-  &[data-category="SUCCESS"] {
-    @include mixins.background-with-hover(colors.$green);
-    color: colors.$white;
-  }
-
-  &[data-category="TEXT_DANGER"] {
-    color: colors.$red;
-    background: none;
+  &[data-text-only="true"] {
     padding: 0;
+    background: none;
 
-    &:hover {
-      color: color.adjust(colors.$red, $lightness: -20%);
+    &[data-category="DEFAULT"] {
+      @include mixins.color-with-hover(colors.$lightgray);
+    }
+
+    &[data-category="DANGER"] {
+      @include mixins.color-with-hover(colors.$red);
+    }
+
+    &[data-category="PRIMARY"] {
+      @include mixins.color-with-hover(colors.$blue);
+    }
+
+    &[data-category="SUCCESS"] {
+      @include mixins.color-with-hover(colors.$green);
     }
   }
 }

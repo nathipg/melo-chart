@@ -23,6 +23,7 @@ const SaveChartOption = (props) => {
 
     dispatch(songsSliceFns.saveSong({
       ...song,
+      isNewSong: false,
       notes: updatedNotes,
     }));
   }, [ dispatch, notesFnsRef, song ]);

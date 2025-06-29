@@ -6,9 +6,17 @@ import { Button, ButtonConstants } from '../../Button';
 import style from './TrimOptions.module.scss';
 
 const TrimOptions = (props) => {
-  const { onTrimPitches, onRemoveEmptyNotesAtTheEnd } = props;
+  const { notesFnsRef } = props;
 
   const { t } = useTranslation();
+
+  const onTrimPitches = useCallback(() => {
+    notesFnsRef.current?.trimPitches();
+  }, [ notesFnsRef ]);
+
+  const onRemoveEmptyNotesAtTheEnd = useCallback(() => {
+    notesFnsRef.current?.removeEmptyNotesAtTheEnd();
+  }, [ notesFnsRef ]);
 
   const onTrimChart = useCallback(() => {
     onRemoveEmptyNotesAtTheEnd();
@@ -18,8 +26,9 @@ const TrimOptions = (props) => {
   return (
     <div className={style.TrimOptions}>
       <Button
-        category={ButtonConstants.ButtonCategories.TEXT_DANGER}
+        category={ButtonConstants.ButtonCategories.DANGER}
         onClick={onTrimChart}
+        textOnly={true}
       >
         {t('Trim Chart')}
       </Button>

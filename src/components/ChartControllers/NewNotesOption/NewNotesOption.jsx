@@ -7,9 +7,13 @@ import { InlineInput } from '../../InlineInput';
 import style from './NewNotesOption.module.scss';
 
 const NewNotesOption = (props) => {
-  const { onAddMultipleNotes } = props;
+  const { notesFnsRef } = props;
 
   const { t } = useTranslation();
+
+  const onAddMultipleNotes = useCallback((qty) => {
+    notesFnsRef.current?.addMultipleNotes(qty);
+  }, [ notesFnsRef ]);
 
   const onSubmitAddMultipleNotes = useCallback((event) => {
     event.preventDefault();

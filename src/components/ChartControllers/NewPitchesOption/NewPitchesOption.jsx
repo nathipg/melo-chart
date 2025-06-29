@@ -7,9 +7,13 @@ import { InlineInput } from '../../InlineInput/InlineInput';
 import style from './NewPitchesOption.module.scss';
 
 const NewPitchesOption = (props) => {
-  const { onAddMultiplePitches } = props;
+  const { notesFnsRef } = props;
 
   const { t } = useTranslation();
+
+  const onAddMultiplePitches = useCallback((qty) => {
+    notesFnsRef.current?.addMultiplePitches(qty);
+  }, [ notesFnsRef ]);
 
   const onSubmitAddMultiplePitches = useCallback((event) => {
     event.preventDefault();

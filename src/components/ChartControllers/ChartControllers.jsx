@@ -1,6 +1,8 @@
 import { memo } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { AddSongTextOption } from './AddSongTextOption';
+import { Button, ButtonConstants } from '../Button';
+
 import { NewNotesOption } from './NewNotesOption';
 import { NewPitchesOption } from './NewPitchesOption';
 import { TrimOptions } from './TrimOptions';
@@ -8,33 +10,30 @@ import { TrimOptions } from './TrimOptions';
 import style from './ChartControllers.module.scss';
 
 const ChartControllers = (props) => {
-  const {
-    onAddMultipleNotes,
-    onAddMultiplePitches,
-    onTrimPitches,
-    onRemoveEmptyNotesAtTheEnd,
-    onAddWordsAsNotes,
-  } = props;
+  const { notesFnsRef, generateChartDialogFnsRef } = props;
+
+  const { t } = useTranslation();
 
   return (
     <div className={style.ChartControllers}>
-      <AddSongTextOption
-        onAddWordsAsNotes={onAddWordsAsNotes}
-      />
+      <Button
+        category={ButtonConstants.ButtonCategories.DANGER}
+        onClick={() => generateChartDialogFnsRef.current?.show()}
+      >
+        {t('Generate mapping with lyrics')}
+      </Button>
 
       <NewNotesOption
-        onAddMultipleNotes={onAddMultipleNotes}
+        notesFnsRef={notesFnsRef}
       />
 
       <NewPitchesOption
-        onAddMultiplePitches={onAddMultiplePitches}
+        notesFnsRef={notesFnsRef}
       />
 
       <TrimOptions
-        onTrimPitches={onTrimPitches}
-        onRemoveEmptyNotesAtTheEnd={onRemoveEmptyNotesAtTheEnd}
+        notesFnsRef={notesFnsRef}
       />
-
     </div>
   );
 };

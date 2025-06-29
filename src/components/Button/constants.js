@@ -3,5 +3,4 @@ export const ButtonCategories = Object.freeze({
   DANGER: 'DANGER',
   PRIMARY: 'PRIMARY',
   SUCCESS: 'SUCCESS',
-  TEXT_DANGER: 'TEXT_DANGER',
 });

@@ -14,7 +14,7 @@ export const removeEmptyNotesAtTheEnd = (params) => {
       lastIndexNull = i;
     }
 
-    const updatedNotes = curNotes.slice(0, lastIndexNull);
+    const updatedNotes = lastIndexNull != -1 ? curNotes.slice(0, lastIndexNull) : [ ...curNotes ];
 
     if(!updatedNotes.length) {
       return [

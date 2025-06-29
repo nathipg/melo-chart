@@ -36,5 +36,9 @@
   "Add Note Before": "Adicionar Nota Antes",
   "Add Note After": "Adicionar Nota Depois",
   "Remove Note": "Remover Nota",
-  "Remove Pitch": "Remover Altura"
+  "Remove Pitch": "Remover Altura",
+  "Generate": "Gerar",
+  "Song lyrics": "Letra da música",
+  "Configure Song": "Configurar Música",
+  "Close": "Fechar"
 }

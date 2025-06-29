@@ -7,8 +7,8 @@ import { songsSliceFns } from '../../store/slices';
 import { isRequestLoading } from '../../utils';
 import { Button, ButtonConstants } from '../Button';
 import { GrowlFns } from '../Growl';
+import { LoadingIcon } from '../Icons';
 import { InlineInput } from '../InlineInput';
-import { LoadingIcon } from '../LoadingIcon';
 
 import { generateNewSong } from './functions';
 

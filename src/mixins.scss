@@ -7,3 +7,11 @@
     background-color: color.adjust($color, $lightness: -20%);
   }
 }
+
+@mixin color-with-hover($color) {
+  color: $color;
+
+  &:hover {
+    color: color.adjust($color, $lightness: -20%);
+  }
+}

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { REQUEST_STATUS } from '../../constants';
 import { songsSliceFns } from '../../store/slices';
-import { LoadingIcon } from '../LoadingIcon';
+import { LoadingIcon } from '../Icons';
 
 import { renderSongs } from './functions';
 

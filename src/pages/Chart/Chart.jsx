@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useBlocker, useSearchParams } from 'react-router';
 
-import { Button, ButtonConstants, ChartControllers, ConfirmationDialog, LoadingIcon, Song } from '../../components';
+import { Button, ButtonConstants, ConfirmationDialog, GenerateChartDialog, LoadingIcon, Song } from '../../components';
 import { REQUEST_STATUS } from '../../constants';
 import { songsSliceFns } from '../../store/slices';
 
@@ -16,28 +16,13 @@ const Chart = () => {
   const songsError = useSelector(songsSliceFns.selectSongsError);
 
   const notesFnsRef = useRef(null);
+  const generateChartDialogFnsRef = useRef(null);
 
   const [ searchParams ] = useSearchParams();
 
   const songId = searchParams.get('id') || null;
 
   const song = useSelector(songsSliceFns.selectSongById(songId));
-
-  const onAddMultipleNotes = useCallback((qty) => {
-    notesFnsRef.current?.addMultipleNotes(qty);
-  }, []);
-
-  const onAddMultiplePitches = useCallback((qty) => {
-    notesFnsRef.current?.addMultiplePitches(qty);
-  }, []);
-
-  const onTrimPitches = useCallback(() => {
-    notesFnsRef.current?.trimPitches();
-  }, []);
-
-  const onRemoveEmptyNotesAtTheEnd = useCallback(() => {
-    notesFnsRef.current?.removeEmptyNotesAtTheEnd();
-  }, []);
 
   const onAddWordsAsNotes = useCallback((songText) => {
     notesFnsRef.current?.addWordsAsNotes(songText);
@@ -54,17 +39,16 @@ const Chart = () => {
       [REQUEST_STATUS.SUCCEEDED]: (
         song ? (
           <>
-            <ChartControllers
-              onAddMultipleNotes={onAddMultipleNotes}
-              onAddMultiplePitches={onAddMultiplePitches}
-              onTrimPitches={onTrimPitches}
-              onRemoveEmptyNotesAtTheEnd={onRemoveEmptyNotesAtTheEnd}
-              onAddWordsAsNotes={onAddWordsAsNotes}
-            />
-    
             <Song
               notesFnsRef={notesFnsRef}
+              generateChartDialogFnsRef={generateChartDialogFnsRef}
               song={song}
+            />
+
+            <GenerateChartDialog
+              generateChartDialogFnsRef={generateChartDialogFnsRef}
+              show={song.isNewSong}
+              onAddWordsAsNotes={onAddWordsAsNotes}
             />
           </>
         ) : (
@@ -72,7 +56,7 @@ const Chart = () => {
         )
       ),
     };
-  }, [ onAddMultipleNotes, onAddMultiplePitches, onAddWordsAsNotes, onRemoveEmptyNotesAtTheEnd, onTrimPitches, song, songsError, t ]);
+  }, [ onAddWordsAsNotes, song, songsError, t ]);
 
   const shouldConfirmLeavePage = useCallback(() => {
     const notesStringified = JSON.stringify(song.notes);
@@ -84,38 +68,44 @@ const Chart = () => {
 
   const blocker = useBlocker(shouldConfirmLeavePage);
 
+  const renderLeavePageConfirmation = useCallback(() => {
+    if(blocker.state !== 'blocked') {
+      return <></>;
+    }
+
+    return (
+      <ConfirmationDialog
+        bodyContent={(
+          <>
+            <p>{t('Are you sure you want to leave this page?')}</p>
+            <p>{t('Some unsaved changes will be lost')}</p>
+          </>
+        )}
+        footerContent={(
+          <>
+            <Button
+              category={ButtonConstants.ButtonCategories.DANGER}
+              onClick={() => blocker.proceed()}
+            >
+              {t('Leave Page')}
+            </Button>
+            <Button
+              category={ButtonConstants.ButtonCategories.DEFAULT}
+              onClick={() => blocker.reset()}
+            >
+              {t('Cancel')}
+            </Button>
+          </>
+        )}
+      />
+    );
+  }, [ blocker, t ]);
+
   return (
     <div className={style.Chart}>
-      {blocker.state === 'blocked' ? (
-        <>
-          <ConfirmationDialog
-            bodyContent={(
-              <>
-                <p>{t('Are you sure you want to leave this page?')}</p>
-                <p>{t('Some unsaved changes will be lost')}</p>
-              </>
-            )}
-            footerContent={(
-              <>
-                <Button
-                  category={ButtonConstants.ButtonCategories.DANGER}
-                  onClick={() => blocker.proceed()}
-                >
-                  {t('Leave Page')}
-                </Button>
-                <Button
-                  category={ButtonConstants.ButtonCategories.DEFAULT}
-                  onClick={() => blocker.reset()}
-                >
-                  {t('Cancel')}
-                </Button>
-              </>
-            )}
-          />
-        </>
-      ) : <></>}
-
       {CONTENT_MAPPER[songsStatus]}
+
+      {renderLeavePageConfirmation()}
     </div>
   );
 };
