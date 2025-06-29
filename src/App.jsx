@@ -1,6 +1,6 @@
 import { memo, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { createBrowserRouter, RouterProvider } from 'react-router';
+import { createHashRouter, RouterProvider } from 'react-router';
 
 import { Default } from './layouts';
 import { Chart, Home, Login } from './pages';
@@ -8,9 +8,9 @@ import { songsSliceActions } from './store/slices';
 
 import './global.scss';
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
-    path: '/melo-chart',
+    path: '/',
     element: <Default />,
     children: [
       { index: true, element: <Home /> },
