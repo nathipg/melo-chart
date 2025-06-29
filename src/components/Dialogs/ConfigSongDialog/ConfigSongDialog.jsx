@@ -1,9 +1,9 @@
 import { memo, useImperativeHandle, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Button } from '../Button';
-import { ChartControllers } from '../ChartControllers';
-import { Dialog } from '../Dialog';
+import { Button } from '../../Button';
+import { ChartControllers } from '../../ChartControllers';
+import { Dialog } from '../../Dialog';
 
 const ConfigSongDialog = (props) => {
   const { configSongDialogFnsRef, notesFnsRef, generateChartDialogFnsRef } = props;

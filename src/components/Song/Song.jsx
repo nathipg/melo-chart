@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonConstants } from '../Button';
 import { Checkbox } from '../Checkbox';
-import { ConfigSongDialog } from '../ConfigSongDialog';
+import { ConfigSongDialog } from '../Dialogs';
 import { GearsIcon } from '../Icons/GearsIcon/GearsIcon';
 import { Notes } from '../Notes';
 import { SaveChartOption } from '../SaveChartOption';

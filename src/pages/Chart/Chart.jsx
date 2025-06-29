@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useBlocker, useSearchParams } from 'react-router';
 
-import { Button, ButtonConstants, ConfirmationDialog, GenerateChartDialog, LoadingIcon, Song } from '../../components';
+import { GenerateChartDialog, LeaveChartPageConfirmDialog, LoadingIcon, Song } from '../../components';
 import { REQUEST_STATUS } from '../../constants';
 import { songsSliceFns } from '../../store/slices';
 
@@ -68,44 +68,15 @@ const Chart = () => {
 
   const blocker = useBlocker(shouldConfirmLeavePage);
 
-  const renderLeavePageConfirmation = useCallback(() => {
-    if(blocker.state !== 'blocked') {
-      return <></>;
-    }
-
-    return (
-      <ConfirmationDialog
-        bodyContent={(
-          <>
-            <p>{t('Are you sure you want to leave this page?')}</p>
-            <p>{t('Some unsaved changes will be lost')}</p>
-          </>
-        )}
-        footerContent={(
-          <>
-            <Button
-              category={ButtonConstants.ButtonCategories.DANGER}
-              onClick={() => blocker.proceed()}
-            >
-              {t('Leave Page')}
-            </Button>
-            <Button
-              category={ButtonConstants.ButtonCategories.DEFAULT}
-              onClick={() => blocker.reset()}
-            >
-              {t('Cancel')}
-            </Button>
-          </>
-        )}
-      />
-    );
-  }, [ blocker, t ]);
-
   return (
     <div className={style.Chart}>
       {CONTENT_MAPPER[songsStatus]}
 
-      {renderLeavePageConfirmation()}
+      <LeaveChartPageConfirmDialog
+        show={blocker.state === 'blocked'}
+        onConfirm={() => blocker.proceed()}
+        onCancel={() => blocker.reset()}
+      />
     </div>
   );
 };

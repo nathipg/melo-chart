@@ -1,8 +1,8 @@
 import { memo, useCallback, useImperativeHandle, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Button, ButtonConstants } from '../Button';
-import { Dialog } from '../Dialog';
+import { Button, ButtonConstants } from '../../Button';
+import { Dialog } from '../../Dialog';
 
 import style from './GenerateChartDialog.module.scss';
 
