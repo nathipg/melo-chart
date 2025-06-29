@@ -8,9 +8,13 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    fallbackLng: 'en',
+    lng: 'pt',
+    fallbackLng: 'pt',
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
+    },
+    backend: {
+      loadPath: '/melo-chart/locales/{{lng}}/{{ns}}.json',
     },
   });
 
