@@ -7,6 +7,10 @@ export const addSong = async (data) => {
   return song;
 };
 
+export const deleteSong = async (id) => {
+  await api.delete(`/songs/${id}`);
+};
+
 export const getSongs = async () => {
   const { data: songList } = await api.get('/songs');
 

@@ -13,7 +13,6 @@ App created to map the melody of songs
 
 - General
   - App Logo
-  - Add option to delete song
   - Add option to share all songs with other user
   - Login
   - Add load with block ui for initial app render

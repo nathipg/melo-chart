@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonConstants } from '../Button';
 import { Checkbox } from '../Checkbox';
-import { ConfigSongDialog } from '../Dialogs';
+import { ConfigSongDialog, DeleteSongConfirmDialog } from '../Dialogs';
 import { GearsIcon } from '../Icons/GearsIcon/GearsIcon';
 import { Notes } from '../Notes';
 import { SaveChartOption } from '../SaveChartOption';
@@ -11,11 +11,12 @@ import { SaveChartOption } from '../SaveChartOption';
 import style from './Song.module.scss';
 
 const Song = (props) => {
-  const { notesFnsRef, generateChartDialogFnsRef, song }= props;
+  const { notesFnsRef, generateChartDialogFnsRef, song } = props;
 
   const { t } = useTranslation();
 
   const configSongDialogFnsRef = useRef(null);
+  const deleteSongDialogFnsRef = useRef(null);
 
   const onChangeWrapCheckbox = useCallback((value) => {
     notesFnsRef.current?.setWrapNotes(value);
@@ -55,7 +56,13 @@ const Song = (props) => {
       <ConfigSongDialog
         configSongDialogFnsRef={configSongDialogFnsRef}
         generateChartDialogFnsRef={generateChartDialogFnsRef}
+        deleteSongDialogFnsRef={deleteSongDialogFnsRef}
         notesFnsRef={notesFnsRef}
+      />
+
+      <DeleteSongConfirmDialog
+        deleteSongDialogFnsRef={deleteSongDialogFnsRef}
+        song={song}
       />
     </div>
   );

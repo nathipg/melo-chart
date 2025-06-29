@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonConstants } from '../Button';
 
+import { DeleteSongOption } from './DeleteSongOption';
 import { NewNotesOption } from './NewNotesOption';
 import { NewPitchesOption } from './NewPitchesOption';
 import { TrimOptions } from './TrimOptions';
@@ -10,7 +11,7 @@ import { TrimOptions } from './TrimOptions';
 import style from './ChartControllers.module.scss';
 
 const ChartControllers = (props) => {
-  const { notesFnsRef, generateChartDialogFnsRef } = props;
+  const { notesFnsRef, generateChartDialogFnsRef, deleteSongDialogFnsRef } = props;
 
   const { t } = useTranslation();
 
@@ -33,6 +34,10 @@ const ChartControllers = (props) => {
 
       <TrimOptions
         notesFnsRef={notesFnsRef}
+      />
+
+      <DeleteSongOption
+        deleteSongDialogFnsRef={deleteSongDialogFnsRef}
       />
     </div>
   );

@@ -6,7 +6,7 @@ import { ChartControllers } from '../../ChartControllers';
 import { Dialog } from '../../Dialog';
 
 const ConfigSongDialog = (props) => {
-  const { configSongDialogFnsRef, notesFnsRef, generateChartDialogFnsRef } = props;
+  const { configSongDialogFnsRef, notesFnsRef, generateChartDialogFnsRef, deleteSongDialogFnsRef } = props;
 
   const { t } = useTranslation();
 
@@ -30,8 +30,9 @@ const ConfigSongDialog = (props) => {
       bodyContent={
         <>
           <ChartControllers
-            generateChartDialogFnsRef={generateChartDialogFnsRef}
             notesFnsRef={notesFnsRef}
+            generateChartDialogFnsRef={generateChartDialogFnsRef}
+            deleteSongDialogFnsRef={deleteSongDialogFnsRef}
           />
         </>
       }

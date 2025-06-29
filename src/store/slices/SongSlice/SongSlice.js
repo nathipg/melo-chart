@@ -18,6 +18,9 @@ const initialState = {
 
   saveSongStatus: REQUEST_STATUS.IDLE,
   saveSongError: null,
+
+  deleteSongStatus: REQUEST_STATUS.IDLE,
+  deleteSongError: null,
 };
 
 const songsSlice = createSlice({

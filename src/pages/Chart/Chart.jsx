@@ -59,6 +59,10 @@ const Chart = () => {
   }, [ onAddWordsAsNotes, song, songsError, t ]);
 
   const shouldConfirmLeavePage = useCallback(() => {
+    if(!song) {
+      return false;
+    }
+    
     const notesStringified = JSON.stringify(song.notes);
     const updateNotes = notesFnsRef.current?.getNotes() || [];
     const updateNotesStringified = JSON.stringify(updateNotes);
