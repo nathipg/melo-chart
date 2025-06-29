@@ -1,0 +1,17 @@
+{
+  "error-message": {
+    "fetch-songs": {
+      "Request failed with status code 404": "It was not possible to load songs [Error Code: 404]"
+    },
+    "save-song": {
+      "Network Error": "Network Error: Please, check your network connection"
+    },
+    "add-song": {
+      "Network Error": "Network Error: Please, check your network connection"
+    },
+    "delete-song": {
+      "Request failed with status code 404": "Song not found",
+      "Network Error": "Network Error: Please, check your network connection"
+    }
+  }
+}
