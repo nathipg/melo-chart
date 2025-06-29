@@ -12,7 +12,7 @@
 
   [data-show-pitch-number='true'] & {
     &::before {
-      content: attr(data-note-index);
+      content: attr(data-pitch-index);
       color: colors.$lightgray;
       position: absolute;
       bottom: 0;
@@ -35,7 +35,7 @@
 
   &[data-has-text='true'] {
     @for $i from 1 through 12 {
-      &[data-note-index='#{$i}'] {
+      &[data-pitch-index='#{$i}'] {
         border-bottom-color: list.nth(colors.$notes-colors, $i);
       }
     }
@@ -43,7 +43,7 @@
 
   &[data-has-right-border='true'] {
     @for $i from 1 through 12 {
-      &[data-note-index='#{$i}'] {
+      &[data-pitch-index='#{$i}'] {
         border-right: 2px solid list.nth(colors.$notes-colors, $i);
       }
     }

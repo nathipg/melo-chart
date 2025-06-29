@@ -1,7 +1,7 @@
 import { memo, useCallback } from 'react';
 
 import { FretChunk } from '../FretChunk';
-import { getNoteIndexInFret, loadOnEditFretChunkText, shouldAddRightBorderOnFretChunk } from '../Frets/functions';
+import { getPitchIndexInFret, loadOnEditFretChunkText, shouldAddRightBorderOnFretChunk } from '../Frets/functions';
 
 import style from './Fret.module.scss';
 
@@ -19,11 +19,11 @@ const Fret = (props) => {
     <div className={style.Fret}>
 
       {fret.chunks.map((chunk, chunkIndex) => {
-        const noteIndex = (chunkIndex % 12) + 1;
+        const pitchIndex = (chunkIndex % 12) + 1;
         const isDragDisabled = !chunk.text || fretIndex == 0;
         const isEditionDisabled = fretIndex == 0;
 
-        const currentFretNoteIndex = getNoteIndexInFret(fret);
+        const currentFretNoteIndex = getPitchIndexInFret(fret);
 
         const hasRightBorder = hasNextFret ? shouldAddRightBorderOnFretChunk(chunkIndex, currentFretNoteIndex, nextFretNoteIndex) : false;
   
@@ -34,7 +34,7 @@ const Fret = (props) => {
             key={chunk.id}
             chunkIndex={chunkIndex}
             fretIndex={fretIndex}
-            noteIndex={noteIndex}
+            pitchIndex={pitchIndex}
             text={chunk.text}
             isDragDisabled={isDragDisabled}
             isEditionDisabled={isEditionDisabled}

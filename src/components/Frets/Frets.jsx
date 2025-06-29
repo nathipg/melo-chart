@@ -15,7 +15,7 @@ import {
   removeEmptyFretsAtTheEnd,
   trimPitches,
   addWordsAsNotes,
-  getNoteIndexInFret,
+  getPitchIndexInFret,
 } from './functions';
 
 import style from './Frets.module.scss';
@@ -105,7 +105,7 @@ const Frets = (props) => {
     <div className={style.FretsContainer} data-wrap-frets={wrapFrets} data-show-pitch-number={showPitchNumber}>
       {frets.map((fret, fretIndex) => {
         const hasNextFret = frets.length > fretIndex + 1;
-        const nextFretNoteIndex = hasNextFret ? getNoteIndexInFret(frets[fretIndex + 1]) : null;
+        const nextFretNoteIndex = hasNextFret ? getPitchIndexInFret(frets[fretIndex + 1]) : null;
 
         return (
           <Fret

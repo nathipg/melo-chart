@@ -8,7 +8,7 @@ export * from './add-pitch-at-fret-top.function';
 export * from './add-words-as-notes.function';
 export * from './generate-new-fret-chunk.function';
 export * from './generate-new-fret.function';
-export * from './get-note-index-in-fret.function';
+export * from './get-pitch-index-in-fret.function';
 export * from './get-pitches-qty.function';
 export * from './load-on-edit-fret-chunk-text.thunk';
 export * from './remove-empty-frets-at-the-end.function';

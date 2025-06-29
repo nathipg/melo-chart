@@ -12,7 +12,7 @@ const FretChunk = (props) => {
     text,
     chunkIndex,
     fretIndex,
-    noteIndex,
+    pitchIndex,
     isDragDisabled,
     isEditionDisabled,
     hasRightBorder,
@@ -88,7 +88,7 @@ const FretChunk = (props) => {
       onDrop={onDropChunk}
       onDragOver={onDragOver}
       data-is-drag-disabled={isDragDisabled ? 'true' : 'false'}
-      data-note-index={noteIndex}
+      data-pitch-index={pitchIndex}
       data-has-text={text ? 'true' : 'false'}
       data-has-right-border={hasRightBorder}
       data-chunk-index={chunkIndex}
