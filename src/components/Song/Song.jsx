@@ -1,4 +1,5 @@
 import { memo, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Checkbox } from '../Checkbox';
 import { Notes } from '../Notes';
@@ -8,6 +9,8 @@ import style from './Song.module.scss';
 
 const Song = (props) => {
   const { notesFnsRef, song }= props;
+
+  const { t } = useTranslation();
 
   const onChangeWrapCheckbox = useCallback((value) => {
     notesFnsRef.current?.setWrapNotes(value);
@@ -20,7 +23,7 @@ const Song = (props) => {
 
         <Checkbox
           className={style.CheckboxContainer}
-          label="Wrap"
+          label={t('Break Chart')}
           initialValue={true}
           onChange={onChangeWrapCheckbox}
         />

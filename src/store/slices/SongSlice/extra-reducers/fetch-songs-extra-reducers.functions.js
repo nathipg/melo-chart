@@ -1,5 +1,8 @@
 import { REQUEST_STATUS } from '../../../../constants';
+import i18n from '../../../../i18n';
 import { songSliceAsyncThunks } from '../async-thunks';
+
+const { t } = i18n;
 
 export const addFetchSongsCases = (builder) => {
   builder
@@ -12,7 +15,7 @@ export const addFetchSongsCases = (builder) => {
     })
     .addCase(songSliceAsyncThunks.fetchSongs.rejected, (state, action) => {
       state.songsStatus = REQUEST_STATUS.FAILED;
-      state.songsError = action.error.message;
+      state.songsError = t(`error-message.fetch-songs.${action.error.message}`);
     })
   ;
 };

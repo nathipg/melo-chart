@@ -16,12 +16,15 @@ App created to map the melody of songs
   - Add option to delete song
   - Add option to share all songs with other user
   - Login
-  - i18n
+  - Adjust loading icon
+  - Add load with block ui for initial app render
+  - Change ConfirmDialog to use portal
 
 - Chart
   - Add option to define sections
   - Change to not break sections on wrap
   - Export to image
+  - First access: Give option to Add song lyrics
 
 - User suggestion
   - Add place to define notes

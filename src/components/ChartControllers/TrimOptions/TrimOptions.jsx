@@ -1,4 +1,5 @@
 import { memo, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonConstants } from '../../Button';
 
@@ -6,6 +7,8 @@ import style from './TrimOptions.module.scss';
 
 const TrimOptions = (props) => {
   const { onTrimPitches, onRemoveEmptyNotesAtTheEnd } = props;
+
+  const { t } = useTranslation();
 
   const onTrimChart = useCallback(() => {
     onRemoveEmptyNotesAtTheEnd();
@@ -18,7 +21,7 @@ const TrimOptions = (props) => {
         category={ButtonConstants.ButtonCategories.TEXT_DANGER}
         onClick={onTrimChart}
       >
-        Trim Chart
+        {t('Trim Chart')}
       </Button>
     </div>
   );

@@ -1,4 +1,5 @@
 import { memo, useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonConstants } from '../../Button';
 
@@ -6,6 +7,8 @@ import style from './AddSongTextOption.module.scss';
 
 const AddSongTextOption = (props) => {
   const { onAddWordsAsNotes } = props;
+
+  const { t } = useTranslation();
 
   const [ editMode, setEditMode ] = useState(false);
 
@@ -37,8 +40,8 @@ const AddSongTextOption = (props) => {
       >
         {
           editMode ?
-            'Cancel replace song with lyrics'
-            : 'Replace song with lyrics'
+            t('Cancel')
+            : t('Generate mapping with lyrics')
         }
       </Button>
     </div>

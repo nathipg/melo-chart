@@ -1,12 +1,15 @@
 import { memo, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonConstants } from '../../Button';
-import { InlineInput } from '../../InlineInput/InlineInput';
+import { InlineInput } from '../../InlineInput';
 
 import style from './NewNotesOption.module.scss';
 
 const NewNotesOption = (props) => {
   const { onAddMultipleNotes } = props;
+
+  const { t } = useTranslation();
 
   const onSubmitAddMultipleNotes = useCallback((event) => {
     event.preventDefault();
@@ -17,12 +20,12 @@ const NewNotesOption = (props) => {
   return (
     <form className={style.NewNotesOption} onSubmit={onSubmitAddMultipleNotes}>
       <InlineInput
-        label="New Notes"
+        label={t('New Notes')}
         type="number"
         name="qty"
       />
 
-      <Button category={ButtonConstants.ButtonCategories.PRIMARY}>Add</Button>
+      <Button category={ButtonConstants.ButtonCategories.PRIMARY}>{t('Add')}</Button>
     </form>
   );
 };

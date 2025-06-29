@@ -1,9 +1,12 @@
 import { memo, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import style from './ConfirmationDialog.module.scss';
 
 const ConfirmationDialog = (props) => {
   const { bodyContent, footerContent } = props;
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -17,7 +20,7 @@ const ConfirmationDialog = (props) => {
     <div className={style.ConfirmationDialogUIBlocker}>
       <div className={style.ConfirmationDialog}>
         <div className={style.ConfirmationDialogHeader}>
-          <h2>Confirmation</h2>
+          <h2>{t('Confirmation')}</h2>
         </div>
 
         <div className={style.ConfirmationDialogBody}>

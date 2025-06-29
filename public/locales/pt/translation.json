@@ -1,0 +1,40 @@
+{
+  "error-message": {
+    "fetch-songs": {
+      "Request failed with status code 404": "Não foi possível carregar as músicas [Código de Erro: 404]"
+    },
+    "save-song": {
+      "Network Error": "Erro de Rede: Por favor, verifique a sua conexão com a internet"
+    },
+    "add-song": {
+      "Network Error": "Erro de Rede: Por favor, verifique a sua conexão com a internet"
+    }
+  },
+  "My songs": "Minhas Músicas",
+  "Add Song": "Adicionar Música",
+  "Please, insert a song title": "Por favor, insera um título pra música",
+  "This song already exist": "Esta música já existe",
+  "Title": "Título",
+  "Add": "Adicionar",
+  "Loading...": "Carregando...",
+  "Song List": "Lista de Músicas",
+  "No songs here. What about adding one?": "Nenhuma música aqui. Que tal adicionar uma?",
+  "Generate mapping with lyrics": "Gerar mapeamento pela letra",
+  "Cancel": "Cancelar",
+  "New Notes": "Novas Notas",
+  "New Pitches": "Novas Alturas",
+  "Trim Chart": "Aparar Mapeamento",
+  "Save Changes": "Salvar Mudanças",
+  "Song not found": "Música não encontrada",
+  "Are you sure you want to leave this page?": "Tem certeza que você quer sair dessa página?",
+  "Some unsaved changes will be lost": "Algumas Mudanças não salvas vão ser perdidas",
+  "Leave Page": "Sair da Página",
+  "Confirmation": "Confirmação",
+  "Break Chart": "Quebrar Mapeamento",
+  "Add Pitch Above": "Adicionar Altura Acima",
+  "Add Pitch Below": "Adicionar Altura Abaixo",
+  "Add Note Before": "Adicionar Nota Antes",
+  "Add Note After": "Adicionar Nota Depois",
+  "Remove Note": "Remover Nota",
+  "Remove Pitch": "Remover Altura"
+}

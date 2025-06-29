@@ -1,4 +1,5 @@
 import { memo, useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { REQUEST_STATUS } from '../../constants';
@@ -7,12 +8,15 @@ import { isRequestLoading } from '../../utils';
 import { Button, ButtonConstants } from '../Button';
 import { GrowlFns } from '../Growl';
 import { InlineInput } from '../InlineInput';
+import { LoadingIcon } from '../LoadingIcon';
 
 import { generateNewSong } from './functions';
 
 import style from './FormAddSong.module.scss';
 
 const FormAddSong = () => {
+  const { t } = useTranslation();
+
   const dispatch = useDispatch();
   
   const songs = useSelector(songsSliceFns.selectAllSongs);
@@ -24,25 +28,30 @@ const FormAddSong = () => {
 
   const CONTENT_MAPPER = useMemo(() => {
     return {
-      [REQUEST_STATUS.LOADING]: <span>Loading...</span>,
+      [REQUEST_STATUS.LOADING]: (
+        <div>
+          <LoadingIcon /> <span>{t('Loading...')}</span>
+        </div>
+      ),
       [REQUEST_STATUS.FAILED]: <span>{songsError}</span>,
       [REQUEST_STATUS.SUCCEEDED]: (
         <>
           <>
             <InlineInput
-              label="Title"
+              label={t('Title')}
               type="text"
               name="title"
             />
     
             <Button category={ButtonConstants.ButtonCategories.SUCCESS}>
-                Add{isRequestLoading(addSongStatus) ? 'ing...' : ''}
+              {isRequestLoading(addSongStatus) ? <LoadingIcon /> : <></>}
+              {t('Add')}
             </Button>
           </>
         </>
       ),
     };
-  }, [ addSongStatus, songsError ]);
+  }, [ addSongStatus, songsError, t ]);
 
   const onSubmitForm = useCallback(async (event) => {
     event.preventDefault();
@@ -55,14 +64,14 @@ const FormAddSong = () => {
     const title = titleInput.value.trim();
 
     if(!title) {
-      dispatch(songsSliceFns.setAddSongError('Please, insert a song title'));
+      dispatch(songsSliceFns.setAddSongError(t('Please, insert a song title')));
       return;
     }
 
     const isSongAlreadyRegistered = songs.some(song => song.title == title);
 
     if(isSongAlreadyRegistered) {
-      dispatch(songsSliceFns.setAddSongError('This song already exist'));
+      dispatch(songsSliceFns.setAddSongError(t('This song already exist')));
       return;
     }
 
@@ -73,7 +82,7 @@ const FormAddSong = () => {
     dispatch(songsSliceFns.addSong({
       song: newSong,
     }));
-  }, [ addSongStatus, dispatch, songs ]);
+  }, [ addSongStatus, dispatch, songs, t ]);
 
   const onCloseAddSongErrorGrowl = useCallback(() => {
     dispatch(songsSliceFns.clearAddSongError());
@@ -85,7 +94,7 @@ const FormAddSong = () => {
 
   return (
     <form className={style.FormAddSong} onSubmit={onSubmitForm}>
-      <h2>Add Song</h2>
+      <h2>{t('Add Song')}</h2>
 
       <div className={style.FieldsContainer}>
         {CONTENT_MAPPER[songsStatus]}

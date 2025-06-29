@@ -1,4 +1,5 @@
 import { memo, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { ContextMenu } from '../ContextMenu';
 import { Note } from '../Note';
@@ -23,6 +24,8 @@ import style from './Notes.module.scss';
 const Notes = (props) => {
   const { notes: initialNotes, notesFnsRef } = props;
 
+  const { t } = useTranslation();
+
   const [ notes, setNotes ] = useState(initialNotes);
   const [ wrapNotes, setWrapNotes ] = useState(true);
 
@@ -31,45 +34,45 @@ const Notes = (props) => {
   const contextMenuItems = useMemo(() => {
     return [
       {
-        label: 'Add Pitch Above',
+        label: t('Add Pitch Above'),
         onClick: (contextMenuData) => {
           addPitchAtNoteTop({ contextMenuData, setNotes });
         },
       },
       {
-        label: 'Add Pitch Below',
+        label: t('Add Pitch Below'),
         onClick: (contextMenuData) => {
           addPitchAtNoteBottom({ contextMenuData, setNotes });
         },
       },
       {
-        label: 'Add Note Before',
+        label: t('Add Note Before'),
         onClick: (contextMenuData) => {
           addNoteBefore({ contextMenuData, setNotes });
         },
       },
       {
-        label: 'Add Note After',
+        label: t('Add Note After'),
         onClick: (contextMenuData) => {
           addNoteAfter({ contextMenuData, setNotes });
         },
       },
       {
-        label: 'Remove Note',
-        type: 'danger',
-        onClick: (contextMenuData) => {
-          removeNote({ contextMenuData, setNotes });
-        },
-      },
-      {
-        label: 'Remove Pitch',
+        label: t('Remove Pitch'),
         type: 'danger',
         onClick: (contextMenuData) => {
           removePitch({ contextMenuData, setNotes });
         },
       },
+      {
+        label: t('Remove Note'),
+        type: 'danger',
+        onClick: (contextMenuData) => {
+          removeNote({ contextMenuData, setNotes });
+        },
+      },
     ];
-  }, [ setNotes ]);
+  }, [ t ]);
 
   useImperativeHandle(notesFnsRef, () => {
     return {

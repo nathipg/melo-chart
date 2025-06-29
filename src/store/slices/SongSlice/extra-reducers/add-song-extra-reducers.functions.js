@@ -1,5 +1,8 @@
 import { REQUEST_STATUS } from '../../../../constants';
+import i18n from '../../../../i18n';
 import { songSliceAsyncThunks } from '../async-thunks';
+
+const { t } = i18n;
 
 export const addAddSongCases = (builder) => {
   builder
@@ -13,7 +16,7 @@ export const addAddSongCases = (builder) => {
     })
     .addCase(songSliceAsyncThunks.addSong.rejected, (state, action) => {
       state.addSongStatus = REQUEST_STATUS.FAILED;
-      state.addSongError = action.error.message;
+      state.addSongError = t(`error-message.add-song.${action.error.message}`);
     })
   ;
 };

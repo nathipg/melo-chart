@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Outlet } from 'react-router';
 
 import { GrowlContainer, Link } from '../../components';
@@ -6,12 +7,14 @@ import { GrowlContainer, Link } from '../../components';
 import style from './Default.module.scss';
 
 const Header = () => {
+  const { t } = useTranslation();
+
   return (
     <div className={style.Header}>
       <h1>Melo Chart</h1>
       <ul>
         <li>
-          <Link to={{ pathname: '/' }}>My songs</Link>
+          <Link to={{ pathname: '/' }}>{t('My songs')}</Link>
         </li>
       </ul>
     </div>

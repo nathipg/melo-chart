@@ -1,7 +1,8 @@
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Button, ButtonConstants, GrowlFns } from '..';
+import { Button, ButtonConstants, GrowlFns, LoadingIcon } from '..';
 import { songsSliceFns } from '../../store/slices';
 import { isRequestLoading } from '../../utils';
 
@@ -9,6 +10,8 @@ import style from './SaveChartOption.module.scss';
 
 const SaveChartOption = (props) => {
   const { notesFnsRef, song } = props;
+
+  const { t } = useTranslation();
 
   const dispatch = useDispatch();
 
@@ -23,10 +26,6 @@ const SaveChartOption = (props) => {
       notes: updatedNotes,
     }));
   }, [ dispatch, notesFnsRef, song ]);
-
-  const saveButtonLabel = useMemo(() => {
-    return isRequestLoading(saveSongStatus) ? 'Saving Changes...' : 'Save Changes';
-  }, [ saveSongStatus ]);
 
   const onCloseSaveSongErrorGrowl = useCallback(() => {
     dispatch(songsSliceFns.clearSaveSongError());
@@ -43,7 +42,7 @@ const SaveChartOption = (props) => {
         onClick={onSaveSong}
         category={ButtonConstants.ButtonCategories.SUCCESS}
       >
-        {saveButtonLabel}
+        {isRequestLoading(saveSongStatus) ? <LoadingIcon /> : <></>} {t('Save Changes')}
       </Button>
 
       {GrowlFns.renderSavedGrowl({

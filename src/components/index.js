@@ -7,6 +7,7 @@ export * from './FormAddSong';
 export * from './Growl';
 export * from './InlineInput';
 export * from './Link';
+export * from './LoadingIcon';
 export * from './Note';
 export * from './NoteChunk';
 export * from './Notes';

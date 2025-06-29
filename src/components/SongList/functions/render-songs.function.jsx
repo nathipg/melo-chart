@@ -1,9 +1,12 @@
 import { Link } from '../../../components';
+import i18n from '../../../i18n';
+
+const { t } = i18n;
 
 export const renderSongs = (songs) => {
   if(!songs.length) {
     return (
-      <li>No songs here. What about adding one?</li>
+      <li>{t('No songs here. What about adding one?')}</li>
     );
   }
 
