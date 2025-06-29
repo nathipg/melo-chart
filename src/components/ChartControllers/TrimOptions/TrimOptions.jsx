@@ -5,12 +5,12 @@ import { Button, ButtonConstants } from '../../Button';
 import style from './TrimOptions.module.scss';
 
 const TrimOptions = (props) => {
-  const { onTrimStrings, onRemoveEmptyFretsAtTheEnd } = props;
+  const { onTrimPitches, onRemoveEmptyFretsAtTheEnd } = props;
 
   const onTrimChart = useCallback(() => {
     onRemoveEmptyFretsAtTheEnd();
-    onTrimStrings();
-  }, [ onRemoveEmptyFretsAtTheEnd, onTrimStrings ]);
+    onTrimPitches();
+  }, [ onRemoveEmptyFretsAtTheEnd, onTrimPitches ]);
 
   return (
     <div className={style.TrimOptions}>

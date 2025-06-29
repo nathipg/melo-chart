@@ -5,15 +5,15 @@ import { Fret } from '../Fret';
 
 import {
   addFretAfter,
-  addMultipleStrings,
+  addMultiplePitches,
   addFretBefore,
   addMultipleFrets,
-  addStringAtFretBottom,
-  addStringAtFretTop,
+  addPitchAtFretBottom,
+  addPitchAtFretTop,
   removeFret,
-  removeString,
+  removePitch,
   removeEmptyFretsAtTheEnd,
-  trimStrings,
+  trimPitches,
   addWordsAsNotes,
   getNoteIndexInFret,
 } from './functions';
@@ -25,22 +25,22 @@ const Frets = (props) => {
 
   const [ frets, setFrets ] = useState(initialFrets);
   const [ wrapFrets, setWrapFrets ] = useState(true);
-  const [ showStringNumber, setShowStringNumber ] = useState(false);
+  const [ showPitchNumber, setShowPitchNumber ] = useState(false);
 
   const contextMenuFnsRef = useRef(null);
 
   const contextMenuItems = useMemo(() => {
     return [
       {
-        label: 'Add String Above',
+        label: 'Add Pitch Above',
         onClick: (contextMenuData) => {
-          addStringAtFretTop({ contextMenuData, setFrets });
+          addPitchAtFretTop({ contextMenuData, setFrets });
         },
       },
       {
-        label: 'Add String Below',
+        label: 'Add Pitch Below',
         onClick: (contextMenuData) => {
-          addStringAtFretBottom({ contextMenuData, setFrets });
+          addPitchAtFretBottom({ contextMenuData, setFrets });
         },
       },
       {
@@ -63,10 +63,10 @@ const Frets = (props) => {
         },
       },
       {
-        label: 'Remove String',
+        label: 'Remove Pitch',
         type: 'danger',
         onClick: (contextMenuData) => {
-          removeString({ contextMenuData, setFrets });
+          removePitch({ contextMenuData, setFrets });
         },
       },
     ];
@@ -77,8 +77,8 @@ const Frets = (props) => {
       setWrapFrets(value) {
         setWrapFrets(value);
       },
-      setShowStringNumber(value) {
-        setShowStringNumber(value);
+      setShowPitchNumber(value) {
+        setShowPitchNumber(value);
       },
       getFrets() {
         return [ ...frets ];
@@ -86,14 +86,14 @@ const Frets = (props) => {
       addMultipleFrets(qty) {
         addMultipleFrets({ setFrets, qty });
       },
-      addMultipleStrings(qty) {
-        addMultipleStrings({ setFrets, qty });
+      addMultiplePitches(qty) {
+        addMultiplePitches({ setFrets, qty });
       },
       removeEmptyFretsAtTheEnd() {
         removeEmptyFretsAtTheEnd({ setFrets });
       },
-      trimStrings() {
-        trimStrings({ setFrets });
+      trimPitches() {
+        trimPitches({ setFrets });
       },
       addWordsAsNotes(songText) {
         addWordsAsNotes({ setFrets, songText });
@@ -102,7 +102,7 @@ const Frets = (props) => {
   });
 
   return (
-    <div className={style.FretsContainer} data-wrap-frets={wrapFrets} data-show-string-number={showStringNumber}>
+    <div className={style.FretsContainer} data-wrap-frets={wrapFrets} data-show-pitch-number={showPitchNumber}>
       {frets.map((fret, fretIndex) => {
         const hasNextFret = frets.length > fretIndex + 1;
         const nextFretNoteIndex = hasNextFret ? getNoteIndexInFret(frets[fretIndex + 1]) : null;

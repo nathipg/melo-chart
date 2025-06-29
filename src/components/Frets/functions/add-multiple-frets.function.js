@@ -1,5 +1,5 @@
 import { generateNewFret } from './generate-new-fret.function';
-import { getStringQty } from './get-string-qty.function';
+import { getPitchesQty } from './get-pitches-qty.function';
 
 export const addMultipleFrets = (params) => {
   const { qty, setFrets } = params;
@@ -7,7 +7,7 @@ export const addMultipleFrets = (params) => {
   setFrets((curFrets) => {
     return [
       ...curFrets,
-      ...Array.from({ length: qty }, () => generateNewFret(getStringQty(curFrets))),
+      ...Array.from({ length: qty }, () => generateNewFret(getPitchesQty(curFrets))),
     ];
   });
 };

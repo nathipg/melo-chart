@@ -1,5 +1,5 @@
 import { generateNewFret } from './generate-new-fret.function';
-import { getStringQty } from './get-string-qty.function';
+import { getPitchesQty } from './get-pitches-qty.function';
 
 export const addFret = (params) => {
   const { fretIndex, setFrets } = params;
@@ -7,7 +7,7 @@ export const addFret = (params) => {
   setFrets((currentFrets) => {
     return [
       ...currentFrets.slice(0, fretIndex),
-      generateNewFret(getStringQty(currentFrets)),
+      generateNewFret(getPitchesQty(currentFrets)),
       ...currentFrets.slice(fretIndex),
     ];
   });

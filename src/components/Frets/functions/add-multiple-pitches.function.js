@@ -1,6 +1,6 @@
 import { generateNewFretChunk } from './generate-new-fret-chunk.function';
 
-export const addMultipleStrings = (params) => {
+export const addMultiplePitches = (params) => {
   const { qty, setFrets } = params;
 
   setFrets((curFrets) => {

@@ -1,5 +1,5 @@
 import { generateNewFret } from './generate-new-fret.function';
-import { getStringQty } from './get-string-qty.function';
+import { getPitchesQty } from './get-pitches-qty.function';
 
 export const loadOnEditFretChunkText = (setFrets) => (params) => {
   const { text, fretIndex, chunkIndex } = params;
@@ -12,7 +12,7 @@ export const loadOnEditFretChunkText = (setFrets) => (params) => {
   const textArray = hasSpaces ? normalizedText.split(' ') : [ text ];
 
   setFrets((currentFrets) => {
-    const stringsQty = getStringQty(currentFrets);
+    const pitchesQty = getPitchesQty(currentFrets);
     const editedFret = currentFrets[fretIndex];
 
     const updatedChunks = editedFret.chunks.map((chunk, i) => {
@@ -26,7 +26,7 @@ export const loadOnEditFretChunkText = (setFrets) => (params) => {
     });
 
     const newFrets = textArray.length > 1 ?  textArray.slice(1).map(text => {
-      const newFret = generateNewFret(stringsQty);
+      const newFret = generateNewFret(pitchesQty);
       newFret.chunks[chunkIndex].text = text;
 
       return newFret;

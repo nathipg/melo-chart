@@ -10,7 +10,7 @@
 
   position: relative;
 
-  [data-show-string-number='true'] & {
+  [data-show-pitch-number='true'] & {
     &::before {
       content: attr(data-note-index);
       color: colors.$lightgray;

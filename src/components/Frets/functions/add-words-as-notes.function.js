@@ -1,5 +1,5 @@
 import { generateNewFret } from './generate-new-fret.function';
-import { getStringQty } from './get-string-qty.function';
+import { getPitchesQty } from './get-pitches-qty.function';
 
 export const addWordsAsNotes = (params) => {
   const { setFrets, songText } = params;
@@ -7,11 +7,11 @@ export const addWordsAsNotes = (params) => {
   const allWords = songText.replaceAll('\n', ' ').trim().split(' ');
 
   setFrets((curFrets) => {
-    const stringsQty = getStringQty(curFrets);
+    const pitchesQty = getPitchesQty(curFrets);
     return [
       ...curFrets.slice(0, 1),
       ...allWords.map(word => {
-        const fret = generateNewFret(stringsQty);
+        const fret = generateNewFret(pitchesQty);
         fret.chunks[0].text = word;
 
         return fret;

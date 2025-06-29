@@ -13,8 +13,8 @@ const Song = (props) => {
     fretsFnsRef.current?.setWrapFrets(value);
   }, [ fretsFnsRef ]);
 
-  const onChangeStringNumberCheckbox = useCallback((value) => {
-    fretsFnsRef.current?.setShowStringNumber(value);
+  const onChangePitchNumberCheckbox = useCallback((value) => {
+    fretsFnsRef.current?.setShowPitchNumber(value);
   }, [ fretsFnsRef ]);
 
   return (
@@ -31,9 +31,9 @@ const Song = (props) => {
 
         <Checkbox
           className={style.CheckboxContainer}
-          label="String Number"
+          label="Pitch Number"
           initialValue={false}
-          onChange={onChangeStringNumberCheckbox}
+          onChange={onChangePitchNumberCheckbox}
         />
 
         <SaveChartOption

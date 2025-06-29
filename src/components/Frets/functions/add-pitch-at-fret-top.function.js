@@ -1,10 +1,10 @@
-import { addString } from './add-string.function';
+import { addPitch } from './add-pitch.function';
 
-export const addStringAtFretTop = (params) => {
+export const addPitchAtFretTop = (params) => {
   const { contextMenuData, setFrets } = params;
   const { chunkIndex } = contextMenuData;
 
-  addString({
+  addPitch({
     chunkIndex,
     setFrets,
   });

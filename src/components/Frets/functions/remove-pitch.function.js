@@ -1,4 +1,4 @@
-export const removeString = (params) => {
+export const removePitch = (params) => {
   const { contextMenuData, setFrets } = params;
   const { chunkIndex } = contextMenuData;
 

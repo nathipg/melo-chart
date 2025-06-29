@@ -24,12 +24,12 @@ const Chart = () => {
     fretsFnsRef.current?.addMultipleFrets(qty);
   }, []);
 
-  const onAddMultipleStrings = useCallback((qty) => {
-    fretsFnsRef.current?.addMultipleStrings(qty);
+  const onAddMultiplePitches = useCallback((qty) => {
+    fretsFnsRef.current?.addMultiplePitches(qty);
   }, []);
 
-  const onTrimStrings = useCallback(() => {
-    fretsFnsRef.current?.trimStrings();
+  const onTrimPitches = useCallback(() => {
+    fretsFnsRef.current?.trimPitches();
   }, []);
 
   const onRemoveEmptyFretsAtTheEnd = useCallback(() => {
@@ -49,8 +49,8 @@ const Chart = () => {
           <>
             <ChartControllers
               onAddMultipleFrets={onAddMultipleFrets}
-              onAddMultipleStrings={onAddMultipleStrings}
-              onTrimStrings={onTrimStrings}
+              onAddMultiplePitches={onAddMultiplePitches}
+              onTrimPitches={onTrimPitches}
               onRemoveEmptyFretsAtTheEnd={onRemoveEmptyFretsAtTheEnd}
               onAddWordsAsNotes={onAddWordsAsNotes}
             />
@@ -65,7 +65,7 @@ const Chart = () => {
         )
       ),
     };
-  }, [ onAddMultipleFrets, onAddMultipleStrings, onAddWordsAsNotes, onRemoveEmptyFretsAtTheEnd, onTrimStrings, song, songsError ]);
+  }, [ onAddMultipleFrets, onAddMultiplePitches, onAddWordsAsNotes, onRemoveEmptyFretsAtTheEnd, onTrimPitches, song, songsError ]);
 
   return (
     <div className={style.Chart}>
