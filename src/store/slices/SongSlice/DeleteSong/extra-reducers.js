@@ -11,9 +11,11 @@ export const addDeleteSongCases = (builder) => {
       state.deleteSongStatus = REQUEST_STATUS.LOADING;
       state.deleteSongError = null;
     })
-    .addCase(deleteSong.fulfilled, (state) => {
+    .addCase(deleteSong.fulfilled, (state, action) => {
       state.deleteSongStatus = REQUEST_STATUS.SUCCEEDED;
-      window.location.replace('/melo-chart');
+      
+      const songIndex = state.songs.findIndex(song => song.id == action.payload.id);
+      state.songs.splice(songIndex, 1);
     })
     .addCase(deleteSong.rejected, (state, action) => {
       state.deleteSongStatus = REQUEST_STATUS.FAILED;

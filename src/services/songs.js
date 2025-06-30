@@ -9,6 +9,7 @@ export const addSong = async (data) => {
 
 export const deleteSong = async (id) => {
   await api.delete(`/songs/${id}`);
+  return id;
 };
 
 export const getSongs = async () => {

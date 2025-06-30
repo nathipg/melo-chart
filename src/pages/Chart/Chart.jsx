@@ -1,7 +1,7 @@
 import { memo, useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useBlocker, useSearchParams } from 'react-router';
+import { Navigate, useBlocker, useSearchParams } from 'react-router';
 
 import { GenerateChartDialog, LeaveChartPageConfirmDialog, LoadingIcon, Song } from '../../components';
 import { REQUEST_STATUS } from '../../constants';
@@ -44,7 +44,7 @@ const Chart = () => {
             song={song}
           />
         ) : (
-          <span>{t('Song not found')}</span>
+          <Navigate to="/" />
         )
       ),
     };
