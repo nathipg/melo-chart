@@ -1,19 +1,19 @@
 import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router';
 
 import { Button, ButtonConstants, GrowlContainer, Link } from '../../components';
-import { usersSliceActions } from '../../store/slices';
+import { usersSliceActions, usersSliceSelectors } from '../../store/slices';
 
 import style from './Default.module.scss';
 
-const Header = (props) => {
-  const { isLoggedIn } = props;
-
+const Header = () => {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
+
+  const isLoggedIn = useSelector(usersSliceSelectors.isLoggedIn);
 
   const onLogout = useCallback((event) => {
     event.preventDefault();
@@ -57,16 +57,12 @@ const ContentContainer = (props) => {
   );
 };
 
-const Default = (props) => {
-  const { isLoggedIn } = props;
-
+const Default = () => {
   return (
     <div>
       <GrowlContainer />
       
-      <Header
-        isLoggedIn={isLoggedIn}
-      />
+      <Header />
 
       <ContentContainer>
         <Outlet />

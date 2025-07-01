@@ -10,6 +10,9 @@ const { t } = i18n;
 // Initial State
 const initialState = {
   loggedUser: null,
+
+  loggedUserStatus: REQUEST_STATUS.IDLE,
+  loggedUserError: null,
 };
 
 // Async Thunk

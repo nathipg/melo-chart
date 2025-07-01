@@ -13,7 +13,7 @@ import './global.scss';
 const router = createHashRouter([
   {
     path: '/',
-    element: <Default isLoggedIn={false} />,
+    element: <Default />,
     children: [
       { index: true, element: <Login /> },
       { path: '*', element: <Navigate to="/" /> },
@@ -24,7 +24,7 @@ const router = createHashRouter([
 const authRouter = createHashRouter([
   {
     path: '/',
-    element: <Default isLoggedIn={true} />,
+    element: <Default />,
     children: [
       { index: true, element: <Home /> },
       { path: 'chart', element: <Chart /> },
