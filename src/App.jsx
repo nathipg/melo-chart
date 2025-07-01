@@ -1,10 +1,12 @@
+import { onAuthStateChanged } from 'firebase/auth';
 import { memo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createHashRouter, Navigate, RouterProvider } from 'react-router';
 
 import { Default } from './layouts';
 import { Chart, Home, Login } from './pages';
-import { songsSliceActions, usersSliceSelectors } from './store/slices';
+import { firebaseService } from './services';
+import { songsSliceActions, usersSliceActions, usersSliceSelectors } from './store/slices';
 
 import './global.scss';
 
@@ -34,10 +36,21 @@ const authRouter = createHashRouter([
 const App = () => {
   const dispatch = useDispatch();
 
+  const loggedUser = useSelector(usersSliceSelectors.selectLoggedUser);
   const isLoggedIn = useSelector(usersSliceSelectors.isLoggedIn);
 
   useEffect(() => {
-    dispatch(songsSliceActions.fetchSongs());
+    if(loggedUser) {
+      dispatch(songsSliceActions.loadSongs(loggedUser.songs));
+    }
+  }, [ dispatch, loggedUser ]);
+
+  useEffect(()=>{
+    onAuthStateChanged(firebaseService.auth.auth, (user) => {
+      if (user) {
+        dispatch(usersSliceActions.loadUser(user));
+      }
+    });
   }, [ dispatch ]);
 
   return (

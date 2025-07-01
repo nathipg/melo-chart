@@ -1,10 +1,8 @@
-import { memo, useMemo } from 'react';
+import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { REQUEST_STATUS } from '../../constants';
 import { songsSliceSelectors } from '../../store/slices';
-import { LoadingIcon } from '../Icons';
 
 import { renderSongs } from './functions';
 
@@ -14,30 +12,12 @@ const SongList = () => {
   const { t } = useTranslation();
 
   const songs = useSelector(songsSliceSelectors.selectAllSongs);
-  const songsStatus = useSelector(songsSliceSelectors.selectSongsStatus);
-  const songsError = useSelector(songsSliceSelectors.selectSongsError);
-
-  const CONTENT_MAPPER = useMemo(() => {
-    return {
-      [REQUEST_STATUS.LOADING]: (
-        <div>
-          <LoadingIcon /> <span>{t('Loading...')}</span>
-        </div>
-      ),
-      [REQUEST_STATUS.FAILED]: <span>{songsError}</span>,
-      [REQUEST_STATUS.SUCCEEDED]: (
-        <>
-          {renderSongs(songs)}
-        </>
-      ),
-    };
-  }, [ songs, songsError, t ]);
 
   return (
     <div className={style.SongListContainer}>
       <h2>{t('Song List')}</h2>
       <ul className={style.SongList}>
-        {CONTENT_MAPPER[songsStatus]}
+        {renderSongs(songs)}
       </ul>
     </div>
   );

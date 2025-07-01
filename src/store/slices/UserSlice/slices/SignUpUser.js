@@ -25,9 +25,8 @@ const extraReducers = {
       .addCase(asyncThunk.signUpUser.pending, (state) => {
         state.signUpStatus = REQUEST_STATUS.LOADING;
       })
-      .addCase(asyncThunk.signUpUser.fulfilled, (state, action) => {
+      .addCase(asyncThunk.signUpUser.fulfilled, (state) => {
         state.signUpStatus = REQUEST_STATUS.SUCCEEDED;
-        state.loggedUser = action.payload;
       })
       .addCase(asyncThunk.signUpUser.rejected, (state, action) => {
         state.signUpStatus = REQUEST_STATUS.FAILED;

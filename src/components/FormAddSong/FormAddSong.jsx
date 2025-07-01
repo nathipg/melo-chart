@@ -1,9 +1,8 @@
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { REQUEST_STATUS } from '../../constants';
-import { songsSliceActions, songsSliceSelectors } from '../../store/slices';
+import { songsSliceActions, songsSliceSelectors, usersSliceSelectors } from '../../store/slices';
 import { isRequestLoading } from '../../utils';
 import { Button, ButtonConstants } from '../Button';
 import { GrowlFns } from '../Growl';
@@ -19,39 +18,11 @@ const FormAddSong = () => {
 
   const dispatch = useDispatch();
   
+  const loggedUser = useSelector(usersSliceSelectors.selectLoggedUser);
   const songs = useSelector(songsSliceSelectors.selectAllSongs);
-  const songsStatus = useSelector(songsSliceSelectors.selectSongsStatus);
-  const songsError = useSelector(songsSliceSelectors.selectSongsError);
 
   const addSongStatus = useSelector(songsSliceSelectors.selectAddSongStatus);
   const addSongError = useSelector(songsSliceSelectors.selectAddSongError);
-
-  const CONTENT_MAPPER = useMemo(() => {
-    return {
-      [REQUEST_STATUS.LOADING]: (
-        <div>
-          <LoadingIcon /> <span>{t('Loading...')}</span>
-        </div>
-      ),
-      [REQUEST_STATUS.FAILED]: <span>{songsError}</span>,
-      [REQUEST_STATUS.SUCCEEDED]: (
-        <>
-          <>
-            <InlineInput
-              label={t('Title')}
-              type="text"
-              name="title"
-            />
-    
-            <Button category={ButtonConstants.ButtonCategories.SUCCESS}>
-              {isRequestLoading(addSongStatus) ? <LoadingIcon /> : <></>}
-              {t('Add')}
-            </Button>
-          </>
-        </>
-      ),
-    };
-  }, [ addSongStatus, songsError, t ]);
 
   const onSubmitForm = useCallback(async (event) => {
     event.preventDefault();
@@ -80,9 +51,10 @@ const FormAddSong = () => {
     const newSong = generateNewSong(title);
 
     dispatch(songsSliceActions.addSong({
+      loggedUser,
       song: newSong,
     }));
-  }, [ addSongStatus, dispatch, songs, t ]);
+  }, [ addSongStatus, dispatch, loggedUser, songs, t ]);
 
   const onCloseAddSongErrorGrowl = useCallback(() => {
     dispatch(songsSliceActions.clearAddSongError());
@@ -97,7 +69,20 @@ const FormAddSong = () => {
       <h2>{t('Add Song')}</h2>
 
       <div className={style.FieldsContainer}>
-        {CONTENT_MAPPER[songsStatus]}
+        <>
+          <>
+            <InlineInput
+              label={t('Title')}
+              type="text"
+              name="title"
+            />
+    
+            <Button category={ButtonConstants.ButtonCategories.SUCCESS}>
+              {isRequestLoading(addSongStatus) ? <LoadingIcon /> : <></>}
+              {t('Add')}
+            </Button>
+          </>
+        </>
       </div>
 
       {GrowlFns.renderSavedGrowl({

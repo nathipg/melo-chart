@@ -1,11 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { USER_SLICE_NAME } from './constants';
-import { SignUpUser, SignInUser, SignOutUser } from './slices';
+import { SignUpUser, SignInUser, SignOutUser, LoggedUser } from './slices';
 
 const initialState = {
+  ...LoggedUser.initialState,
   ...SignUpUser.initialState,
   ...SignInUser.initialState,
+  ...SignOutUser.initialState,
 };
 
 const usersSlice = createSlice({
@@ -18,6 +20,8 @@ const usersSlice = createSlice({
   extraReducers(builder) {
     SignUpUser.extraReducers.addSignUpUserCases(builder);
     SignInUser.extraReducers.addSignInUserCases(builder);
+    LoggedUser.extraReducers.addLoggedUserCases(builder);
+    SignOutUser.extraReducers(builder);
   },
 });
 
@@ -27,8 +31,11 @@ export const usersSliceActions = {
   ...usersSlice.actions,
   ...SignUpUser.asyncThunk,
   ...SignInUser.asyncThunk,
+  ...LoggedUser.asyncThunk,
+  ...SignOutUser.asyncThunk,
 };
 
 export const usersSliceSelectors = {
   ...SignInUser.selectors,
+  ...LoggedUser.selectors,
 };

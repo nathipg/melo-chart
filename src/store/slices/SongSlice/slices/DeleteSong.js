@@ -15,7 +15,7 @@ const initialState = {
 
 // Async Thunk
 const asyncThunk = {
-  deleteSong: createAsyncThunk(`${SONG_SLICE_NAME}/deleteSong`, async (id) => await songsService.deleteSong(id)),
+  deleteSong: createAsyncThunk(`${SONG_SLICE_NAME}/deleteSong`, async (data) => await songsService.deleteSong(data)),
 };
 
 // Reducers

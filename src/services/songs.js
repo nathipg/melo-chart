@@ -1,27 +1,13 @@
-import { api } from './api';
+import { firebaseService } from './firebase';
 
 export const addSong = async (data) => {
-  const { song: songData } = data;
-  const { data: song } = await api.post('/songs', songData);
-
-  return song;
+  return await firebaseService.user.addSong(data);
 };
 
-export const deleteSong = async (id) => {
-  await api.delete(`/songs/${id}`);
-  return id;
+export const deleteSong = async (data) => {
+  return await firebaseService.user.deleteSong(data);
 };
 
-export const getSongs = async () => {
-  const { data: songList } = await api.get('/songs');
-
-  return songList;
-};
-
-export const updateSong = async (songData) => {
-  const { id } = songData;
-
-  const { data: song } = await api.put(`/songs/${id}`, songData);
-
-  return song;
+export const saveSong = async (data) => {
+  return await firebaseService.user.saveSong(data);
 };

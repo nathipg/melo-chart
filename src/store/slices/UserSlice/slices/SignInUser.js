@@ -9,7 +9,6 @@ const { t } = i18n;
 
 // Initial State
 const initialState = {
-  loggedUser: null,
   signInStatus: REQUEST_STATUS.IDLE,
   signInError: null,
 };
@@ -38,19 +37,8 @@ const extraReducers = {
   },
 };
 
-// Selectors
-const selectors = {
-  selectLoggedUser: state => {
-    return state.users.loggedUser;
-  },
-  isLoggedIn: state => {
-    return !!state.users.loggedUser;
-  },
-};
-
 export const SignInUser = {
   asyncThunk,
   extraReducers,
   initialState,
-  selectors,
 };

@@ -15,7 +15,7 @@ const initialState = {
 
 // Async Thunk
 const asyncThunk = {
-  saveSong: createAsyncThunk(`${SONG_SLICE_NAME}/saveSong`, async (song) => await songsService.updateSong(song)),
+  saveSong: createAsyncThunk(`${SONG_SLICE_NAME}/saveSong`, async (song) => await songsService.saveSong(song)),
 };
 
 // Reducers

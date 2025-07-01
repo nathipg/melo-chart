@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, ButtonConstants, GrowlFns, LoadingIcon } from '..';
-import { songsSliceActions, songsSliceSelectors } from '../../store/slices';
+import { songsSliceActions, songsSliceSelectors, usersSliceSelectors } from '../../store/slices';
 import { isRequestLoading } from '../../utils';
 
 import style from './SaveChartOption.module.scss';
@@ -15,6 +15,7 @@ const SaveChartOption = (props) => {
 
   const dispatch = useDispatch();
 
+  const loggedUser = useSelector(usersSliceSelectors.selectLoggedUser);
   const saveSongStatus = useSelector(songsSliceSelectors.selectSaveSongStatus);
   const saveSongError = useSelector(songsSliceSelectors.selectSaveSongError);
 
@@ -22,11 +23,14 @@ const SaveChartOption = (props) => {
     const updatedNotes = notesFnsRef.current?.getNotes();
 
     dispatch(songsSliceActions.saveSong({
-      ...song,
-      isNewSong: false,
-      notes: updatedNotes,
+      song: {
+        ...song,
+        isNewSong: false,
+        notes: updatedNotes,
+      },
+      loggedUser,
     }));
-  }, [ dispatch, notesFnsRef, song ]);
+  }, [ dispatch, loggedUser, notesFnsRef, song ]);
 
   const onCloseSaveSongErrorGrowl = useCallback(() => {
     dispatch(songsSliceActions.clearSaveSongError());

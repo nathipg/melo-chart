@@ -1,14 +1,23 @@
-import { api } from './api';
+import { firebaseService } from './firebase';
+
+export const loadUser = async (userData) => {
+  const { uid } = userData;
+  return await firebaseService.user.loadUser(uid);
+};
 
 export const signInUser = async (userData) => {
   const { email, password } = userData;
-  const { data: user } = await api.get(`/users?email=${email}&password=${password}`);
 
-  return user;
+  return await firebaseService.user.signInUser({
+    email,
+    password,
+  });
+};
+
+export const signOut = async () => {
+  await firebaseService.auth.signOut();
 };
 
 export const signUpUser = async (userData) => {
-  const { data: user } = await api.post('/users', userData);
-
-  return user;
+  await firebaseService.user.addUser(userData);
 };
