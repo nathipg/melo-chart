@@ -1,8 +1,8 @@
-import { nanoid } from 'nanoid';
+import { v7 as uuid } from 'uuid';
 
 export const generateNewNoteChunk = () => {
   return {
-    id: nanoid(),
+    id: uuid(),
     text: '',
   };
 };

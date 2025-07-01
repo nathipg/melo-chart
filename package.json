@@ -25,12 +25,12 @@
     "i18next-browser-languagedetector": "^8.2.0",
     "i18next-http-backend": "^3.0.2",
     "json-server": "^1.0.0-beta.3",
-    "nanoid": "^5.1.5",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-i18next": "^15.5.3",
     "react-redux": "^9.2.0",
-    "react-router": "^7.6.2"
+    "react-router": "^7.6.2",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
