@@ -1,12 +1,16 @@
 import { memo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 
 import { Button, ButtonConstants, InlineInput } from '../../components';
+import { usersSliceActions } from '../../store/slices';
 
 import style from './Login.module.scss';
 
 const Login = () => {
   const { t } = useTranslation();
+
+  const dispatch = useDispatch();
 
   const [ loginForm, setLoginForm ] = useState(true);
 
@@ -16,11 +20,22 @@ const Login = () => {
 
   const onSubmitLogin = useCallback((event) => {
     event.preventDefault();
-  }, []);
+
+    dispatch(usersSliceActions.signInUser({
+      email: 'np@np.com',
+      password: '123123',
+    }));
+  }, [ dispatch ]);
 
   const onSubmitSignUp = useCallback((event) => {
     event.preventDefault();
-  }, []);
+
+    dispatch(usersSliceActions.signUpUser({
+      username: 'nathipg',
+      email: 'np@np.com',
+      password: '123123',
+    }));
+  }, [ dispatch ]);
 
   return (
     <div className={style.LoginContainer}>

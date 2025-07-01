@@ -1,22 +1,48 @@
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 import { Outlet } from 'react-router';
 
-import { GrowlContainer, Link } from '../../components';
+import { Button, ButtonConstants, GrowlContainer, Link } from '../../components';
+import { usersSliceActions } from '../../store/slices';
 
 import style from './Default.module.scss';
 
-const Header = () => {
+const Header = (props) => {
+  const { isLoggedIn } = props;
+
   const { t } = useTranslation();
+
+  const dispatch = useDispatch();
+
+  const onLogout = useCallback((event) => {
+    event.preventDefault();
+
+    dispatch(usersSliceActions.signOutUser());
+  }, [ dispatch ]);
 
   return (
     <div className={style.Header}>
       <h1>Melo Chart</h1>
-      <ul>
-        <li>
-          <Link to={{ pathname: '' }}>{t('My songs')}</Link>
-        </li>
-      </ul>
+      {
+        isLoggedIn ? (
+          <>
+            <ul>
+              <li>
+                <Link to={{ pathname: '' }}>{t('My songs')}</Link>
+              </li>
+            </ul>
+            <Button
+              className={style.SignOut}
+              category={ButtonConstants.ButtonCategories.DANGER}
+              textOnly={true}
+              onClick={onLogout}
+            >
+              {t('Sign Out')}
+            </Button>
+          </>
+        ) : <></>
+      }
     </div>
   );
 };
@@ -31,12 +57,16 @@ const ContentContainer = (props) => {
   );
 };
 
-const Default = () => {
+const Default = (props) => {
+  const { isLoggedIn } = props;
+
   return (
     <div>
       <GrowlContainer />
       
-      <Header />
+      <Header
+        isLoggedIn={isLoggedIn}
+      />
 
       <ContentContainer>
         <Outlet />

@@ -1,0 +1,70 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
+import { REQUEST_STATUS } from '../../../../constants';
+import i18n from '../../../../i18n';
+import { songsService } from '../../../../services';
+import { SONG_SLICE_NAME } from '../constants';
+
+const { t } = i18n;
+
+// Initial State
+const initialState = {
+  addSongStatus: REQUEST_STATUS.IDLE,
+  addSongError: null,
+};
+
+// Async Thunk
+const asyncThunk = {
+  addSong: createAsyncThunk(`${SONG_SLICE_NAME}/addSong`, async (song) => await songsService.addSong(song)),
+};
+
+// Reducers
+const reducers = {
+  clearAddSongError: (state) => {
+    state.addSongError = null;
+  },
+  clearAddSongStatus: (state) => {
+    state.addSongStatus = REQUEST_STATUS.IDLE;
+  },
+  setAddSongError: (state, action) => {
+    state.addSongError = action.payload;
+  },
+};
+
+// Extra reducers
+const extraReducers = {
+  addAddSongCases: (builder) => {
+    builder
+      .addCase(asyncThunk.addSong.pending, (state) => {
+        state.addSongStatus = REQUEST_STATUS.LOADING;
+        state.addSongError = null;
+      })
+      .addCase(asyncThunk.addSong.fulfilled, (state, action) => {
+        state.addSongStatus = REQUEST_STATUS.SUCCEEDED;
+        state.songs.push(action.payload);
+      })
+      .addCase(asyncThunk.addSong.rejected, (state, action) => {
+        state.addSongStatus = REQUEST_STATUS.FAILED;
+        state.addSongError = t(`error-message.add-song.${action.error.message}`);
+      })
+    ;
+  },
+};
+
+// Selectors
+const selectors = {
+  selectAddSongError: (state) => {
+    return state.songs.addSongError;
+  },
+  selectAddSongStatus: (state) => {
+    return state.songs.addSongStatus;
+  },
+};
+
+export const AddSong = {
+  asyncThunk,
+  extraReducers,
+  initialState,
+  reducers,
+  selectors,
+};

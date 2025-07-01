@@ -1,10 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { AddSong } from './AddSong';
 import { SONG_SLICE_NAME } from './constants';
-import { DeleteSong } from './DeleteSong';
-import { FetchSongs } from './FetchSongs';
-import { SaveSong } from './SaveSong';
+import { AddSong, DeleteSong, FetchSongs, SaveSong } from './slices';
 
 const initialState = {
   ...FetchSongs.initialState,

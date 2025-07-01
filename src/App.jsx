@@ -1,21 +1,32 @@
 import { memo, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { createHashRouter, RouterProvider } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { createHashRouter, Navigate, RouterProvider } from 'react-router';
 
 import { Default } from './layouts';
 import { Chart, Home, Login } from './pages';
-import { songsSliceActions } from './store/slices';
+import { songsSliceActions, usersSliceSelectors } from './store/slices';
 
 import './global.scss';
 
 const router = createHashRouter([
   {
     path: '/',
-    element: <Default />,
+    element: <Default isLoggedIn={false} />,
+    children: [
+      { index: true, element: <Login /> },
+      { path: '*', element: <Navigate to="/" /> },
+    ],
+  },
+]);
+
+const authRouter = createHashRouter([
+  {
+    path: '/',
+    element: <Default isLoggedIn={true} />,
     children: [
       { index: true, element: <Home /> },
-      { path: 'login', element: <Login /> },
       { path: 'chart', element: <Chart /> },
+      { path: '*', element: <Navigate to="/" /> },
     ],
   },
 ]);
@@ -23,13 +34,15 @@ const router = createHashRouter([
 const App = () => {
   const dispatch = useDispatch();
 
+  const isLoggedIn = useSelector(usersSliceSelectors.isLoggedIn);
+
   useEffect(() => {
     dispatch(songsSliceActions.fetchSongs());
   }, [ dispatch ]);
 
   return (
     <>
-      <RouterProvider router={router} />
+      <RouterProvider router={isLoggedIn ? authRouter : router} />
     </>
   );
 };
