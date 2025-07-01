@@ -22,20 +22,20 @@ const Login = () => {
     event.preventDefault();
 
     dispatch(usersSliceActions.signInUser({
-      email: 'np@np.com',
-      password: '123123',
+      email,
+      password,
     }));
-  }, [ dispatch ]);
+  }, [ dispatch, email, password ]);
 
   const onSubmitSignUp = useCallback((event) => {
     event.preventDefault();
 
     dispatch(usersSliceActions.signUpUser({
-      username: 'nathipg',
-      email: 'np@np.com',
-      password: '123123',
+      username,
+      email,
+      password,
     }));
-  }, [ dispatch ]);
+  }, [ dispatch, email, password, username ]);
 
   return (
     <div className={style.LoginContainer}>
