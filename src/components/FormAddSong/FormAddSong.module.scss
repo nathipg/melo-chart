@@ -11,5 +11,6 @@
 .FieldsContainer {
   display: flex;
   align-items: flex-end;
+  flex-direction: column;
   gap: 0.5rem;
 }

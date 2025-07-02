@@ -1,5 +1,11 @@
 .ChartControllers {
   display: flex;
   flex-direction: column;
+  gap: 2rem; 
+}
+
+.Section {
+  display: flex;
+  flex-direction: column;
   gap: 0.5rem; 
 }

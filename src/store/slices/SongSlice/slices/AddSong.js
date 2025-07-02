@@ -11,6 +11,7 @@ const { t } = i18n;
 const initialState = {
   addSongStatus: REQUEST_STATUS.IDLE,
   addSongError: null,
+  latestAddedSongId: null,
 };
 
 // Async Thunk
@@ -29,6 +30,9 @@ const reducers = {
   setAddSongError: (state, action) => {
     state.addSongError = action.payload;
   },
+  clearLatestAddedSongId: (state) => {
+    state.latestAddedSongId = null;
+  },
 };
 
 // Extra reducers
@@ -42,6 +46,7 @@ const extraReducers = {
       .addCase(asyncThunk.addSong.fulfilled, (state, action) => {
         state.addSongStatus = REQUEST_STATUS.SUCCEEDED;
         state.songs.push(action.payload);
+        state.latestAddedSongId = action.payload.id;
       })
       .addCase(asyncThunk.addSong.rejected, (state, action) => {
         state.addSongStatus = REQUEST_STATUS.FAILED;
@@ -58,6 +63,9 @@ const selectors = {
   },
   selectAddSongStatus: (state) => {
     return state.songs.addSongStatus;
+  },
+  selectLatestAddedSongId: (state) => {
+    return state.songs.latestAddedSongId;
   },
 };
 

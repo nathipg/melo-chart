@@ -1,0 +1,19 @@
+.TableContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.Table {
+  border-collapse: collapse;
+
+  thead {
+    font-weight: 600;
+  }
+
+  td {
+    border: 1px solid;
+    padding: 0.5rem 1rem;
+  }
+}

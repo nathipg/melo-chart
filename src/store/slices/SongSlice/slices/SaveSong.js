@@ -43,7 +43,6 @@ const extraReducers = {
 
         const existingSong = state.songs.find(song => song.id === updatedSong.id);
         existingSong.notes = updatedSong.notes;
-        existingSong.isNewSong = false;
       })
       .addCase(asyncThunk.saveSong.rejected, (state, action) => {
         state.saveSongStatus = REQUEST_STATUS.FAILED;

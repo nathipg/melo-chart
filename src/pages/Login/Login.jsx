@@ -2,7 +2,7 @@ import { memo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
-import { Button, ButtonConstants, InlineInput } from '../../components';
+import { Button, ButtonConstants, FieldWithLabel, Input } from '../../components';
 import { usersSliceActions } from '../../store/slices';
 
 import style from './Login.module.scss';
@@ -46,30 +46,42 @@ const Login = () => {
           loginForm ? (
             <></>
           ) : (
-            <InlineInput
+            <FieldWithLabel
               label={t('Username')}
-              type="text"
-              name="username"
-              value={username}
-              onChange={(event) => setUserName(event.target.value)}
+              field={(
+                <Input
+                  type="text"
+                  name="username"
+                  value={username}
+                  onChange={(event) => setUserName(event.target.value)}
+                />
+              )}
             />
           )
         }
 
-        <InlineInput
+        <FieldWithLabel
           label={t('Email')}
-          type="text"
-          name="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          field={(
+            <Input
+              type="text"
+              name="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          )}
         />
 
-        <InlineInput
+        <FieldWithLabel
           label={t('Password')}
-          type="password"
-          name="password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
+          field={(
+            <Input
+              type="password"
+              name="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          )}
         />
 
         <Button category={ButtonConstants.ButtonCategories.SUCCESS}>{loginForm ? t('Sign in') : t('Sign up')}</Button>

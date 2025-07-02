@@ -1,10 +1,12 @@
+import { breakLyrics } from '../../../utils';
+
 import { generateNewNote } from './generate-new-note.function';
 import { getPitchesQty } from './get-pitches-qty.function';
 
 export const addWordsAsNotes = (params) => {
   const { setNotes, songText } = params;
 
-  const allWords = songText.replaceAll('\n', ' ').trim().split(' ');
+  const allWords = breakLyrics(songText);
 
   setNotes((curNotes) => {
     const pitchesQty = getPitchesQty(curNotes);

@@ -52,4 +52,10 @@
       @include mixins.color-with-hover(colors.$green);
     }
   }
+
+  &[data-has-icon="true"] {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
 }

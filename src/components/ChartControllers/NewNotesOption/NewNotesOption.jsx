@@ -2,7 +2,8 @@ import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonConstants } from '../../Button';
-import { InlineInput } from '../../InlineInput';
+import { FieldWithLabel } from '../../FieldWithLabel';
+import { Input } from '../../Input';
 
 import style from './NewNotesOption.module.scss';
 
@@ -23,10 +24,14 @@ const NewNotesOption = (props) => {
 
   return (
     <form className={style.NewNotesOption} onSubmit={onSubmitAddMultipleNotes}>
-      <InlineInput
+      <FieldWithLabel
         label={t('New Notes')}
-        type="number"
-        name="qty"
+        field={(
+          <Input
+            type="number"
+            name="qty"
+          />
+        )}
       />
 
       <Button category={ButtonConstants.ButtonCategories.PRIMARY}>{t('Add')}</Button>

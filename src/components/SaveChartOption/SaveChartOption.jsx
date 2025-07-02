@@ -25,7 +25,6 @@ const SaveChartOption = (props) => {
     dispatch(songsSliceActions.saveSong({
       song: {
         ...song,
-        isNewSong: false,
         notes: updatedNotes,
       },
       loggedUser,

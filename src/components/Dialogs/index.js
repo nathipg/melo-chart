@@ -1,3 +1,4 @@
+export * from './AddSongDialog';
 export * from './ConfigSongDialog';
 export * from './DeleteSongConfirmDialog';
 export * from './GenerateChartDialog';

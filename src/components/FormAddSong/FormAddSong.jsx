@@ -4,10 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { songsSliceActions, songsSliceSelectors, usersSliceSelectors } from '../../store/slices';
 import { isRequestLoading } from '../../utils';
-import { Button, ButtonConstants } from '../Button';
-import { GrowlFns } from '../Growl';
-import { LoadingIcon } from '../Icons';
-import { InlineInput } from '../InlineInput';
+import { FieldWithLabel } from '../FieldWithLabel';
+import { Input } from '../Input';
+import { TextArea } from '../TextArea';
 
 import { generateNewSong } from './functions';
 
@@ -22,7 +21,6 @@ const FormAddSong = () => {
   const songs = useSelector(songsSliceSelectors.selectAllSongs);
 
   const addSongStatus = useSelector(songsSliceSelectors.selectAddSongStatus);
-  const addSongError = useSelector(songsSliceSelectors.selectAddSongError);
 
   const onSubmitForm = useCallback(async (event) => {
     event.preventDefault();
@@ -31,8 +29,10 @@ const FormAddSong = () => {
       return;
     }
 
-    const titleInput = event.target.title;
-    const title = titleInput.value.trim();
+    const form = event.target;
+    const title = form.title.value.trim();
+    const pitches = form.pitches.value || 1;
+    const lyrics = form.lyrics.value || '';
 
     if(!title) {
       dispatch(songsSliceActions.setAddSongError(t('Please, insert a song title')));
@@ -46,9 +46,11 @@ const FormAddSong = () => {
       return;
     }
 
-    titleInput.value = '';
-
-    const newSong = generateNewSong(title);
+    const newSong = generateNewSong({
+      title,
+      pitches,
+      lyrics,
+    });
 
     dispatch(songsSliceActions.addSong({
       loggedUser,
@@ -56,44 +58,42 @@ const FormAddSong = () => {
     }));
   }, [ addSongStatus, dispatch, loggedUser, songs, t ]);
 
-  const onCloseAddSongErrorGrowl = useCallback(() => {
-    dispatch(songsSliceActions.clearAddSongError());
-  }, [ dispatch ]);
-
-  const onCloseAddSongSuccessGrowl = useCallback(() => {
-    dispatch(songsSliceActions.clearAddSongStatus());
-  }, [ dispatch ]);
-
   return (
-    <form className={style.FormAddSong} onSubmit={onSubmitForm}>
-      <h2>{t('Add Song')}</h2>
-
+    <form
+      id="formAddSong"
+      className={style.FormAddSong}
+      onSubmit={onSubmitForm}
+    >
       <div className={style.FieldsContainer}>
-        <>
-          <>
-            <InlineInput
-              label={t('Title')}
+        <FieldWithLabel
+          label={t('Title')}
+          field={(
+            <Input
               type="text"
               name="title"
             />
-    
-            <Button category={ButtonConstants.ButtonCategories.SUCCESS}>
-              {isRequestLoading(addSongStatus) ? <LoadingIcon /> : <></>}
-              {t('Add')}
-            </Button>
-          </>
-        </>
+          )}
+        />
+
+        <FieldWithLabel
+          label={t('Number of Pitches')}
+          field={(
+            <Input
+              type="number"
+              name="pitches"
+            />
+          )}
+        />
+
+        <FieldWithLabel
+          label={t('Song lyrics')}
+          field={(
+            <TextArea
+              name="lyrics"
+            />
+          )}
+        />
       </div>
-
-      {GrowlFns.renderSavedGrowl({
-        requestStatus: addSongStatus,
-        onCloseGrowl: onCloseAddSongSuccessGrowl,
-      })}
-
-      {GrowlFns.renderErrorGrowl({
-        message: addSongError,
-        onCloseGrowl: onCloseAddSongErrorGrowl,
-      })}
     </form>
   );
 };

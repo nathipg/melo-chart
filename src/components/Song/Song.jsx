@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, ButtonConstants } from '../Button';
 import { Checkbox } from '../Checkbox';
 import { ConfigSongDialog, DeleteSongConfirmDialog } from '../Dialogs';
+import { HowToUseDialog } from '../Dialogs/HowToUseDialog';
 import { GearsIcon } from '../Icons/GearsIcon/GearsIcon';
 import { Notes } from '../Notes';
 import { SaveChartOption } from '../SaveChartOption';
@@ -24,27 +25,29 @@ const Song = (props) => {
 
   return (
     <div className={style.Song}>
+      <HowToUseDialog />
+      
+      <Button
+        category={ButtonConstants.ButtonCategories.PRIMARY}
+        onClick={() => configSongDialogFnsRef.current?.show()}
+        icon={<GearsIcon />}
+      >
+        {t('Configure Song')}
+      </Button>
+        
       <div className={style.SongTitleContainer}>
         <h2>{song.title}</h2>
 
-        <Button
-          category={ButtonConstants.ButtonCategories.PRIMARY}
-          textOnly={true}
-          onClick={() => configSongDialogFnsRef.current?.show()}
-        >
-          <GearsIcon />
-        </Button>
+        <SaveChartOption
+          song={song}
+          notesFnsRef={notesFnsRef}
+        />
 
         <Checkbox
           className={style.CheckboxContainer}
           label={t('Break Chart')}
           initialValue={true}
           onChange={onChangeWrapCheckbox}
-        />
-
-        <SaveChartOption
-          song={song}
-          notesFnsRef={notesFnsRef}
         />
       </div>
 

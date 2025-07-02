@@ -2,7 +2,8 @@ import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonConstants } from '../../Button';
-import { InlineInput } from '../../InlineInput/InlineInput';
+import { FieldWithLabel } from '../../FieldWithLabel/FieldWithLabel';
+import { Input } from '../../Input';
 
 import style from './NewPitchesOption.module.scss';
 
@@ -23,10 +24,14 @@ const NewPitchesOption = (props) => {
 
   return (
     <form className={style.NewPitchesOption} onSubmit={onSubmitAddMultiplePitches}>
-      <InlineInput
+      <FieldWithLabel
         label={t('New Pitches')}
-        type="number"
-        name="qty"
+        field={(
+          <Input
+            type="number"
+            name="qty"
+          />
+        )}
       />
 
       <Button category={ButtonConstants.ButtonCategories.PRIMARY}>{t('Add')}</Button>

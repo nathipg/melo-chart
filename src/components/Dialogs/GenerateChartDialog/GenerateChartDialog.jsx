@@ -3,18 +3,18 @@ import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonConstants } from '../../Button';
 import { Dialog } from '../../Dialog';
-
-import style from './GenerateChartDialog.module.scss';
+import { FieldWithLabel } from '../../FieldWithLabel';
+import { TextArea } from '../../TextArea';
 
 const GenerateChartDialog = (props) => {
-  const { show: initialShow, generateChartDialogFnsRef } = props;
+  const { generateChartDialogFnsRef } = props;
   const { onAddWordsAsNotes } = props;
 
   const { t } = useTranslation();
 
   const lyricsTextAreaRef = useRef(null);
 
-  const [ show, setShow ] = useState(initialShow);
+  const [ show, setShow ] = useState(false);
 
   useImperativeHandle(generateChartDialogFnsRef, () => {
     return {
@@ -43,14 +43,14 @@ const GenerateChartDialog = (props) => {
     <Dialog
       title={t('Generate mapping with lyrics')}
       bodyContent={
-        <>
-          <textarea
-            ref={lyricsTextAreaRef}
-            className={style.LyricsTextArea}
-            placeholder={t('Song lyrics')}
-          >
-          </textarea>
-        </>
+        <FieldWithLabel
+          label={t('Song lyrics')}
+          field={(
+            <TextArea
+              ref={lyricsTextAreaRef}
+            />
+          )}
+        />
       }
       footerContent={
         <>

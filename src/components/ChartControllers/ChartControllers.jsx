@@ -17,28 +17,32 @@ const ChartControllers = (props) => {
 
   return (
     <div className={style.ChartControllers}>
-      <Button
-        category={ButtonConstants.ButtonCategories.DANGER}
-        onClick={() => generateChartDialogFnsRef.current?.show()}
-      >
-        {t('Generate mapping with lyrics')}
-      </Button>
+      <div className={style.Section}>
+        <NewNotesOption
+          notesFnsRef={notesFnsRef}
+        />
 
-      <NewNotesOption
-        notesFnsRef={notesFnsRef}
-      />
+        <NewPitchesOption
+          notesFnsRef={notesFnsRef}
+        />
 
-      <NewPitchesOption
-        notesFnsRef={notesFnsRef}
-      />
+        <TrimOptions
+          notesFnsRef={notesFnsRef}
+        />
+      </div>
 
-      <TrimOptions
-        notesFnsRef={notesFnsRef}
-      />
+      <div className={style.Section}>
+        <Button
+          category={ButtonConstants.ButtonCategories.DANGER}
+          onClick={() => generateChartDialogFnsRef.current?.show()}
+        >
+          {t('Generate mapping with lyrics')}
+        </Button>
 
-      <DeleteSongOption
-        deleteSongDialogFnsRef={deleteSongDialogFnsRef}
-      />
+        <DeleteSongOption
+          deleteSongDialogFnsRef={deleteSongDialogFnsRef}
+        />
+      </div>
     </div>
   );
 };

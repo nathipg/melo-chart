@@ -15,10 +15,21 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 100%;
 
   background: colors.$white;
   border: 1px solid colors.$black;
   border-radius: 5px;
+
+  @media(min-width: 40rem) {
+    width: 40rem;
+  }
+
+  &[data-size="LARGE"] {
+    @media(min-width: 55rem) {
+      width: 55rem;
+    }  
+  }
 }
 
 .DialogHeader {
@@ -31,6 +42,8 @@
   flex-direction: column;
   gap: 0.5rem;
   padding: 1rem;
+  max-height: 80vh;
+  overflow: auto;
 }
 
 .DialogFooter {

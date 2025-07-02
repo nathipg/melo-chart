@@ -14,7 +14,7 @@ const DeleteSongOption = (props) => {
         category={ButtonConstants.ButtonCategories.DANGER}
         onClick={() => deleteSongDialogFnsRef.current?.show()}
       >
-        {t('Delete song')}
+        {t('Delete Song')}
       </Button>
     </>
   );
