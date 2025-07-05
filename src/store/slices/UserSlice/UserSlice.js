@@ -1,27 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { USER_SLICE_NAME } from './constants';
-import { SignUpUser, SignInUser, SignOutUser, LoggedUser } from './slices';
+import { SLICE_PART } from '../constants';
+import { allAllExtraReducers, buildSlicePart } from '../sliceUtils';
 
-const initialState = {
-  ...LoggedUser.initialState,
-  ...SignUpUser.initialState,
-  ...SignInUser.initialState,
-  ...SignOutUser.initialState,
-};
+import { USER_SLICE_NAME } from './constants';
+import * as slices from './slices';
+
+const initialState = buildSlicePart(slices, SLICE_PART.INITIAL_STATE);
 
 const usersSlice = createSlice({
   name: USER_SLICE_NAME,
   initialState,
-  reducers: {
-    ...SignInUser.reducers,
-    ...SignOutUser.reducers,
-  },
+  reducers: buildSlicePart(slices, SLICE_PART.REDUCERS),
   extraReducers(builder) {
-    SignUpUser.extraReducers.addSignUpUserCases(builder);
-    SignInUser.extraReducers.addSignInUserCases(builder);
-    LoggedUser.extraReducers.addLoggedUserCases(builder);
-    SignOutUser.extraReducers(builder);
+    allAllExtraReducers(builder, slices);
   },
 });
 
@@ -29,13 +21,9 @@ export default usersSlice.reducer;
 
 export const usersSliceActions = {
   ...usersSlice.actions,
-  ...SignUpUser.asyncThunk,
-  ...SignInUser.asyncThunk,
-  ...LoggedUser.asyncThunk,
-  ...SignOutUser.asyncThunk,
+  ...buildSlicePart(slices, SLICE_PART.ASYNC_THUNK),
 };
 
 export const usersSliceSelectors = {
-  ...SignInUser.selectors,
-  ...LoggedUser.selectors,
+  ...buildSlicePart(slices, SLICE_PART.SELECTORS),
 };

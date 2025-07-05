@@ -1,9 +1,9 @@
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Button, ButtonConstants, FieldWithLabel, Input } from '../../components';
-import { usersSliceActions } from '../../store/slices';
+import { Button, ButtonConstants, FieldWithLabel, GrowlFns, Input } from '../../components';
+import { usersSliceActions, usersSliceSelectors } from '../../store/slices';
 
 import style from './Login.module.scss';
 
@@ -12,11 +12,28 @@ const Login = () => {
 
   const dispatch = useDispatch();
 
+  const signUpError = useSelector(usersSliceSelectors.selectSignUpError);
+  const signInError = useSelector(usersSliceSelectors.selectSignInError);
+
+  const usernameInputRef = useRef(null);
+
   const [ loginForm, setLoginForm ] = useState(true);
 
   const [ username, setUserName ] = useState('');
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
+
+  const getFormUsername = useCallback(() => {
+    const isUsernameInputFocused = usernameInputRef.current === document.activeElement;
+
+    if(username || isUsernameInputFocused) {
+      return username;
+    }
+
+    const splitEmail = email.split('@');
+
+    return splitEmail[0] || '';
+  }, [ email, username ]);
 
   const onSubmitLogin = useCallback((event) => {
     event.preventDefault();
@@ -31,34 +48,24 @@ const Login = () => {
     event.preventDefault();
 
     dispatch(usersSliceActions.signUpUser({
-      username,
+      username: getFormUsername(),
       email,
       password,
     }));
-  }, [ dispatch, email, password, username ]);
+  }, [ dispatch, email, getFormUsername, password ]);
+
+  const onCloseSignUpErrorGrowl = useCallback(() => {
+    dispatch(usersSliceActions.clearSignUpError());
+  }, [ dispatch ]);
+
+  const onCloseSignInErrorGrowl = useCallback(() => {
+    dispatch(usersSliceActions.clearSignInError());
+  }, [ dispatch ]);
 
   return (
     <div className={style.LoginContainer}>
       <form className={style.Login} onSubmit={loginForm ? onSubmitLogin: onSubmitSignUp}>
         <h2>{loginForm ? t('Login') : t('Create an Account')}</h2>
-
-        {
-          loginForm ? (
-            <></>
-          ) : (
-            <FieldWithLabel
-              label={t('Username')}
-              field={(
-                <Input
-                  type="text"
-                  name="username"
-                  value={username}
-                  onChange={(event) => setUserName(event.target.value)}
-                />
-              )}
-            />
-          )
-        }
 
         <FieldWithLabel
           label={t('Email')}
@@ -84,6 +91,25 @@ const Login = () => {
           )}
         />
 
+        {
+          loginForm ? (
+            <></>
+          ) : (
+            <FieldWithLabel
+              label={t('Username')}
+              field={(
+                <Input
+                  ref={usernameInputRef}
+                  type="text"
+                  name="username"
+                  value={getFormUsername()}
+                  onChange={(event) => setUserName(event.target.value)}
+                />
+              )}
+            />
+          )
+        }
+
         <Button category={ButtonConstants.ButtonCategories.SUCCESS}>{loginForm ? t('Sign in') : t('Sign up')}</Button>
       </form>
 
@@ -106,6 +132,16 @@ const Login = () => {
           </Button>
         )
       }
+
+      {GrowlFns.renderErrorGrowl({
+        message: signUpError,
+        onCloseGrowl: onCloseSignUpErrorGrowl,
+      })}
+
+      {GrowlFns.renderErrorGrowl({
+        message: signInError,
+        onCloseGrowl: onCloseSignInErrorGrowl,
+      })}
     </div>
   );
 };

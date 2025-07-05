@@ -30,7 +30,7 @@ const extraReducers = (builder) => {
     })
     .addCase(asyncThunk.signOutUser.rejected, (state, action) => {
       state.signOutStatus = REQUEST_STATUS.FAILED;
-      state.loggedUserError = t(`error-message.sign-out-user.${action.error.message}`);
+      state.loggedUserError = t(`error-message.sign-out-user.${action.error.code}`);
     })
   ;
 };

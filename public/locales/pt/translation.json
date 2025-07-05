@@ -1,17 +1,24 @@
 {
   "error-message": {
-    "fetch-songs": {
-      "Request failed with status code 404": "Não foi possível carregar as músicas [Código de Erro: 404]"
-    },
     "save-song": {
-      "Network Error": "Erro de Rede: Por favor, verifique a sua conexão com a internet"
+      "auth/network-request-failed": "Erro de Rede: Por favor, verifique a sua conexão com a internet"
     },
     "add-song": {
-      "Network Error": "Erro de Rede: Por favor, verifique a sua conexão com a internet"
+      "auth/network-request-failed": "Erro de Rede: Por favor, verifique a sua conexão com a internet"
     },
     "delete-song": {
-      "Request failed with status code 404": "Música não encontrada",
-      "Network Error": "Erro de Rede: Por favor, verifique a sua conexão com a internet"
+      "auth/network-request-failed": "Erro de Rede: Por favor, verifique a sua conexão com a internet"
+    },
+    "sign-up-user": {
+      "auth/invalid-email": "Por favor, insira um email válido",
+      "auth/email-already-in-use": "Já existe uma conta com esse email",
+      "auth/missing-password": "Por favor, insira uma senha com pelo menos 6 caracteres",
+      "auth/weak-password": "Por favor, insira uma senha com pelo menos 6 caracteres"
+    },
+    "sign-in-user": {
+      "auth/invalid-email": "Usuário não encontrado",
+      "auth/missing-password": "Usuário não encontrado",
+      "auth/invalid-credential": "Usuário não encontrado"
     }
   },
   "My songs": "Minhas Músicas",

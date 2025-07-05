@@ -36,24 +36,22 @@ const reducers = {
 };
 
 // Extra reducers
-const extraReducers = {
-  addAddSongCases: (builder) => {
-    builder
-      .addCase(asyncThunk.addSong.pending, (state) => {
-        state.addSongStatus = REQUEST_STATUS.LOADING;
-        state.addSongError = null;
-      })
-      .addCase(asyncThunk.addSong.fulfilled, (state, action) => {
-        state.addSongStatus = REQUEST_STATUS.SUCCEEDED;
-        state.songs.push(action.payload);
-        state.latestAddedSongId = action.payload.id;
-      })
-      .addCase(asyncThunk.addSong.rejected, (state, action) => {
-        state.addSongStatus = REQUEST_STATUS.FAILED;
-        state.addSongError = t(`error-message.add-song.${action.error.message}`);
-      })
-    ;
-  },
+const extraReducers = (builder) => {
+  builder
+    .addCase(asyncThunk.addSong.pending, (state) => {
+      state.addSongStatus = REQUEST_STATUS.LOADING;
+      state.addSongError = null;
+    })
+    .addCase(asyncThunk.addSong.fulfilled, (state, action) => {
+      state.addSongStatus = REQUEST_STATUS.SUCCEEDED;
+      state.songs.push(action.payload);
+      state.latestAddedSongId = action.payload.id;
+    })
+    .addCase(asyncThunk.addSong.rejected, (state, action) => {
+      state.addSongStatus = REQUEST_STATUS.FAILED;
+      state.addSongError = t(`error-message.add-song.${action.error.code}`);
+    })
+  ;
 };
 
 // Selectors

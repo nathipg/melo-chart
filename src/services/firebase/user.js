@@ -1,4 +1,5 @@
 import { doc, setDoc, getFirestore, getDoc, collection, getDocs, deleteDoc } from 'firebase/firestore';
+import { v7 as uuid } from 'uuid';
 
 import { signUp } from './auth';
 import { app } from './firebase-app';
@@ -29,6 +30,7 @@ export const addUser = async (data) => {
     doc(db, 'users', uid),
     {
       uid,
+      tag: uuid(),
       username,
       email,
     },

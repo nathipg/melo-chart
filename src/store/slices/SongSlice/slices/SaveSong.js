@@ -29,27 +29,25 @@ const reducers = {
 };
 
 // Extra Reducers
-const extraReducers = {
-  addSaveSongCases: (builder) => {
-    builder
-      .addCase(asyncThunk.saveSong.pending, (state) => {
-        state.saveSongStatus = REQUEST_STATUS.LOADING;
-        state.saveSongError = null;
-      })
-      .addCase(asyncThunk.saveSong.fulfilled, (state, action) => {
-        state.saveSongStatus = REQUEST_STATUS.SUCCEEDED;
+const extraReducers = (builder) => {
+  builder
+    .addCase(asyncThunk.saveSong.pending, (state) => {
+      state.saveSongStatus = REQUEST_STATUS.LOADING;
+      state.saveSongError = null;
+    })
+    .addCase(asyncThunk.saveSong.fulfilled, (state, action) => {
+      state.saveSongStatus = REQUEST_STATUS.SUCCEEDED;
 
-        const updatedSong = action.payload;
+      const updatedSong = action.payload;
 
-        const existingSong = state.songs.find(song => song.id === updatedSong.id);
-        existingSong.notes = updatedSong.notes;
-      })
-      .addCase(asyncThunk.saveSong.rejected, (state, action) => {
-        state.saveSongStatus = REQUEST_STATUS.FAILED;
-        state.saveSongError = t(`error-message.save-song.${action.error.message}`);
-      })
-    ;
-  },
+      const existingSong = state.songs.find(song => song.id === updatedSong.id);
+      existingSong.notes = updatedSong.notes;
+    })
+    .addCase(asyncThunk.saveSong.rejected, (state, action) => {
+      state.saveSongStatus = REQUEST_STATUS.FAILED;
+      state.saveSongError = t(`error-message.save-song.${action.error.code}`);
+    })
+  ;
 };
 
 // Selectors

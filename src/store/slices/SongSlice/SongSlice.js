@@ -1,28 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { SONG_SLICE_NAME } from './constants';
-import { AddSong, DeleteSong, LoadSongs, SaveSong } from './slices';
+import { SLICE_PART } from '../constants';
+import { allAllExtraReducers, buildSlicePart } from '../sliceUtils';
 
-const initialState = {
-  ...LoadSongs.initialState,
-  ...AddSong.initialState,
-  ...SaveSong.initialState,
-  ...DeleteSong.initialState,
-};
+import { SONG_SLICE_NAME } from './constants';
+import * as slices from './slices';
+
+const initialState = buildSlicePart(slices, SLICE_PART.INITIAL_STATE);
 
 const songsSlice = createSlice({
   name: SONG_SLICE_NAME,
   initialState,
-  reducers: {
-    ...AddSong.reducers,
-    ...DeleteSong.reducers,
-    ...LoadSongs.reducers,
-    ...SaveSong.reducers,
-  },
+  reducers: buildSlicePart(slices, SLICE_PART.REDUCERS),
   extraReducers(builder) {
-    AddSong.extraReducers.addAddSongCases(builder);
-    SaveSong.extraReducers.addSaveSongCases(builder);
-    DeleteSong.extraReducers.addDeleteSongCases(builder);
+    allAllExtraReducers(builder, slices);
   },
 });
 
@@ -30,15 +21,9 @@ export default songsSlice.reducer;
 
 export const songsSliceActions = {
   ...songsSlice.actions,
-  ...AddSong.asyncThunk,
-  ...SaveSong.asyncThunk,
-  ...DeleteSong.asyncThunk,
+  ...buildSlicePart(slices, SLICE_PART.ASYNC_THUNK),
 };
 
 export const songsSliceSelectors = {
-  ...AddSong.selectors,
-  ...DeleteSong.selectors,
-  ...DeleteSong.selectors,
-  ...LoadSongs.selectors,
-  ...SaveSong.selectors,
+  ...buildSlicePart(slices, SLICE_PART.SELECTORS),
 };

@@ -21,22 +21,20 @@ const asyncThunk = {
 };
 
 // Extra Reducers
-const extraReducers = {
-  addLoggedUserCases: (builder) => {
-    builder
-      .addCase(asyncThunk.loadUser.pending, (state) => {
-        state.loggedUserStatus = REQUEST_STATUS.LOADING;
-      })
-      .addCase(asyncThunk.loadUser.fulfilled, (state, action) => {
-        state.loggedUserStatus = REQUEST_STATUS.SUCCEEDED;
-        state.loggedUser = action.payload;
-      })
-      .addCase(asyncThunk.loadUser.rejected, (state, action) => {
-        state.loggedUserStatus = REQUEST_STATUS.FAILED;
-        state.loggedUserError = t(`error-message.logged-user.${action.error.message}`);
-      })
-    ;
-  },
+const extraReducers = (builder) => {
+  builder
+    .addCase(asyncThunk.loadUser.pending, (state) => {
+      state.loggedUserStatus = REQUEST_STATUS.LOADING;
+    })
+    .addCase(asyncThunk.loadUser.fulfilled, (state, action) => {
+      state.loggedUserStatus = REQUEST_STATUS.SUCCEEDED;
+      state.loggedUser = action.payload;
+    })
+    .addCase(asyncThunk.loadUser.rejected, (state, action) => {
+      state.loggedUserStatus = REQUEST_STATUS.FAILED;
+      state.loggedUserError = t(`error-message.logged-user.${action.error.code}`);
+    })
+  ;
 };
 
 // Selectors

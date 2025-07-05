@@ -29,25 +29,23 @@ const reducers = {
 };
 
 // Extra Reducers
-const extraReducers = {
-  addDeleteSongCases: (builder) => {
-    builder
-      .addCase(asyncThunk.deleteSong.pending, (state) => {
-        state.deleteSongStatus = REQUEST_STATUS.LOADING;
-        state.deleteSongError = null;
-      })
-      .addCase(asyncThunk.deleteSong.fulfilled, (state, action) => {
-        state.deleteSongStatus = REQUEST_STATUS.SUCCEEDED;
+const extraReducers = (builder) => {
+  builder
+    .addCase(asyncThunk.deleteSong.pending, (state) => {
+      state.deleteSongStatus = REQUEST_STATUS.LOADING;
+      state.deleteSongError = null;
+    })
+    .addCase(asyncThunk.deleteSong.fulfilled, (state, action) => {
+      state.deleteSongStatus = REQUEST_STATUS.SUCCEEDED;
         
-        const songIndex = state.songs.findIndex(song => song.id == action.payload.id);
-        state.songs.splice(songIndex, 1);
-      })
-      .addCase(asyncThunk.deleteSong.rejected, (state, action) => {
-        state.deleteSongStatus = REQUEST_STATUS.FAILED;
-        state.deleteSongError = t(`error-message.delete-song.${action.error.message}`);
-      })
-    ;
-  },
+      const songIndex = state.songs.findIndex(song => song.id == action.payload.id);
+      state.songs.splice(songIndex, 1);
+    })
+    .addCase(asyncThunk.deleteSong.rejected, (state, action) => {
+      state.deleteSongStatus = REQUEST_STATUS.FAILED;
+      state.deleteSongError = t(`error-message.delete-song.${action.error.code}`);
+    })
+  ;
 };
 
 // Selectors

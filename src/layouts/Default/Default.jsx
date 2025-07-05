@@ -59,7 +59,7 @@ const ContentContainer = (props) => {
 
 const Default = () => {
   return (
-    <div>
+    <>
       <GrowlContainer />
       
       <Header />
@@ -67,7 +67,7 @@ const Default = () => {
       <ContentContainer>
         <Outlet />
       </ContentContainer>
-    </div>
+    </>
   );
 };
 
