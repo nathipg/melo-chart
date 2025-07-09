@@ -1,13 +1,13 @@
-import { memo, useCallback, useRef } from 'react';
+import { memo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonConstants } from '../Button';
-import { Checkbox } from '../Checkbox';
 import { ConfigSongDialog, DeleteSongConfirmDialog } from '../Dialogs';
 import { HowToUseDialog } from '../Dialogs/HowToUseDialog';
 import { GearsIcon } from '../Icons/GearsIcon/GearsIcon';
 import { Notes } from '../Notes';
-import { SaveChartOption } from '../SaveChartOption';
+
+import { SongTitle } from './SongTitle/SongTitle';
 
 import style from './Song.module.scss';
 
@@ -18,10 +18,6 @@ const Song = (props) => {
 
   const configSongDialogFnsRef = useRef(null);
   const deleteSongDialogFnsRef = useRef(null);
-
-  const onChangeWrapCheckbox = useCallback((value) => {
-    notesFnsRef.current?.setWrapNotes(value);
-  }, [ notesFnsRef ]);
 
   return (
     <div className={style.Song}>
@@ -36,18 +32,10 @@ const Song = (props) => {
       </Button>
         
       <div className={style.SongTitleContainer}>
-        <h2>{song.title}</h2>
-
-        <SaveChartOption
-          song={song}
+        <SongTitle
+          id={song.id}
+          title={song.title}
           notesFnsRef={notesFnsRef}
-        />
-
-        <Checkbox
-          className={style.CheckboxContainer}
-          label={t('Break Chart')}
-          initialValue={true}
-          onChange={onChangeWrapCheckbox}
         />
       </div>
 

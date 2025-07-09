@@ -21,11 +21,18 @@ const asyncThunk = {
 
 // Reducers
 const reducers = {
+  editSongTitle: (state, action) => {
+    const { payload: songData } = action;
+
+    const song = state.songs.find(song => song.id === songData.id);
+    song.title = songData.title;
+  },
   clearSaveSongError: (state) => {
     state.saveSongError = null;
   },
   clearSaveSongStatus: (state) => {
     state.saveSongStatus = REQUEST_STATUS.IDLE;
+    state.saveSongMessage = null;
   },
 };
 

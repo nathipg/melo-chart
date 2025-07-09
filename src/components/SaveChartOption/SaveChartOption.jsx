@@ -9,12 +9,13 @@ import { isRequestLoading } from '../../utils';
 import style from './SaveChartOption.module.scss';
 
 const SaveChartOption = (props) => {
-  const { notesFnsRef, song } = props;
+  const { songId, notesFnsRef } = props;
 
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
 
+  const song = useSelector(songsSliceSelectors.selectSongById(songId));
   const loggedUser = useSelector(usersSliceSelectors.selectLoggedUser);
   const saveSongStatus = useSelector(songsSliceSelectors.selectSaveSongStatus);
   const saveSongMessage = useSelector(songsSliceSelectors.selectSaveSongMessage);
@@ -22,10 +23,12 @@ const SaveChartOption = (props) => {
 
   const onSaveSong = useCallback(async () => {
     const updatedNotes = notesFnsRef.current?.getNotes();
+    const updatedTitle = song.title;
 
     dispatch(songsSliceActions.saveSong({
       song: {
         ...song,
+        title: updatedTitle,
         notes: updatedNotes,
       },
       loggedUser,

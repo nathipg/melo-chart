@@ -18,7 +18,6 @@ const FormAddSong = () => {
   const dispatch = useDispatch();
   
   const loggedUser = useSelector(usersSliceSelectors.selectLoggedUser);
-  const songs = useSelector(songsSliceSelectors.selectAllSongs);
 
   const addSongStatus = useSelector(songsSliceSelectors.selectAddSongStatus);
 
@@ -39,13 +38,6 @@ const FormAddSong = () => {
       return;
     }
 
-    const isSongAlreadyRegistered = songs.some(song => song.title == title);
-
-    if(isSongAlreadyRegistered) {
-      dispatch(songsSliceActions.setAddSongError(t('This song already exist')));
-      return;
-    }
-
     const newSong = generateNewSong({
       title,
       pitches,
@@ -56,7 +48,7 @@ const FormAddSong = () => {
       loggedUser,
       song: newSong,
     }));
-  }, [ addSongStatus, dispatch, loggedUser, songs, t ]);
+  }, [ addSongStatus, dispatch, loggedUser, t ]);
 
   return (
     <form

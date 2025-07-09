@@ -1,6 +1,8 @@
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { Input } from '../Input';
+
 import { EDIT_CHUNK_KEY_DOWN_EVENT_FN_MAPPER } from './constants';
 import { onDragOver } from './functions';
 
@@ -133,7 +135,7 @@ const NoteChunk = (props) => {
     >
       {
         editMode ?
-          <input
+          <Input
             autoFocus
             type="text"
             name="note-chunk-edit-input"
