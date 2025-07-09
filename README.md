@@ -16,7 +16,3 @@ App created to map the melody of songs
 
 - Known Issues
   - [MOBILE] Drag n drop is not working 
-
-- User suggestion
-  - Add place to define notes
-  - When adding notes, put the number of pitches and defined notes for them
