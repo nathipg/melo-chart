@@ -1,3 +1,13 @@
+@use '../../../colors.scss';
+
+.SongTitle {
+  cursor: pointer;
+
+  &:hover {
+    color: colors.$blue;
+  }
+}
+
 .CheckboxContainer {
   align-items: center;
 }

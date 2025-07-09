@@ -1,9 +1,9 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet } from 'react-router';
+import { Outlet, useLocation } from 'react-router';
 
-import { Button, ButtonConstants, GrowlContainer, Link } from '../../components';
+import { BlockUI, Button, ButtonConstants, GrowlContainer, Link } from '../../components';
 import { usersSliceActions, usersSliceSelectors } from '../../store/slices';
 
 import style from './Default.module.scss';
@@ -58,6 +58,16 @@ const ContentContainer = (props) => {
 };
 
 const Default = () => {
+  const location = useLocation();
+
+  const isFirebaseOnAuthStateChangedStatusComplete = useSelector(usersSliceSelectors.isFirebaseOnAuthStateChangedStatusComplete);
+
+  const isPageLoaded = useMemo(() => {
+    const hasURLRedirectSearch = location.search.startsWith('?url=');
+
+    return isFirebaseOnAuthStateChangedStatusComplete && !hasURLRedirectSearch;
+  }, [ isFirebaseOnAuthStateChangedStatusComplete, location.search ]);
+
   return (
     <>
       <GrowlContainer />
@@ -67,6 +77,8 @@ const Default = () => {
       <ContentContainer>
         <Outlet />
       </ContentContainer>
+
+      { !isPageLoaded ? <BlockUI /> : <></>}
     </>
   );
 };

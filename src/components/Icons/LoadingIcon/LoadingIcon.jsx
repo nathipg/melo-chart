@@ -4,10 +4,15 @@ import { memo } from 'react';
 
 import style from './LoadingIcon.module.scss';
 
-const LoadingIcon = () => {
+const LoadingIcon = (props) => {
+  const { size = '1x' } = props;
+
   return (
     <span className={style.LoadingIcon}>
-      <FontAwesomeIcon icon={faSpinner} />
+      <FontAwesomeIcon
+        icon={faSpinner}
+        size={size}
+      />
     </span>
   );
 };

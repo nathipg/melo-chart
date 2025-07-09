@@ -12,6 +12,12 @@
   white-space: nowrap;
   position: relative;
 
+  &:hover {
+    .ChunkText {
+      color: colors.$blue;
+    }
+  }
+
   &:has(input) {
     padding-bottom: 1rem;
   }

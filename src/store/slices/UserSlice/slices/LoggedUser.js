@@ -13,6 +13,15 @@ const initialState = {
 
   loggedUserStatus: REQUEST_STATUS.IDLE,
   loggedUserError: null,
+
+  firebaseOnAuthStateChangedStatus: REQUEST_STATUS.IDLE,
+};
+
+// Reducers
+const reducers = {
+  completeFirebaseOnAuthStateChangedStatus: (state) => {
+    state.firebaseOnAuthStateChangedStatus = REQUEST_STATUS.SUCCEEDED;
+  },
 };
 
 // Async Thunk
@@ -45,10 +54,17 @@ const selectors = {
   isLoggedIn: state => {
     return !!state.users.loggedUser;
   },
+  isLoginVerificationComplete: (state) => {
+    return state.users.loggedUser != null || state.users.loggedUserStatus == REQUEST_STATUS.SUCCEEDED || state.users.loggedUserStatus == REQUEST_STATUS.FAILED;
+  },
+  isFirebaseOnAuthStateChangedStatusComplete: (state) => {
+    return state.users.firebaseOnAuthStateChangedStatus != REQUEST_STATUS.IDLE;
+  },
 };
 
 export const LoggedUser = {
   initialState,
+  reducers,
   asyncThunk,
   extraReducers,
   selectors,

@@ -1,3 +1,4 @@
+export * from './BlockUI';
 export * from './Button';
 export * from './ChartControllers';
 export * from './Checkbox';

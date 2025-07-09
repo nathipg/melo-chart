@@ -49,6 +49,7 @@ const SongTitle = (props) => {
         ) : (
           <>
             <h2
+              className={style.SongTitle}
               onDoubleClick={onDoubleClickTitle}
             >
               {title}

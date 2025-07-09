@@ -44,7 +44,7 @@ const NoteChunk = (props) => {
   }, [ isTheNoteDefinitionChunk, text ]);
 
   const titleValue = useMemo(() => {
-    return isTheNoteDefinitionChunk ? t('Double click to define pitch') :  t('Double click to define note');
+    return isTheNoteDefinitionChunk ? t('Double click to define pitch') :  t('Double click to define note&#013;Drag the note to move it');
   }, [ isTheNoteDefinitionChunk, t ]);
 
   const onDoubleClickChunk = useCallback(() => {
@@ -98,7 +98,7 @@ const NoteChunk = (props) => {
     const textToBeDisplayed = isTheNoteDefinitionChunk ? noteDefinitionText : noteText;
 
     return (
-      <span className={!text ? style.EmptyChunkText : null}>
+      <span className={`${style.ChunkText} ${!text ? style.EmptyChunkText : ''}`}>
         {textToBeDisplayed}
       </span>
     );
