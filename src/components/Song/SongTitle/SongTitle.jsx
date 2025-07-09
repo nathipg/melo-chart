@@ -22,6 +22,12 @@ const SongTitle = (props) => {
     setEditMode(true);
   }, []);
 
+  const onKeyDownInput = useCallback((event) => {
+    if(event.key === 'Enter') {
+      event.target.blur();
+    }
+  }, []);
+
   const onBlurInput = useCallback(() => {
     setEditMode(false);
 
@@ -44,6 +50,7 @@ const SongTitle = (props) => {
             type="text"
             value={title}
             onChange={(event) => setTitle(event.target.value)}
+            onKeyDown={onKeyDownInput}
             onBlur={onBlurInput}
           />
         ) : (
