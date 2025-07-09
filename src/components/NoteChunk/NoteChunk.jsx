@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { EDIT_CHUNK_KEY_DOWN_EVENT_FN_MAPPER } from './constants';
 import { onDragOver } from './functions';
@@ -12,16 +13,37 @@ const NoteChunk = (props) => {
     text,
     chunkIndex,
     noteIndex,
-    pitchIndex,
-    isDragDisabled,
-    isEditionDisabled,
+    filledNoteIndex,
     hasRightBorder,
     onOpenContextMenu,
     onEditNoteChunkText,
+    onEditNoteDefinitionChunkText,
   } = props;
+
+  const { t } = useTranslation();
 
   const [ editMode, setEditMode ] = useState(false);
   const [ editInputValue, setEditInputValue ] = useState(text);
+
+  const isTheNoteDefinitionChunk = useMemo(() => {
+    return noteIndex === 0;
+  }, [ noteIndex ]);
+
+  const isTheFirstChunk = useMemo(() => {
+    return chunkIndex === 0;
+  }, [ chunkIndex ]);
+
+  const pitchIndex = useMemo(() => {
+    return (chunkIndex % 12) + 1;
+  }, [ chunkIndex ]);
+
+  const isDragDisabled = useMemo(() => {
+    return !text || isTheNoteDefinitionChunk;
+  }, [ isTheNoteDefinitionChunk, text ]);
+
+  const titleValue = useMemo(() => {
+    return isTheNoteDefinitionChunk ? t('Double click to define pitch') :  t('Double click to define note');
+  }, [ isTheNoteDefinitionChunk, t ]);
 
   const onDoubleClickChunk = useCallback(() => {
     setEditMode(currentEditMode => !currentEditMode);
@@ -68,6 +90,18 @@ const NoteChunk = (props) => {
 
   const draggableId = useMemo(() => `note-chunk-${note.id}-${chunk.id}`, [ chunk.id, note.id ]);
 
+  const displayedText = useMemo(() => {
+    const noteDefinitionText = text === '' ? t('Pitch') : text;
+    const noteText = filledNoteIndex === -1 && text === '' ? t('Note') : text;
+    const textToBeDisplayed = isTheNoteDefinitionChunk ? noteDefinitionText : noteText;
+
+    return (
+      <span className={!text ? style.EmptyChunkText : null}>
+        {textToBeDisplayed}
+      </span>
+    );
+  }, [ filledNoteIndex, isTheNoteDefinitionChunk, t, text ]);
+
   return (
     <div
       id={draggableId}
@@ -82,17 +116,20 @@ const NoteChunk = (props) => {
           left: e.pageX - window.scrollX,
         });
       }}
-      onDoubleClick={!isEditionDisabled ? onDoubleClickChunk : null}
-      draggable={isDragDisabled ? 'false' : 'true'}
+      onDoubleClick={onDoubleClickChunk}
+      draggable={!isDragDisabled}
       onDragStart={onDragStart}
       onDrop={onDropChunk}
       onDragOver={onDragOver}
-      data-is-drag-disabled={isDragDisabled ? 'true' : 'false'}
+      data-is-drag-disabled={isDragDisabled}
       data-pitch-index={pitchIndex}
-      data-has-text={text ? 'true' : 'false'}
-      data-has-right-border={hasRightBorder}
+      data-has-bottom-border={!!text || isTheNoteDefinitionChunk}
+      data-has-right-border={hasRightBorder || isTheNoteDefinitionChunk}
+      data-has-left-border={isTheNoteDefinitionChunk}
+      data-has-top-border={isTheNoteDefinitionChunk && isTheFirstChunk}
       data-chunk-index={chunkIndex}
       data-note-index={noteIndex}
+      title={titleValue}
     >
       {
         editMode ?
@@ -105,14 +142,17 @@ const NoteChunk = (props) => {
             onChange={(event) => setEditInputValue(event.target.value)}
             onBlur={() => {
               setEditMode(false);
-              onEditNoteChunkText({
+
+              const onBlurFn = isTheNoteDefinitionChunk ? onEditNoteDefinitionChunkText : onEditNoteChunkText;
+
+              onBlurFn({
                 text: editInputValue,
                 noteIndex,
                 chunkIndex,
               });
             }}
           />
-          : <span>{text}</span>
+          : displayedText
       }
     </div>
   );

@@ -3,8 +3,11 @@
 @use '../../colors.scss';
 
 .NoteChunk {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 1.5rem;
-  min-height: 4.25rem;
+  height: 4.5rem;
   border-bottom: 2px solid colors.$lightgray;
   white-space: nowrap;
   position: relative;
@@ -17,14 +20,30 @@
     width: 70px;
   }
 
-  span {
-    cursor: text;
+  &, span {
+    cursor: pointer;
   }
 
-  &[data-has-text='true'] {
+  &[data-has-bottom-border='true'] {
     @for $i from 1 through 12 {
       &[data-pitch-index='#{$i}'] {
         border-bottom-color: list.nth(colors.$notes-colors, $i);
+      }
+    }
+  }
+
+  &[data-has-top-border='true'] {
+    @for $i from 1 through 12 {
+      &[data-pitch-index='#{$i}'] {
+        border-top: 2px solid list.nth(colors.$notes-colors, $i);
+      }
+    }
+  }
+
+  &[data-has-left-border='true'] {
+    @for $i from 1 through 12 {
+      &[data-pitch-index='#{$i}'] {
+        border-left: 2px solid list.nth(colors.$notes-colors, $i);
       }
     }
   }
@@ -40,4 +59,8 @@
   &[data-is-drag-disabled='false'] {
     cursor: move;
   }
+}
+
+.EmptyChunkText {
+  color: colors.$darkgray;
 }

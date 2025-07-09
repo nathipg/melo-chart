@@ -88,5 +88,9 @@
   "Navigate Pitches": "Navegar Alturas",
   "Arrow Up or Arrow Down": "Seta pra Cima ou Seta pra Baixo",
   "Keyboard Shortcuts when Editing Note": "Atalhos no Teclado ao Editar Nota",
-  "Song saved": "Música Salva"
+  "Song saved": "Música Salva",
+  "Double click to define note": "Clique duas vezes para definir a nota",
+  "Double click to define pitch": "Clique duas vezes para definir a altura",
+  "Pitch": "Altura",
+  "Note": "Nota"
 }

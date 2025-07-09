@@ -3,7 +3,7 @@ import { memo, useCallback } from 'react';
 import { NoteChunk } from '../NoteChunk';
 import { getPitchIndexInNote } from '../Notes/functions';
 
-import { loadOnEditNoteChunkText, shouldAddRightBorderOnNoteChunk } from './functions';
+import { loadOnEditNoteChunkText, loadOnEditNoteDefinitionChunkText, shouldAddRightBorderOnNoteChunk } from './functions';
 
 import style from './Note.module.scss';
 
@@ -17,18 +17,16 @@ const Note = (props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onEditNoteChunkText = useCallback(loadOnEditNoteChunkText(setNotes), [ setNotes ]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const onEditNoteDefinitionChunkText = useCallback(loadOnEditNoteDefinitionChunkText(setNotes), [ setNotes ]);
+
   return (
     <div className={style.Note}>
 
       {note.chunks.map((chunk, chunkIndex) => {
-        const pitchIndex = (chunkIndex % 12) + 1;
-        const isDragDisabled = !chunk.text || noteIndex == 0;
-        const isEditionDisabled = noteIndex == 0;
-
         const currentNoteNoteIndex = getPitchIndexInNote(note);
-
         const hasRightBorder = hasNextNote ? shouldAddRightBorderOnNoteChunk(chunkIndex, currentNoteNoteIndex, nextNoteNoteIndex) : false;
-  
+
         return (
           <NoteChunk
             note={note}
@@ -36,13 +34,12 @@ const Note = (props) => {
             key={chunk.id}
             chunkIndex={chunkIndex}
             noteIndex={noteIndex}
-            pitchIndex={pitchIndex}
+            filledNoteIndex={currentNoteNoteIndex}
             text={chunk.text}
-            isDragDisabled={isDragDisabled}
-            isEditionDisabled={isEditionDisabled}
             hasRightBorder={hasRightBorder}
             onOpenContextMenu={onOpenContextMenu}
             onEditNoteChunkText={onEditNoteChunkText}
+            onEditNoteDefinitionChunkText={onEditNoteDefinitionChunkText}
           />
         );
       })}
