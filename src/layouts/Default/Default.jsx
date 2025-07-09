@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useLocation } from 'react-router';
 
-import { BlockUI, Button, ButtonConstants, GrowlContainer, Link } from '../../components';
+import { BlockUI, Button, ButtonConstants, GrowlContainer, Link, MeloChartIcon } from '../../components';
 import { usersSliceActions, usersSliceSelectors } from '../../store/slices';
 
 import style from './Default.module.scss';
@@ -23,6 +23,7 @@ const Header = () => {
 
   return (
     <div className={style.Header}>
+      <MeloChartIcon />
       <h1>Melo Chart</h1>
       {
         isLoggedIn ? (

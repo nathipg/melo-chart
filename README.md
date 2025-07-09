@@ -5,7 +5,6 @@ App created to map the melody of songs
 ## TODO
 
 - General
-  - App Logo
   - Add option to share all songs with other user
 
 - Chart
