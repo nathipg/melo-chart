@@ -8,6 +8,7 @@ import { Button, ButtonConstants } from '../../Button';
 import { Dialog } from '../../Dialog';
 import { FormAddSong } from '../../FormAddSong';
 import { GrowlFns } from '../../Growl';
+import { PlusIcon } from '../../Icons';
 
 const AddSongDialog = (props) => {
   const { addSongDialogFnsRef } = props;
@@ -48,6 +49,7 @@ const AddSongDialog = (props) => {
       <Button
         category={ButtonConstants.ButtonCategories.SUCCESS}
         onClick={() => setShow(true)}
+        icon={<PlusIcon />}
       >
         {t('Add Song')}
       </Button>

@@ -2,7 +2,7 @@ import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Button, ButtonConstants, GrowlFns, LoadingIcon } from '..';
+import { Button, ButtonConstants, FloppyDiskIcon, GrowlFns, LoadingIcon } from '..';
 import { songsSliceActions, songsSliceSelectors, usersSliceSelectors } from '../../store/slices';
 import { isRequestLoading } from '../../utils';
 
@@ -17,6 +17,7 @@ const SaveChartOption = (props) => {
 
   const loggedUser = useSelector(usersSliceSelectors.selectLoggedUser);
   const saveSongStatus = useSelector(songsSliceSelectors.selectSaveSongStatus);
+  const saveSongMessage = useSelector(songsSliceSelectors.selectSaveSongMessage);
   const saveSongError = useSelector(songsSliceSelectors.selectSaveSongError);
 
   const onSaveSong = useCallback(async () => {
@@ -45,12 +46,13 @@ const SaveChartOption = (props) => {
         className={style.SaveSongButton}
         onClick={onSaveSong}
         category={ButtonConstants.ButtonCategories.SUCCESS}
+        icon={<FloppyDiskIcon />}
       >
         {isRequestLoading(saveSongStatus) ? <LoadingIcon /> : <></>} {t('Save Changes')}
       </Button>
 
-      {GrowlFns.renderSavedGrowl({
-        requestStatus: saveSongStatus,
+      {GrowlFns.renderSuccessGrowl({
+        message: saveSongMessage,
         onCloseGrowl: onCloseSaveSongSuccessGrowl,
       })}
 

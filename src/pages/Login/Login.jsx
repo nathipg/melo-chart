@@ -2,7 +2,7 @@ import { memo, useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Button, ButtonConstants, FieldWithLabel, GrowlFns, Input } from '../../components';
+import { Button, ButtonConstants, FieldWithLabel, GrowlFns, Input, RightToBracketIcon, UserPlusIcon } from '../../components';
 import { usersSliceActions, usersSliceSelectors } from '../../store/slices';
 
 import style from './Login.module.scss';
@@ -110,7 +110,12 @@ const Login = () => {
           )
         }
 
-        <Button category={ButtonConstants.ButtonCategories.SUCCESS}>{loginForm ? t('Sign in') : t('Sign up')}</Button>
+        <Button
+          category={ButtonConstants.ButtonCategories.SUCCESS}
+          icon={loginForm ? <RightToBracketIcon /> : <UserPlusIcon />}
+        >
+          {loginForm ? t('Sign in') : t('Sign up')}
+        </Button>
       </form>
 
       {

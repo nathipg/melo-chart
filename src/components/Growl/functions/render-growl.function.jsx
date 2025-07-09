@@ -1,6 +1,5 @@
 import { createPortal } from 'react-dom';
 
-import { REQUEST_STATUS } from '../../../constants';
 import { GROWL_CONTAINER_ID, GROWL_LEVEL } from '../constants';
 import { Growl } from '../Growl';
 
@@ -50,21 +49,6 @@ export const renderInfoGrowl = (params) => {
     level: GROWL_LEVEL.INFO,
     onCloseGrowl,
   });
-};
-
-export const renderSavedGrowl = (params) => {
-  const { requestStatus, onCloseGrowl } = params;
-
-  if(requestStatus != REQUEST_STATUS.SUCCEEDED) {
-    return <></>;
-  }
-    
-  return (
-    renderSuccessGrowl({
-      message: 'Saved',
-      onCloseGrowl,
-    })
-  );
 };
 
 export const renderSuccessGrowl = (params) => {

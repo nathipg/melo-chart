@@ -11,6 +11,7 @@ const { t } = i18n;
 const initialState = {
   saveSongStatus: REQUEST_STATUS.IDLE,
   saveSongError: null,
+  saveSongMessage: null,
 };
 
 // Async Thunk
@@ -37,6 +38,7 @@ const extraReducers = (builder) => {
     })
     .addCase(asyncThunk.saveSong.fulfilled, (state, action) => {
       state.saveSongStatus = REQUEST_STATUS.SUCCEEDED;
+      state.saveSongMessage = t('Song saved');
 
       const updatedSong = action.payload;
 
@@ -57,6 +59,9 @@ const selectors = {
   },
   selectSaveSongStatus: (state) => {
     return state.songs.saveSongStatus;
+  },
+  selectSaveSongMessage: (state) => {
+    return state.songs.saveSongMessage;
   },
 };
 
