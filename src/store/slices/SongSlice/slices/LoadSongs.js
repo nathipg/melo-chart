@@ -6,7 +6,7 @@ const initialState = {
 // Reducers
 const reducers = {
   loadSongs: (state, action) => {
-    state.songs = action.payload;
+    state.songs = [ ...action.payload ].sort((a, b) => a.title.localeCompare(b.title));
   },
 };
 
