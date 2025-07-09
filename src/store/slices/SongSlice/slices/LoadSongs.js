@@ -1,3 +1,5 @@
+import { alphabeticallySortSongs } from '../../../../utils';
+
 // Initial State
 const initialState = {
   songs: [],
@@ -6,7 +8,7 @@ const initialState = {
 // Reducers
 const reducers = {
   loadSongs: (state, action) => {
-    state.songs = [ ...action.payload ].sort((a, b) => a.title.localeCompare(b.title));
+    state.songs = alphabeticallySortSongs(action.payload);
   },
 };
 

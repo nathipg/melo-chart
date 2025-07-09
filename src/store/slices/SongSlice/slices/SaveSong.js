@@ -3,6 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { REQUEST_STATUS } from '../../../../constants';
 import i18n from '../../../../i18n';
 import { songsService } from '../../../../services';
+import { alphabeticallySortSongs } from '../../../../utils';
 import { SONG_SLICE_NAME } from '../constants';
 
 const { t } = i18n;
@@ -51,6 +52,8 @@ const extraReducers = (builder) => {
 
       const existingSong = state.songs.find(song => song.id === updatedSong.id);
       existingSong.notes = updatedSong.notes;
+
+      state.songs = alphabeticallySortSongs(state.songs);
     })
     .addCase(asyncThunk.saveSong.rejected, (state, action) => {
       state.saveSongStatus = REQUEST_STATUS.FAILED;
