@@ -72,6 +72,7 @@ const AddSongDialog = (props) => {
                   category={ButtonConstants.ButtonCategories.SUCCESS}
                   form="formAddSong"
                   type="submit"
+                  icon={<PlusIcon />}
                 >
                   {t('Add')}
                 </Button>
