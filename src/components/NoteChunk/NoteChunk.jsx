@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Input } from '../Input';
@@ -7,6 +7,10 @@ import { EDIT_CHUNK_KEY_DOWN_EVENT_FN_MAPPER } from './constants';
 import { onDragOver } from './functions';
 
 import style from './NoteChunk.module.scss';
+
+const LS_DT_TEXT = 'drag-data-transfer-text';
+const LS_DT_NOTE_INDEX = 'drag-data-transfer-note-index';
+const LS_DT_CHUNK_INDEX = 'drag-data-transfer-chunk-index';
 
 const NoteChunk = (props) => {
   const {
@@ -44,10 +48,10 @@ const NoteChunk = (props) => {
   }, [ isTheNoteDefinitionChunk, text ]);
 
   const titleValue = useMemo(() => {
-    return isTheNoteDefinitionChunk ? t('Double click to define pitch') :  t('Double click to define note&#013;Drag the note to move it');
+    return isTheNoteDefinitionChunk ? t('Click to define pitch') :  `${t('Click to define note')}. ${t('Drag the note to move it')}`;
   }, [ isTheNoteDefinitionChunk, t ]);
 
-  const onDoubleClickChunk = useCallback(() => {
+  const onClickChunk = useCallback(() => {
     setEditMode(currentEditMode => !currentEditMode);
   }, []);
 
@@ -104,10 +108,94 @@ const NoteChunk = (props) => {
     );
   }, [ filledNoteIndex, isTheNoteDefinitionChunk, t, text ]);
 
+  // Drag n Drop Mobile
+  const chunkRef = useRef(null);
+
+  useEffect(() => {
+    const chunkElement = chunkRef.current;
+
+    const onTouchStart = () => {
+      localStorage.setItem(LS_DT_TEXT, text);
+      localStorage.setItem(LS_DT_NOTE_INDEX, noteIndex);
+      localStorage.setItem(LS_DT_CHUNK_INDEX, chunkIndex);
+    };
+
+    const onTouchMove = (event) => {
+      const sourceText = localStorage.getItem(LS_DT_TEXT);
+
+      if (!sourceText) {
+        return;
+      }
+
+      event.preventDefault();
+
+      // Get current touch position and element
+      const touch = event.touches[0];
+      const elementBeenHovered = document.elementFromPoint(touch.clientX, touch.clientY);
+      const dropZone = elementBeenHovered.closest(`.${style.NoteChunk}`);
+
+      document
+        .querySelectorAll(`.${style.HighlightDropZone}`)
+        .forEach(chunk => chunk.classList.remove(style.HighlightDropZone));
+
+      if (dropZone) {
+        dropZone.classList.add(style.HighlightDropZone);
+      }
+    };
+
+    const onTouchEnd = (event) => {
+      const sourceText = localStorage.getItem(LS_DT_TEXT);
+      const sourceNoteIndex = localStorage.getItem(LS_DT_NOTE_INDEX);
+      const sourceChunkIndex = localStorage.getItem(LS_DT_CHUNK_INDEX);
+
+      const touch = event.changedTouches[0];
+      const elementBeenHovered = document.elementFromPoint(touch.clientX, touch.clientY);
+      const dropZone = elementBeenHovered.closest(`.${style.NoteChunk}`);
+      const currentChunkIndex = dropZone.dataset.chunkIndex;
+
+      if (!sourceText) {
+        return;
+      }
+
+      if(sourceNoteIndex != noteIndex) {
+        return;
+      }
+
+      if(sourceChunkIndex == currentChunkIndex) {
+        return;
+      }
+
+      event.preventDefault();
+
+      localStorage.removeItem(LS_DT_TEXT);
+      localStorage.removeItem(LS_DT_NOTE_INDEX);
+
+      dropZone.classList.remove(style.HighlightDropZone);
+
+      onEditNoteChunkText({
+        text: sourceText,
+        noteIndex,
+        chunkIndex: currentChunkIndex,
+      });
+    };
+    
+    chunkElement?.addEventListener('touchstart', onTouchStart, { passive: false });
+    chunkElement?.addEventListener('touchmove', onTouchMove, { passive: false });
+    chunkElement?.addEventListener('touchend', onTouchEnd, { passive: false });
+
+    return () => {
+      chunkElement?.removeEventListener('touchstart', onTouchStart, { passive: false });
+      chunkElement?.removeEventListener('touchmove', onTouchMove, { passive: false });
+      chunkElement?.removeEventListener('touchend', onTouchEnd, { passive: false });
+    };
+  }, [ chunkIndex, noteIndex, onEditNoteChunkText, text ]);
+  // END Drag n Drop Mobile
+
   return (
     <div
       id={draggableId}
       className={style.NoteChunk}
+      ref={chunkRef}
       onContextMenu={(e) => {
         e.preventDefault();
 
@@ -118,7 +206,7 @@ const NoteChunk = (props) => {
           left: e.pageX - window.scrollX,
         });
       }}
-      onDoubleClick={onDoubleClickChunk}
+      onClick={onClickChunk}
       draggable={!isDragDisabled}
       onDragStart={onDragStart}
       onDrop={onDropChunk}

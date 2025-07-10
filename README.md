@@ -12,6 +12,3 @@ App created to map the melody of songs
   - Add option to define sections
   - Change to not break sections on wrap
   - Export to image
-
-- Known Issues
-  - [MOBILE] Drag n drop is not working 

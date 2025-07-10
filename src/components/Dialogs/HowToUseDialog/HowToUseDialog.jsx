@@ -42,7 +42,7 @@ const HowToUseDialog = () => {
                     <tbody>
                       <tr>
                         <td>{t('Edit Note')}</td>
-                        <td>{t('Double click the note')}</td>
+                        <td>{t('Click the note')}</td>
                       </tr>
                       <tr>
                         <td>{t('Break Word Into Notes')}</td>
