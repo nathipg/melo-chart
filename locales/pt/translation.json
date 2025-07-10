@@ -70,7 +70,7 @@
   "Action": "Ação",
   "How To Do": "Como Fazer",
   "Edit Note": "Editar Nota",
-  "Double click the note": "Duplo click na nota",
+  "Click the note": "Clique na nota",
   "Break Word Into Notes": "Quebrar Palavra em Notas",
   "Add spaces between letters and hit enter (or click outside)": "Adicione espaços entre as letras e aperte enter (ou click fora do input)",
   "Change Note Pitch": "Mudar Altura da Nota",
@@ -88,8 +88,9 @@
   "Arrow Up or Arrow Down": "Seta pra Cima ou Seta pra Baixo",
   "Keyboard Shortcuts when Editing Note": "Atalhos no Teclado ao Editar Nota",
   "Song saved": "Música Salva",
-  "Double click to define note&#013;Drag the note to move it": "Clique duas vezes para definir a nota&#013;Arraste a nota para movê-la",
-  "Double click to define pitch": "Clique duas vezes para definir a altura",
+  "Click to define note": "Clique para definir a nota",
+  "Drag the note to move it": "Arraste a nota para movê-la",
+  "Click to define pitch": "Clique para definir a altura",
   "Pitch": "Altura",
   "Note": "Nota"
 }
