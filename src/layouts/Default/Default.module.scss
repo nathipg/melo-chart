@@ -1,22 +1,78 @@
 @use '../../colors.scss';
+@use '../../screen-sizes.scss' as screenSizes;
+
+.HeaderBar {
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+}
 
 .Header {
   display: flex;
   align-items: baseline;
-  margin-bottom: 1rem;
-  padding: 0.5rem 1rem;
   gap: 1rem;
+
+  h1 {
+    white-space: nowrap;
+  }
 
   ul {
     list-style: none;
+
+    li {
+      a {
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .MenuOptionsExtraSmall {
+    margin-left: auto;
+    align-self: center;
+
+    @media screen and (min-width: screenSizes.$sm) {
+      display: none;
+    }
+  }
+
+  .MenuOptionsSmallOrBigger {
+    display: none;
+
+    @media screen and (min-width: screenSizes.$sm) {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex: 1;
+    }
+  }
+}
+
+.MenuOptionsContainer {
+  padding: 0.5rem 1rem;
+  background: colors.$lightgray;
+  border-radius: 5px;
+
+  ul {
+    list-style: none;
+
+    li {
+      a {
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .DivisorTop {
+    border-top: 1px solid colors.$gray;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+  }
+
+  @media screen and (min-width: screenSizes.$sm) {
+    display: none;
   }
 }
 
 .ContentContainer {
   padding: 0.5rem 1rem;
   padding-top: 0;
-}
-
-.SignOut {
-  margin-left: auto;
 }

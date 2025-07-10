@@ -1,9 +1,9 @@
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useLocation } from 'react-router';
 
-import { BlockUI, Button, ButtonConstants, GrowlContainer, Link, MeloChartIcon } from '../../components';
+import { BarsIcon, BlockUI, Button, ButtonConstants, GrowlContainer, Link, MeloChartIcon } from '../../components';
 import { usersSliceActions, usersSliceSelectors } from '../../store/slices';
 
 import style from './Default.module.scss';
@@ -15,6 +15,8 @@ const Header = () => {
 
   const isLoggedIn = useSelector(usersSliceSelectors.isLoggedIn);
 
+  const [ menuOpened, setMenuOpened ] = useState(false);
+
   const onLogout = useCallback((event) => {
     event.preventDefault();
 
@@ -22,26 +24,61 @@ const Header = () => {
   }, [ dispatch ]);
 
   return (
-    <div className={style.Header}>
-      <MeloChartIcon />
-      <h1>Melo Chart</h1>
+    <div className={style.HeaderBar}>
+      <div className={style.Header}>
+        <MeloChartIcon />
+
+        <h1>Melo Chart</h1>
+
+        {
+          isLoggedIn ? (
+            <>
+              <div className={style.MenuOptionsSmallOrBigger}>
+                <ul>
+                  <li>
+                    <Link to={{ pathname: '' }}>{t('My songs')}</Link>
+                  </li>
+                </ul>
+                <Button
+                  category={ButtonConstants.ButtonCategories.DANGER}
+                  textOnly={true}
+                  onClick={onLogout}
+                >
+                  {t('Sign Out')}
+                </Button>
+              </div>
+
+              <div className={style.MenuOptionsExtraSmall}>
+                <Button
+                  onClick={() => setMenuOpened(currentMenuOpened => !currentMenuOpened)}
+                >
+                  <BarsIcon />
+                </Button>
+              </div>
+            </>
+          ) : <></>
+        }
+      </div>
+
       {
-        isLoggedIn ? (
-          <>
+        isLoggedIn && menuOpened ? (
+          <div className={style.MenuOptionsContainer}>
             <ul>
               <li>
                 <Link to={{ pathname: '' }}>{t('My songs')}</Link>
               </li>
+
+              <li className={style.DivisorTop}>
+                <Button
+                  category={ButtonConstants.ButtonCategories.DANGER}
+                  textOnly={true}
+                  onClick={onLogout}
+                >
+                  {t('Sign Out')}
+                </Button>
+              </li>
             </ul>
-            <Button
-              className={style.SignOut}
-              category={ButtonConstants.ButtonCategories.DANGER}
-              textOnly={true}
-              onClick={onLogout}
-            >
-              {t('Sign Out')}
-            </Button>
-          </>
+          </div>
         ) : <></>
       }
     </div>

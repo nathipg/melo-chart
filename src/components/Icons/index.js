@@ -1,3 +1,4 @@
+export * from './BarsIcon';
 export * from './CircleQuestionIcon';
 export * from './FloppyDiskIcon';
 export * from './GearsIcon';
