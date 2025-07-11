@@ -116,7 +116,7 @@ const Default = () => {
         <Outlet />
       </ContentContainer>
 
-      { !isPageLoaded ? <BlockUI /> : <></>}
+      {/* { !isPageLoaded ? <BlockUI /> : <></>} */}
     </>
   );
 };
