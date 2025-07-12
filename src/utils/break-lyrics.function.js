@@ -1,4 +1,4 @@
 export const breakLyrics = (lyrics) => {
   const normalizedLyrics = lyrics || '';
-  return normalizedLyrics.replaceAll('\n', ' ').trim().split(' ');
+  return normalizedLyrics.replaceAll(/\s+/g, ' ').trim().split(' ');
 };
