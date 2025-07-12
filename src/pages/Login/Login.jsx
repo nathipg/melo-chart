@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, ButtonConstants, FieldWithLabel, GrowlFns, Input, RightToBracketIcon, UserPlusIcon } from '../../components';
-import { usersSliceActions, usersSliceSelectors } from '../../store/slices';
+import { UserSlice } from '../../store/slices';
 
 import style from './Login.module.scss';
 
@@ -12,8 +12,8 @@ const Login = () => {
 
   const dispatch = useDispatch();
 
-  const signUpError = useSelector(usersSliceSelectors.selectSignUpError);
-  const signInError = useSelector(usersSliceSelectors.selectSignInError);
+  const signUpError = useSelector(UserSlice.selectors.selectSignUpError);
+  const signInError = useSelector(UserSlice.selectors.selectSignInError);
 
   const usernameInputRef = useRef(null);
 
@@ -38,7 +38,7 @@ const Login = () => {
   const onSubmitLogin = useCallback((event) => {
     event.preventDefault();
 
-    dispatch(usersSliceActions.signInUser({
+    dispatch(UserSlice.actions.signInUser({
       email,
       password,
     }));
@@ -47,7 +47,7 @@ const Login = () => {
   const onSubmitSignUp = useCallback((event) => {
     event.preventDefault();
 
-    dispatch(usersSliceActions.signUpUser({
+    dispatch(UserSlice.actions.signUpUser({
       username: getFormUsername(),
       email,
       password,
@@ -55,11 +55,11 @@ const Login = () => {
   }, [ dispatch, email, getFormUsername, password ]);
 
   const onCloseSignUpErrorGrowl = useCallback(() => {
-    dispatch(usersSliceActions.clearSignUpError());
+    dispatch(UserSlice.actions.clearSignUpError());
   }, [ dispatch ]);
 
   const onCloseSignInErrorGrowl = useCallback(() => {
-    dispatch(usersSliceActions.clearSignInError());
+    dispatch(UserSlice.actions.clearSignInError());
   }, [ dispatch ]);
 
   return (

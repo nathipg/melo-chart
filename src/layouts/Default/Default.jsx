@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useLocation } from 'react-router';
 
 import { BarsIcon, BlockUI, Button, ButtonConstants, GrowlContainer, Link, MeloChartIcon } from '../../components';
-import { usersSliceActions, usersSliceSelectors } from '../../store/slices';
+import { UserSlice } from '../../store/slices';
 
 import style from './Default.module.scss';
 
@@ -13,14 +13,14 @@ const Header = () => {
 
   const dispatch = useDispatch();
 
-  const isLoggedIn = useSelector(usersSliceSelectors.isLoggedIn);
+  const isLoggedIn = useSelector(UserSlice.selectors.isLoggedIn);
 
   const [ menuOpened, setMenuOpened ] = useState(false);
 
   const onLogout = useCallback((event) => {
     event.preventDefault();
 
-    dispatch(usersSliceActions.signOutUser());
+    dispatch(UserSlice.actions.signOutUser());
   }, [ dispatch ]);
 
   return (
@@ -98,7 +98,7 @@ const ContentContainer = (props) => {
 const Default = () => {
   const location = useLocation();
 
-  const isFirebaseOnAuthStateChangedStatusComplete = useSelector(usersSliceSelectors.isFirebaseOnAuthStateChangedStatusComplete);
+  const isFirebaseOnAuthStateChangedStatusComplete = useSelector(UserSlice.selectors.isFirebaseOnAuthStateChangedStatusComplete);
 
   const isPageLoaded = useMemo(() => {
     const hasURLRedirectSearch = location.search.startsWith('?url=');

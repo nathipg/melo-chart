@@ -2,7 +2,7 @@ import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { songsSliceActions, songsSliceSelectors, usersSliceSelectors } from '../../store/slices';
+import { SongSlice, UserSlice } from '../../store/slices';
 import { isRequestLoading } from '../../utils';
 import { FieldWithLabel } from '../FieldWithLabel';
 import { Input } from '../Input';
@@ -17,9 +17,9 @@ const FormAddSong = () => {
 
   const dispatch = useDispatch();
   
-  const loggedUser = useSelector(usersSliceSelectors.selectLoggedUser);
+  const loggedUser = useSelector(UserSlice.selectors.selectLoggedUser);
 
-  const addSongStatus = useSelector(songsSliceSelectors.selectAddSongStatus);
+  const addSongStatus = useSelector(SongSlice.selectors.selectAddSongStatus);
 
   const onSubmitForm = useCallback(async (event) => {
     event.preventDefault();
@@ -34,7 +34,7 @@ const FormAddSong = () => {
     const lyrics = form.lyrics.value || '';
 
     if(!title) {
-      dispatch(songsSliceActions.setAddSongError(t('Please, insert a song title')));
+      dispatch(SongSlice.actions.setAddSongError(t('Please, insert a song title')));
       return;
     }
 
@@ -44,7 +44,7 @@ const FormAddSong = () => {
       lyrics,
     });
 
-    dispatch(songsSliceActions.addSong({
+    dispatch(SongSlice.actions.addSong({
       loggedUser,
       song: newSong,
     }));

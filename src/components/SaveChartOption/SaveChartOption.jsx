@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, ButtonConstants, FloppyDiskIcon, GrowlFns, LoadingIcon } from '..';
-import { songsSliceActions, songsSliceSelectors, usersSliceSelectors } from '../../store/slices';
+import { SongSlice, UserSlice } from '../../store/slices';
 import { isRequestLoading } from '../../utils';
 
 import style from './SaveChartOption.module.scss';
@@ -15,17 +15,17 @@ const SaveChartOption = (props) => {
 
   const dispatch = useDispatch();
 
-  const song = useSelector(songsSliceSelectors.selectSongById(songId));
-  const loggedUser = useSelector(usersSliceSelectors.selectLoggedUser);
-  const saveSongStatus = useSelector(songsSliceSelectors.selectSaveSongStatus);
-  const saveSongMessage = useSelector(songsSliceSelectors.selectSaveSongMessage);
-  const saveSongError = useSelector(songsSliceSelectors.selectSaveSongError);
+  const song = useSelector(SongSlice.selectors.selectSongById(songId));
+  const loggedUser = useSelector(UserSlice.selectors.selectLoggedUser);
+  const saveSongStatus = useSelector(SongSlice.selectors.selectSaveSongStatus);
+  const saveSongMessage = useSelector(SongSlice.selectors.selectSaveSongMessage);
+  const saveSongError = useSelector(SongSlice.selectors.selectSaveSongError);
 
   const onSaveSong = useCallback(async () => {
     const updatedNotes = notesFnsRef.current?.getNotes();
     const updatedTitle = song.title;
 
-    dispatch(songsSliceActions.saveSong({
+    dispatch(SongSlice.actions.saveSong({
       song: {
         ...song,
         title: updatedTitle,
@@ -36,11 +36,11 @@ const SaveChartOption = (props) => {
   }, [ dispatch, loggedUser, notesFnsRef, song ]);
 
   const onCloseSaveSongErrorGrowl = useCallback(() => {
-    dispatch(songsSliceActions.clearSaveSongError());
+    dispatch(SongSlice.actions.clearSaveSongError());
   }, [ dispatch ]);
 
   const onCloseSaveSongSuccessGrowl = useCallback(() => {
-    dispatch(songsSliceActions.clearSaveSongStatus());
+    dispatch(SongSlice.actions.clearSaveSongStatus());
   }, [ dispatch ]);
 
   return (

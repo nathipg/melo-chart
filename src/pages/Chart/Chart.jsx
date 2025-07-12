@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Navigate, useBlocker, useSearchParams } from 'react-router';
 
 import { GenerateChartDialog, LeaveChartPageConfirmDialog, Song } from '../../components';
-import { songsSliceSelectors } from '../../store/slices';
+import { SongSlice } from '../../store/slices';
 
 import style from './Chart.module.scss';
 
@@ -15,7 +15,7 @@ const Chart = () => {
 
   const songId = searchParams.get('id') || null;
 
-  const song = useSelector(songsSliceSelectors.selectSongById(songId));
+  const song = useSelector(SongSlice.selectors.selectSongById(songId));
 
   const onAddWordsAsNotes = useCallback((songText) => {
     notesFnsRef.current?.addWordsAsNotes(songText);

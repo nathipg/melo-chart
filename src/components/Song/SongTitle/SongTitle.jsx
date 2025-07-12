@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
 import { Checkbox, SaveChartOption } from '../..';
-import { songsSliceActions } from '../../../store/slices';
+import { SongSlice } from '../../../store/slices';
 import { Input } from '../../Input';
 
 import style from './SongTitle.module.scss';
@@ -31,7 +31,7 @@ const SongTitle = (props) => {
   const onBlurInput = useCallback(() => {
     setEditMode(false);
 
-    dispatch(songsSliceActions.editSongTitle({
+    dispatch(SongSlice.actions.editSongTitle({
       id,
       title,
     }));

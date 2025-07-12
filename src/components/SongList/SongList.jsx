@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { songsSliceSelectors } from '../../store/slices';
+import { SongSlice } from '../../store/slices';
 
 import { renderSongs } from './functions';
 
@@ -11,7 +11,7 @@ import style from './SongList.module.scss';
 const SongList = () => {
   const { t } = useTranslation();
 
-  const songs = useSelector(songsSliceSelectors.selectAllSongs);
+  const songs = useSelector(SongSlice.selectors.selectAllSongs);
 
   return (
     <div className={style.SongListContainer}>

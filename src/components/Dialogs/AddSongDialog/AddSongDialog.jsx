@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
-import { songsSliceActions, songsSliceSelectors } from '../../../store/slices';
+import { SongSlice } from '../../../store/slices';
 import { Button, ButtonConstants } from '../../Button';
 import { Dialog } from '../../Dialog';
 import { FormAddSong } from '../../FormAddSong';
@@ -19,9 +19,9 @@ const AddSongDialog = (props) => {
 
   const navigate = useNavigate();
 
-  const addSongStatus = useSelector(songsSliceSelectors.selectAddSongStatus);
-  const addSongError = useSelector(songsSliceSelectors.selectAddSongError);
-  const latestAddedSongId = useSelector(songsSliceSelectors.selectLatestAddedSongId);
+  const addSongStatus = useSelector(SongSlice.selectors.selectAddSongStatus);
+  const addSongError = useSelector(SongSlice.selectors.selectAddSongError);
+  const latestAddedSongId = useSelector(SongSlice.selectors.selectLatestAddedSongId);
 
   const [ show, setShow ] = useState(false);
 
@@ -34,12 +34,12 @@ const AddSongDialog = (props) => {
   });
 
   const onCloseAddSongErrorGrowl = useCallback(() => {
-    dispatch(songsSliceActions.clearAddSongError());
+    dispatch(SongSlice.actions.clearAddSongError());
   }, [ dispatch ]);
 
   useEffect(() => {
     if(latestAddedSongId != null) {
-      dispatch(songsSliceActions.clearLatestAddedSongId());
+      dispatch(SongSlice.actions.clearLatestAddedSongId());
       navigate(`/chart?id=${latestAddedSongId}`);
     }
   }, [ addSongStatus, dispatch, latestAddedSongId, navigate ]);

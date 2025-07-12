@@ -4,7 +4,7 @@ import { createHashRouter, Navigate, RouterProvider, useLocation, useNavigate, u
 
 import { Default } from './layouts';
 import { Chart, Home, Login } from './pages';
-import { usersSliceSelectors } from './store/slices';
+import { UserSlice } from './store/slices';
 
 const CheckLoginRedirectRoute = (props) => {
   const { children } = props;
@@ -12,7 +12,7 @@ const CheckLoginRedirectRoute = (props) => {
   const navigate = useNavigate();
   const [ searchParams ] = useSearchParams();
 
-  const isLoggedIn = useSelector(usersSliceSelectors.isLoggedIn);
+  const isLoggedIn = useSelector(UserSlice.selectors.isLoggedIn);
 
   useEffect(() => {
     if(isLoggedIn) {
@@ -32,8 +32,8 @@ const ProtectedRoute = (props) => {
   const location = useLocation();
   const [ searchParams ] = useSearchParams();
 
-  const isLoggedIn = useSelector(usersSliceSelectors.isLoggedIn);
-  const isLoginVerificationComplete = useSelector(usersSliceSelectors.isLoginVerificationComplete);
+  const isLoggedIn = useSelector(UserSlice.selectors.isLoggedIn);
+  const isLoginVerificationComplete = useSelector(UserSlice.selectors.isLoginVerificationComplete);
 
   useEffect(() => {
     if (!isLoggedIn) {
