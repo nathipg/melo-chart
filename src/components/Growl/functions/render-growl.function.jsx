@@ -6,7 +6,7 @@ import { Growl } from '../Growl';
 export const renderGrowl = (params) => {
   const { fixed, level, message, onCloseGrowl } = params;
 
-  if(!level || !message) {
+  if(!level || !message || !onCloseGrowl) {
     return <></>;
   }
 
