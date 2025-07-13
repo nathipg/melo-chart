@@ -5,4 +5,9 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   base: '/melo-chart',
   plugins: [ react() ],
+  test: {
+    coverage: {
+      reporter: [ 'text', 'json', 'html' ],
+    },
+  },
 });
