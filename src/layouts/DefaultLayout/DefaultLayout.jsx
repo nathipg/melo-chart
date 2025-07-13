@@ -6,7 +6,7 @@ import { Outlet, useLocation } from 'react-router';
 import { BarsIcon, BlockUI, Button, ButtonConstants, GrowlContainer, Link, MeloChartIcon } from '../../components';
 import { UserSlice } from '../../store/slices';
 
-import style from './Default.module.scss';
+import style from './DefaultLayout.module.scss';
 
 const Header = () => {
   const { t } = useTranslation();
@@ -95,7 +95,7 @@ const ContentContainer = (props) => {
   );
 };
 
-const Default = () => {
+const DefaultLayout = () => {
   const location = useLocation();
 
   const isFirebaseOnAuthStateChangedStatusComplete = useSelector(UserSlice.selectors.isFirebaseOnAuthStateChangedStatusComplete);
@@ -121,6 +121,6 @@ const Default = () => {
   );
 };
 
-const DefaultMemo = memo(Default);
+const DefaultLayoutMemo = memo(DefaultLayout);
 
-export { DefaultMemo as Default };
+export { DefaultLayoutMemo as DefaultLayout };

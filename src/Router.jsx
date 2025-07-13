@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { createHashRouter, Navigate, RouterProvider, useLocation, useNavigate, useSearchParams } from 'react-router';
 
-import { Default } from './layouts';
+import { DefaultLayout } from './layouts';
 import { Chart, Home, Login } from './pages';
 import { UserSlice } from './store/slices';
 
@@ -56,7 +56,7 @@ const ProtectedRoute = (props) => {
 const router = createHashRouter([
   {
     path: '/',
-    element: <Default />,
+    element: <DefaultLayout />,
     children: [
       {
         index: true,
