@@ -1,7 +1,7 @@
 import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Button, ButtonConstants } from '../../Button';
+import { Button, ButtonConstants } from '@/components';
 
 import style from './TrimOptions.module.scss';
 

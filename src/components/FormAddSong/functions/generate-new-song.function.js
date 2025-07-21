@@ -1,7 +1,7 @@
 import { v7 as uuid } from 'uuid';
 
-import { breakLyrics } from '../../../utils';
-import { generateNewNote } from '../../Notes/functions/generate-new-note.function';
+import { NoteFns } from '@/components';
+import { breakLyrics } from '@/utils';
 
 export const generateNewSong = (data) => {
   const { title, pitches, lyrics } = data;
@@ -12,15 +12,15 @@ export const generateNewSong = (data) => {
 
   const notes = lyrics ?
     [
-      generateNewNote(normalizedPitches),
+      NoteFns.generateNewNote(normalizedPitches),
       ...allWords.map(word => {
-        const note = generateNewNote(normalizedPitches);
+        const note = NoteFns.generateNewNote(normalizedPitches);
         note.chunks[0].text = word;
 
         return note;
       }),
     ]
-    : Array.from({ length: 1 }, () => generateNewNote(normalizedPitches));
+    : Array.from({ length: 1 }, () => NoteFns.generateNewNote(normalizedPitches));
 
   return {
     id: uuid(),

@@ -1,11 +1,9 @@
 import { doc, setDoc, getFirestore, getDoc, collection, getDocs, deleteDoc } from 'firebase/firestore';
 import { v7 as uuid } from 'uuid';
 
-import { signUp } from './auth';
+import { firebaseService } from '@/services';
+
 import { app } from './firebase-app';
-
-import { firebaseService } from '.';
-
 
 const db = getFirestore(app);
 
@@ -24,7 +22,7 @@ export const addSong = async (data) => {
 export const addUser = async (data) => {
   const { email, password, username } = data;
 
-  const { uid } = await signUp(email, password);
+  const { uid } = await firebaseService.auth.signUp(email, password);
 
   await setDoc(
     doc(db, 'users', uid),

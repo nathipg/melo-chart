@@ -2,8 +2,8 @@ import { memo, useCallback, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, useBlocker, useSearchParams } from 'react-router';
 
-import { GenerateChartDialog, LeaveChartPageConfirmDialog, Song } from '../../components';
-import { SongSlice } from '../../store/slices';
+import { GenerateChartDialog, LeaveChartPageConfirmDialog, Song } from '@/components';
+import { SongSlice } from '@/store/slices';
 
 import style from './Chart.module.scss';
 

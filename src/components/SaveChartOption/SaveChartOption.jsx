@@ -2,9 +2,9 @@ import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Button, ButtonConstants, FloppyDiskIcon, GrowlFns, LoadingIcon } from '..';
-import { SongSlice, UserSlice } from '../../store/slices';
-import { isRequestLoading } from '../../utils';
+import { Button, ButtonConstants, FloppyDiskIcon, GrowlFns, LoadingIcon } from '@/components';
+import { SongSlice, UserSlice } from '@/store/slices';
+import { isRequestLoading } from '@/utils';
 
 import style from './SaveChartOption.module.scss';
 

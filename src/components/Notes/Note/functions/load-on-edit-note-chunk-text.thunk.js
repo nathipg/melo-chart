@@ -1,4 +1,4 @@
-import { generateNewNote, getPitchesQty } from '../../Notes/functions';
+import { generateNewNote, getPitchesQty } from '../../functions';
 
 export const loadOnEditNoteChunkText = (setNotes) => (params) => {
   const { text, noteIndex, chunkIndex } = params;

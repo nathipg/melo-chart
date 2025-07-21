@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import { LoadingIcon } from '../Icons';
+import { LoadingIcon } from '@/components';
 
 import style from './BlockUI.module.scss';
 

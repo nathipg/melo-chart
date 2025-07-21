@@ -3,12 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
-import { SongSlice } from '../../../store/slices';
-import { Button, ButtonConstants } from '../../Button';
-import { Dialog } from '../../Dialog';
-import { FormAddSong } from '../../FormAddSong';
-import { GrowlFns } from '../../Growl';
-import { PlusIcon } from '../../Icons';
+import { Button, ButtonConstants, Dialog, FormAddSong, GrowlFns, PlusIcon } from '@/components';
+import { SongSlice } from '@/store/slices';
 
 const AddSongDialog = (props) => {
   const { addSongDialogFnsRef } = props;

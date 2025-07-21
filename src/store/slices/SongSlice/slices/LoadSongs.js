@@ -1,4 +1,4 @@
-import { alphabeticallySortSongs } from '../../../../utils';
+import { alphabeticallySortSongs } from '@/utils';
 
 // Initial State
 const initialState = {

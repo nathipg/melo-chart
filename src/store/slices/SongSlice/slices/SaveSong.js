@@ -1,9 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { REQUEST_STATUS } from '../../../../constants';
-import i18n from '../../../../i18n';
-import { songsService } from '../../../../services';
-import { alphabeticallySortSongs } from '../../../../utils';
+import { REQUEST_STATUS } from '@/constants';
+import i18n from '@/i18n';
+import { songsService } from '@/services';
+import { alphabeticallySortSongs } from '@/utils';
+
 import { SONG_SLICE_NAME } from '../constants';
 
 const { t } = i18n;

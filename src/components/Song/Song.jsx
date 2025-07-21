@@ -1,11 +1,7 @@
 import { memo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Button, ButtonConstants } from '../Button';
-import { ConfigSongDialog, DeleteSongConfirmDialog } from '../Dialogs';
-import { HowToUseDialog } from '../Dialogs/HowToUseDialog';
-import { GearsIcon } from '../Icons/GearsIcon/GearsIcon';
-import { Notes } from '../Notes';
+import { Button, ButtonConstants, ConfigSongDialog, DeleteSongConfirmDialog, GearsIcon, HowToUseDialog, Notes } from '@/components';
 
 import { SongTitle } from './SongTitle/SongTitle';
 

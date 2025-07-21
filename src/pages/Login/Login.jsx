@@ -2,8 +2,8 @@ import { memo, useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Button, ButtonConstants, FieldWithLabel, GrowlFns, Input, RightToBracketIcon, UserPlusIcon } from '../../components';
-import { UserSlice } from '../../store/slices';
+import { Button, ButtonConstants, FieldWithLabel, GrowlFns, Input, RightToBracketIcon, UserPlusIcon } from '@/components';
+import { UserSlice } from '@/store/slices';
 
 import style from './Login.module.scss';
 

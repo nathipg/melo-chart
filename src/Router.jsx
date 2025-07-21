@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { createHashRouter, Navigate, RouterProvider, useLocation, useNavigate, useSearchParams } from 'react-router';
 
-import { DefaultLayout } from './layouts';
-import { Chart, Home, Login } from './pages';
-import { UserSlice } from './store/slices';
+import { DefaultLayout } from '@/layouts';
+import { Chart, Home, Login } from '@/pages';
+import { UserSlice } from '@/store/slices';
 
 const CheckLoginRedirectRoute = (props) => {
   const { children } = props;

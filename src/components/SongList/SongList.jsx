@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { SongSlice } from '../../store/slices';
+import { SongSlice } from '@/store/slices';
 
 import { renderSongs } from './functions';
 

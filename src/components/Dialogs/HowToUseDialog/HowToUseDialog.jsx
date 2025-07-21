@@ -1,9 +1,7 @@
 import { memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Button, ButtonConstants } from '../../Button';
-import { Dialog, DialogConstants } from '../../Dialog';
-import { CircleQuestionIcon } from '../../Icons';
+import { Button, ButtonConstants, CircleQuestionIcon, Dialog, DialogConstants } from '@/components';
 
 import style from './HowToUseDialog.module.scss';
 

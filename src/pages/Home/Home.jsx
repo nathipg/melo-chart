@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import { AddSongDialog, SongList } from '../../components';
+import { AddSongDialog, SongList } from '@/components';
 
 import style from './Home.module.scss';
 

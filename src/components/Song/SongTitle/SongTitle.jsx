@@ -2,9 +2,8 @@ import { memo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
-import { Checkbox, SaveChartOption } from '../..';
-import { SongSlice } from '../../../store/slices';
-import { Input } from '../../Input';
+import { Checkbox, Input, SaveChartOption } from '@/components';
+import { SongSlice } from '@/store/slices';
 
 import style from './SongTitle.module.scss';
 

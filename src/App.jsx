@@ -2,11 +2,11 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { memo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Router } from './Router';
-import { firebaseService } from './services';
-import { SongSlice, UserSlice } from './store/slices';
+import { Router } from '@/Router';
+import { firebaseService } from '@/services';
+import { SongSlice, UserSlice } from '@/store/slices';
 
-import './global.scss';
+import '@/styles/global.scss';
 
 const App = () => {
   const dispatch = useDispatch();

@@ -1,4 +1,4 @@
-import { breakLyrics } from '../../../utils';
+import { breakLyrics } from '@/utils';
 
 import { generateNewNote } from './generate-new-note.function';
 import { getPitchesQty } from './get-pitches-qty.function';

@@ -2,10 +2,8 @@ import { memo, useCallback, useImperativeHandle, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { SongSlice, UserSlice } from '../../../store/slices';
-import { Button, ButtonConstants } from '../../Button';
-import { ConfirmationDialog } from '../../ConfirmationDialog';
-import { GrowlFns } from '../../Growl';
+import { Button, ButtonConstants, ConfirmationDialog, GrowlFns } from '@/components';
+import { SongSlice, UserSlice } from '@/store/slices';
 
 const DeleteSongConfirmDialog = (props) => {
   const { deleteSongDialogFnsRef, song } = props;

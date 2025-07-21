@@ -1,6 +1,6 @@
 @use 'sass:color';
 
-@use '../../colors.scss';
+@use '@/styles/colors.scss';
 
 .Link {
   text-decoration: none;

@@ -1,8 +1,7 @@
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Button, ButtonConstants } from '../../Button';
-import { ConfirmationDialog } from '../../ConfirmationDialog';
+import { Button, ButtonConstants, ConfirmationDialog } from '@/components';
 
 const LeaveChartPageConfirmDialog = (props) => {
   const { show, onConfirm, onCancel } = props;

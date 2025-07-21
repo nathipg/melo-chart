@@ -2,11 +2,9 @@ import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { SongSlice, UserSlice } from '../../store/slices';
-import { isRequestLoading } from '../../utils';
-import { FieldWithLabel } from '../FieldWithLabel';
-import { Input } from '../Input';
-import { TextArea } from '../TextArea';
+import { FieldWithLabel, Input, TextArea } from '@/components';
+import { SongSlice, UserSlice } from '@/store/slices';
+import { isRequestLoading } from '@/utils';
 
 import { generateNewSong } from './functions';
 

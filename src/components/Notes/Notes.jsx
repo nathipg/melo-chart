@@ -1,8 +1,7 @@
 import { memo, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { ContextMenu } from '../ContextMenu';
-import { Note } from '../Note';
+import { ContextMenu } from '@/components';
 
 import {
   addNoteAfter,
@@ -18,6 +17,7 @@ import {
   addWordsAsNotes,
   getPitchIndexInNote,
 } from './functions';
+import { Note } from './Note';
 
 import style from './Notes.module.scss';
 

@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Dialog } from '../Dialog';
+import { Dialog } from '@/components';
 
 const ConfirmationDialog = (props) => {
   const { bodyContent, footerContent } = props;

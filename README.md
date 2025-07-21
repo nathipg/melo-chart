@@ -16,3 +16,4 @@ App created to map the melody of songs
   - Add option to define sections
   - Change to not break sections on wrap
   - Export to image
+  - Refactor NoteChunk, move note is horrible since mobile support was added

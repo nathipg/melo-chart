@@ -1,6 +1,6 @@
 import { expect, describe, it, expectTypeOf } from 'vitest';
 
-import { REQUEST_STATUS } from '../constants';
+import { REQUEST_STATUS } from '@/constants';
 
 import { isRequestLoading } from './is-request-loading.function';
 

@@ -1,5 +1,5 @@
-@use '../../colors.scss';
-@use '../../screen-sizes.scss' as screenSizes;
+@use '@/styles/colors.scss';
+@use '@/styles/screen-sizes.scss' as screenSizes;
 
 .HeaderBar {
   margin-bottom: 1rem;
@@ -29,7 +29,7 @@
     margin-left: auto;
     align-self: center;
 
-    @media screen and (min-width: screenSizes.$sm) {
+    @media (min-width: screenSizes.$sm) {
       display: none;
     }
   }
@@ -37,7 +37,7 @@
   .MenuOptionsSmallOrBigger {
     display: none;
 
-    @media screen and (min-width: screenSizes.$sm) {
+    @media (min-width: screenSizes.$sm) {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
@@ -67,7 +67,7 @@
     padding-top: 0.5rem;
   }
 
-  @media screen and (min-width: screenSizes.$sm) {
+  @media (min-width: screenSizes.$sm) {
     display: none;
   }
 }

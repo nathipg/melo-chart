@@ -1,10 +1,7 @@
 import { memo, useCallback, useImperativeHandle, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Button, ButtonConstants } from '../../Button';
-import { Dialog } from '../../Dialog';
-import { FieldWithLabel } from '../../FieldWithLabel';
-import { TextArea } from '../../TextArea';
+import { Button, ButtonConstants, Dialog, FieldWithLabel, TextArea } from '@/components';
 
 const GenerateChartDialog = (props) => {
   const { generateChartDialogFnsRef } = props;

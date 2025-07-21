@@ -1,9 +1,7 @@
 import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Button, ButtonConstants } from '../../Button';
-import { FieldWithLabel } from '../../FieldWithLabel/FieldWithLabel';
-import { Input } from '../../Input';
+import { Button, ButtonConstants, FieldWithLabel, Input } from '@/components';
 
 import style from './NewPitchesOption.module.scss';
 

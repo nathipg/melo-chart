@@ -1,9 +1,9 @@
 import { memo, useCallback } from 'react';
 
-import { NoteChunk } from '../NoteChunk';
-import { getPitchIndexInNote } from '../Notes/functions';
+import { getPitchIndexInNote } from '../functions';
 
 import { loadOnEditNoteChunkText, loadOnEditNoteDefinitionChunkText, shouldAddRightBorderOnNoteChunk } from './functions';
+import { NoteChunk } from './NoteChunk';
 
 import style from './Note.module.scss';
 
