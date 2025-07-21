@@ -7,6 +7,10 @@ App created to map the melody of songs
 - General
   - Improve load screen
   - Add option to share all songs with other user
+  - Add password reset
+  - Add password confirmation
+  - Add alias to src to vite config and update imports
+  - Update eslint groups
 
 - Chart
   - Add option to define sections

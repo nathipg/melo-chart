@@ -13,7 +13,10 @@ export default [
     files: [ '**/*.{js,jsx}' ],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
       parserOptions: {
         ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },
@@ -61,7 +64,6 @@ export default [
             'parent',
             'sibling',
             'index',
-            'object',
           ],
           'pathGroups': [
             {
@@ -69,6 +71,10 @@ export default [
               'patternOptions': { 'matchBase': true },
               'group': 'object',
               'position': 'after',
+            },
+            {
+              'pattern': '@/**',
+              'group': 'internal',
             },
           ],
           'newlines-between': 'always',
