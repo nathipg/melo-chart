@@ -6,8 +6,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
-  height: 4.5rem;
+  padding: 0 1.5rem;
+  height: 2.5rem;
   border-bottom: 2px solid colors.$lightgray;
   white-space: nowrap;
   position: relative;
@@ -16,10 +16,6 @@
     .ChunkText {
       color: colors.$blue;
     }
-  }
-
-  &:has(input) {
-    padding-bottom: 1rem;
   }
 
   input {
