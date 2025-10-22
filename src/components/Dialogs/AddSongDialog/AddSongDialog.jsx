@@ -1,9 +1,9 @@
-import { memo, useCallback, useEffect, useImperativeHandle, useState } from 'react';
+import { memo, useEffect, useImperativeHandle, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
-import { Button, ButtonConstants, Dialog, FormAddSong, GrowlFns, PlusIcon } from '@/components';
+import { Button, ButtonConstants, Dialog, FormAddSong, PlusIcon } from '@/components';
 import { SongSlice } from '@/store/slices';
 
 const AddSongDialog = (props) => {
@@ -16,7 +16,6 @@ const AddSongDialog = (props) => {
   const navigate = useNavigate();
 
   const addSongStatus = useSelector(SongSlice.selectors.selectAddSongStatus);
-  const addSongError = useSelector(SongSlice.selectors.selectAddSongError);
   const latestAddedSongId = useSelector(SongSlice.selectors.selectLatestAddedSongId);
 
   const [ show, setShow ] = useState(false);
@@ -28,10 +27,6 @@ const AddSongDialog = (props) => {
       },
     };
   });
-
-  const onCloseAddSongErrorGrowl = useCallback(() => {
-    dispatch(SongSlice.actions.clearAddSongError());
-  }, [ dispatch ]);
 
   useEffect(() => {
     if(latestAddedSongId != null) {
@@ -77,11 +72,6 @@ const AddSongDialog = (props) => {
           />
         ) : <></>
       }
-
-      {GrowlFns.renderErrorGrowl({
-        message: addSongError,
-        onCloseGrowl: onCloseAddSongErrorGrowl,
-      })}
     </>
   );
 };

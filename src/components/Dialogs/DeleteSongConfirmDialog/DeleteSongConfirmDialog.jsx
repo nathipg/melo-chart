@@ -2,7 +2,7 @@ import { memo, useCallback, useImperativeHandle, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Button, ButtonConstants, ConfirmationDialog, GrowlFns } from '@/components';
+import { Button, ButtonConstants, ConfirmationDialog } from '@/components';
 import { SongSlice, UserSlice } from '@/store/slices';
 
 const DeleteSongConfirmDialog = (props) => {
@@ -13,7 +13,6 @@ const DeleteSongConfirmDialog = (props) => {
   const dispatch = useDispatch();
 
   const loggedUser = useSelector(UserSlice.selectors.selectLoggedUser);
-  const deleteSongError = useSelector(SongSlice.selectors.selectDeleteSongError);
 
   const [ show, setShow ] = useState(false);
 
@@ -31,10 +30,6 @@ const DeleteSongConfirmDialog = (props) => {
       id: song.id,
     }));
   }, [ dispatch, loggedUser, song.id ]);
-
-  const onCloseDeleteSongErrorGrowl = useCallback(() => {
-    dispatch(SongSlice.actions.clearDeleteSongError());
-  }, [ dispatch ]);
 
   if(!show) {
     return <></>;
@@ -66,11 +61,6 @@ const DeleteSongConfirmDialog = (props) => {
           </>
         )}
       />
-      
-      {GrowlFns.renderErrorGrowl({
-        message: deleteSongError,
-        onCloseGrowl: onCloseDeleteSongErrorGrowl,
-      })}
     </>
   );
 };

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { FieldWithLabel, Input, TextArea } from '@/components';
+import { useGrowl } from '@/hooks';
 import { SongSlice, UserSlice } from '@/store/slices';
 import { isRequestLoading } from '@/utils';
 
@@ -19,6 +20,8 @@ const FormAddSong = () => {
 
   const addSongStatus = useSelector(SongSlice.selectors.selectAddSongStatus);
 
+  const growl = useGrowl();
+
   const onSubmitForm = useCallback(async (event) => {
     event.preventDefault();
 
@@ -32,7 +35,8 @@ const FormAddSong = () => {
     const lyrics = form.lyrics.value || '';
 
     if(!title) {
-      dispatch(SongSlice.actions.setAddSongError(t('Please, insert a song title')));
+      growl.error(t('Please, insert a song title'));
+
       return;
     }
 
@@ -46,7 +50,7 @@ const FormAddSong = () => {
       loggedUser,
       song: newSong,
     }));
-  }, [ addSongStatus, dispatch, loggedUser, t ]);
+  }, [ addSongStatus, dispatch, growl, loggedUser, t ]);
 
   return (
     <form

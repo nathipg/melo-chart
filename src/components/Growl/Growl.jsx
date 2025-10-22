@@ -1,39 +1,32 @@
-import { memo, useEffect } from 'react';
+import { memo, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { GROWL_TIMEOUT, TEST_IDS } from './constants';
+import { GrowlSlice } from '@/store/slices';
 
 import style from './Growl.module.scss';
 
 export { GrowlMemo as Growl };
 
 const Growl = (props) => {
-  const { level, message, onCloseGrowl, fixed = false } = props;
+  const { id, level, message } = props;
 
-  useEffect(() => {
-    if(!fixed) {
-      setTimeout(() => {
-        onCloseGrowl();
-      }, GROWL_TIMEOUT);
-    }
-  }, [ fixed, onCloseGrowl ]);
+  const dispatch = useDispatch();
 
-  if(!level || !message || !onCloseGrowl) {
-    return <></>;
-  }
+  const onClose = useCallback(() => {
+    dispatch(GrowlSlice.actions.removeGrowl(id));
+  }, [ dispatch, id ]);
 
   return (
     <div
       className={style.Growl}
       data-level={level}
-      data-testid={TEST_IDS.GROWL}
     >
       <button
         type="button"
         className={style.GrowlClose}
-        onClick={onCloseGrowl}
-        data-testid={TEST_IDS.GROWL_CLOSE_BTN}
+        onClick={onClose}
       >
-            x
+        x
       </button>
       {message}
     </div>

@@ -1,0 +1,26 @@
+{
+  "user/signUpUser/rejected": {
+    "auth/invalid-email": "Please, add a valid email",
+    "auth/email-already-in-use": "An account with that email already exists",
+    "auth/missing-password": "Please, insert a password with at least 6 characters",
+    "auth/weak-password": "Please, insert a password with at least 6 characters"
+  },
+  "user/signInUser/rejected": {
+    "auth/invalid-email": "Invalid email and/or password",
+    "auth/missing-password": "Invalid email and/or password",
+    "auth/invalid-credential": "Invalid email and/or password"
+  },
+  "songs/saveSong/fulfilled": "Song saved",
+  "songs/saveSong/rejected": {
+    "permission-denied": "You don't have permission to save songs",
+    "auth/network-request-failed": "Network Error: Please, check your network connection"
+  },
+  "songs/addSong/rejected": {
+    "permission-denied": "You don't have permission to add songs",
+    "auth/network-request-failed": "Network Error: Please, check your network connection"
+  },
+  "songs/deleteSong/rejected": {
+    "permission-denied": "You don't have permission to delete songs",
+    "auth/network-request-failed": "Network Error: Please, check your network connection"
+  }
+}

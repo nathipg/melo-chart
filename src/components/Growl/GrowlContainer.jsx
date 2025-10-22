@@ -1,19 +1,22 @@
 import { memo } from 'react';
+import { useSelector } from 'react-redux';
 
-import { GROWL_CONTAINER_ID, TEST_IDS } from './constants';
+import { Growl } from '@/components';
+import { GrowlSlice } from '@/store/slices';
 
 import style from './GrowlContainer.module.scss';
 
-const GrowlContainer = (props) => {
-  const { children } = props;
+const GrowlContainer = () => {
+  const growls = useSelector(GrowlSlice.selectors.selectAllGrowls);
 
   return (
-    <div
-      id={GROWL_CONTAINER_ID}
-      className={style.GrowlContainer}
-      data-testid={TEST_IDS.GROWL_CONTAINER}
-    >
-      {children}
+    <div className={style.GrowlContainer}>
+      {growls.map(toast => (
+        <Growl
+          key={toast.id}
+          {...toast}
+        />
+      ))}
     </div>
   );
 };

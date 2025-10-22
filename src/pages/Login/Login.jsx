@@ -1,8 +1,8 @@
 import { memo, useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { Button, ButtonConstants, FieldWithLabel, GrowlFns, Input, RightToBracketIcon, UserPlusIcon } from '@/components';
+import { Button, ButtonConstants, FieldWithLabel, Input, RightToBracketIcon, UserPlusIcon } from '@/components';
 import { UserSlice } from '@/store/slices';
 
 import style from './Login.module.scss';
@@ -11,9 +11,6 @@ const Login = () => {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
-
-  const signUpError = useSelector(UserSlice.selectors.selectSignUpError);
-  const signInError = useSelector(UserSlice.selectors.selectSignInError);
 
   const usernameInputRef = useRef(null);
 
@@ -53,14 +50,6 @@ const Login = () => {
       password,
     }));
   }, [ dispatch, email, getFormUsername, password ]);
-
-  const onCloseSignUpErrorGrowl = useCallback(() => {
-    dispatch(UserSlice.actions.clearSignUpError());
-  }, [ dispatch ]);
-
-  const onCloseSignInErrorGrowl = useCallback(() => {
-    dispatch(UserSlice.actions.clearSignInError());
-  }, [ dispatch ]);
 
   return (
     <div className={style.LoginContainer}>
@@ -137,16 +126,6 @@ const Login = () => {
           </Button>
         )
       }
-
-      {GrowlFns.renderErrorGrowl({
-        message: signUpError,
-        onCloseGrowl: onCloseSignUpErrorGrowl,
-      })}
-
-      {GrowlFns.renderErrorGrowl({
-        message: signInError,
-        onCloseGrowl: onCloseSignInErrorGrowl,
-      })}
     </div>
   );
 };
