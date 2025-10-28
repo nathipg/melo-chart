@@ -1,0 +1,22 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "songs",
+      "queryScope": "COLLECTION_GROUP",
+      "fields": [
+        {
+          "fieldPath": "editors",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "title",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "__name__",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ]
+}

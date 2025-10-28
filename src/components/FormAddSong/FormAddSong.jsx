@@ -47,8 +47,8 @@ const FormAddSong = () => {
     });
 
     dispatch(SongSlice.actions.addSong({
-      loggedUser,
-      song: newSong,
+      ...newSong,
+      editors: [ loggedUser.uid ],
     }));
   }, [ addSongStatus, dispatch, growl, loggedUser, t ]);
 

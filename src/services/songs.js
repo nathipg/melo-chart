@@ -1,13 +1,17 @@
 import { firebaseService } from './firebase';
 
-export const addSong = async (data) => {
-  return await firebaseService.user.addSong(data);
+export const addSong = async (song) => {
+  return await firebaseService.song.addSong(song);
 };
 
-export const deleteSong = async (data) => {
-  return await firebaseService.user.deleteSong(data);
+export const deleteSong = async (id) => {
+  return await firebaseService.song.deleteSong(id);
 };
 
-export const saveSong = async (data) => {
-  return await firebaseService.user.saveSong(data);
+export const loadSongs = async (uid) => {
+  return await firebaseService.song.loadSongs(uid);
+};
+
+export const saveSong = async (song) => {
+  return await firebaseService.song.saveSong(song);
 };

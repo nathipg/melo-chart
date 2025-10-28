@@ -15,7 +15,7 @@ const App = () => {
 
   useEffect(() => {
     if(loggedUser) {
-      dispatch(SongSlice.actions.loadSongs(loggedUser.songs));
+      dispatch(SongSlice.actions.loadSongs(loggedUser.uid));
     }
   }, [ dispatch, loggedUser ]);
 

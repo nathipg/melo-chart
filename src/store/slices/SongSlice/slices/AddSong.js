@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { REQUEST_STATUS } from '@/constants';
 import { songsService } from '@/services';
+import { alphabeticallySortSongs } from '@/utils';
 
 import { SONG_SLICE_NAME } from '../constants';
 
@@ -34,7 +35,7 @@ const extraReducers = (builder) => {
     })
     .addCase(asyncThunk.addSong.fulfilled, (state, action) => {
       state.addSongStatus = REQUEST_STATUS.SUCCEEDED;
-      state.songs.push(action.payload);
+      state.songs = alphabeticallySortSongs([ ...state.songs, action.payload ]);
       state.latestAddedSongId = action.payload.id;
     })
     .addCase(asyncThunk.addSong.rejected, (state) => {

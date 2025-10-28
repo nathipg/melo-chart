@@ -1,9 +1,9 @@
 import { memo, useCallback, useImperativeHandle, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { Button, ButtonConstants, ConfirmationDialog } from '@/components';
-import { SongSlice, UserSlice } from '@/store/slices';
+import { SongSlice } from '@/store/slices';
 
 const DeleteSongConfirmDialog = (props) => {
   const { deleteSongDialogFnsRef, song } = props;
@@ -11,8 +11,6 @@ const DeleteSongConfirmDialog = (props) => {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
-
-  const loggedUser = useSelector(UserSlice.selectors.selectLoggedUser);
 
   const [ show, setShow ] = useState(false);
 
@@ -25,11 +23,8 @@ const DeleteSongConfirmDialog = (props) => {
   });
 
   const onConfirm = useCallback(() => {
-    dispatch(SongSlice.actions.deleteSong({
-      loggedUser,
-      id: song.id,
-    }));
-  }, [ dispatch, loggedUser, song.id ]);
+    dispatch(SongSlice.actions.deleteSong(song.id));
+  }, [ dispatch, song.id ]);
 
   if(!show) {
     return <></>;

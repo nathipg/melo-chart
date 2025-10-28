@@ -1,4 +1,4 @@
-import { doc, setDoc, getFirestore, getDoc, collection, getDocs, deleteDoc } from 'firebase/firestore';
+import { doc, setDoc, getFirestore, getDoc, collection, getDocs } from 'firebase/firestore';
 import { v7 as uuid } from 'uuid';
 
 import { firebaseService } from '@/services';
@@ -6,18 +6,6 @@ import { firebaseService } from '@/services';
 import { app } from './firebase-app';
 
 const db = getFirestore(app);
-
-export const addSong = async (data) => {
-  const { song, loggedUser } = data;
-  const { uid } = loggedUser;
-
-  await setDoc(
-    doc(db, 'users', uid, 'songs', song.id),
-    song,
-  );
-
-  return song;
-};
 
 export const addUser = async (data) => {
   const { email, password, username } = data;
@@ -33,15 +21,6 @@ export const addUser = async (data) => {
       email,
     },
   );
-};
-
-export const deleteSong = async (data) => {
-  const { id, loggedUser } = data;
-  const { uid } = loggedUser;
-
-  await deleteDoc(doc(db, 'users', uid, 'songs', id));
-
-  return { id };
 };
 
 export const loadUser = async (uid) => {
@@ -63,18 +42,6 @@ export const loadUser = async (uid) => {
   }
 
   return null;
-};
-
-export const saveSong = async (data) => {
-  const { song, loggedUser } = data;
-  const { uid } = loggedUser;
-
-  await setDoc(
-    doc(db, 'users', uid, 'songs', song.id),
-    song,
-  );
-
-  return song;
 };
 
 export const signInUser = async (userData) => {

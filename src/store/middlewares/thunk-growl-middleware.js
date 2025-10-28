@@ -9,8 +9,8 @@ const { t } = i18n;
 
 export const thunkGrowlMiddleware = (store) => (next) => (action) => {
   if(isRejected(action)) {
-    const httpMessage = httpMessages[action.type][action.error.code];
-    const message = t(httpMessage);
+    const httpMessage = httpMessages[action.type]?.[action.error.code];
+    const message = t(httpMessage) || action.error.message;
     const dispatchGrowl = growlUtils.growlDispatcher(store.dispatch);
 
     dispatchGrowl(growlUtils.createErrorGrowl(message));
