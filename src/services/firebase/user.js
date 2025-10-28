@@ -23,6 +23,13 @@ export const addUser = async (data) => {
   );
 };
 
+export const getAllUsers = async () => {
+  const usersRef = collection(db, 'users');
+  const usersSnapshots = await getDocs(usersRef);
+
+  return usersSnapshots.docs.map(doc => doc.data());
+};
+
 export const loadUser = async (uid) => {
   const docRef = doc(db, 'users', uid);
   const docSnap = await getDoc(docRef);
