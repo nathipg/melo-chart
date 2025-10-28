@@ -14,10 +14,10 @@ const App = () => {
   const loggedUser = useSelector(UserSlice.selectors.selectLoggedUser);
 
   useEffect(() => {
-    if(loggedUser) {
+    if(loggedUser?.uid) {
       dispatch(SongSlice.actions.loadSongs(loggedUser.uid));
     }
-  }, [ dispatch, loggedUser ]);
+  }, [ dispatch, loggedUser?.uid ]);
 
   useEffect(() => {
     onAuthStateChanged(firebaseService.auth.auth, (user) => {
