@@ -1,26 +1,4 @@
 {
-  "error-message": {
-    "save-song": {
-      "auth/network-request-failed": "Erro de Rede: Por favor, verifique a sua conexão com a internet"
-    },
-    "add-song": {
-      "auth/network-request-failed": "Erro de Rede: Por favor, verifique a sua conexão com a internet"
-    },
-    "delete-song": {
-      "auth/network-request-failed": "Erro de Rede: Por favor, verifique a sua conexão com a internet"
-    },
-    "sign-up-user": {
-      "auth/invalid-email": "Por favor, insira um email válido",
-      "auth/email-already-in-use": "Já existe uma conta com esse email",
-      "auth/missing-password": "Por favor, insira uma senha com pelo menos 6 caracteres",
-      "auth/weak-password": "Por favor, insira uma senha com pelo menos 6 caracteres"
-    },
-    "sign-in-user": {
-      "auth/invalid-email": "Usuário não encontrado",
-      "auth/missing-password": "Usuário não encontrado",
-      "auth/invalid-credential": "Usuário não encontrado"
-    }
-  },
   "My songs": "Minhas Músicas",
   "Add Song": "Adicionar Música",
   "Please, insert a song title": "Por favor, insera um título pra música",
@@ -92,5 +70,13 @@
   "Drag the note to move it": "Arraste a nota para movê-la",
   "Click to define pitch": "Clique para definir a altura",
   "Pitch": "Altura",
-  "Note": "Nota"
+  "Note": "Nota",
+  "Network Error: Please, check your network connection": "Erro de Rede: Por favor, verifique a sua conexão com a internet",
+  "You don't have permission to save songs": "Você não tem permissão para salvar músicas",
+  "You don't have permission to add songs": "Você não tem permissão para adicionar músicas",
+  "You don't have permission to delete songs": "Você não tem permissão para remover músicas",
+  "Please, add a valid email": "Por favor, insira um email válido",
+  "An account with that email already exists": "Já existe uma conta com esse email",
+  "Please, insert a password with at least 6 characters": "Por favor, insira uma senha com pelo menos 6 caracteres",
+  "Invalid email and/or password": "Email e/ou senha inválida"
 }
