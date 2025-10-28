@@ -126,7 +126,7 @@ const Notes = (props) => {
 
   useEffect(() => {
     calculateScalesQty();
-  }, [ calculateScalesQty, wrapNotes ]);
+  }, [ calculateScalesQty, wrapNotes, notes ]);
 
   useEffect(() => {
     window.addEventListener('resize', calculateScalesQty);
