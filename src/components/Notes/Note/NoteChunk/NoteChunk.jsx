@@ -21,6 +21,7 @@ const NoteChunk = (props) => {
     noteIndex,
     filledNoteIndex,
     hasRightBorder,
+    isTheNoteDefinitionChunk = false,
     onOpenContextMenu,
     onEditNoteChunkText,
     onEditNoteDefinitionChunkText,
@@ -30,10 +31,6 @@ const NoteChunk = (props) => {
 
   const [ editMode, setEditMode ] = useState(false);
   const [ editInputValue, setEditInputValue ] = useState(text);
-
-  const isTheNoteDefinitionChunk = useMemo(() => {
-    return noteIndex === 0;
-  }, [ noteIndex ]);
 
   const isTheFirstChunk = useMemo(() => {
     return chunkIndex === 0;
@@ -79,6 +76,11 @@ const NoteChunk = (props) => {
   }, [ noteIndex, text ]);
 
   const onKeyDownChunk = useCallback((event) => {
+    if(isTheNoteDefinitionChunk && [ 'Tab' ].includes(event.key)) {
+      event.preventDefault();
+      return;
+    }
+
     const fn = EDIT_CHUNK_KEY_DOWN_EVENT_FN_MAPPER[event.key];
 
     fn && fn({
@@ -88,7 +90,7 @@ const NoteChunk = (props) => {
       originalText: text,
       setEditInputValue,
     });
-  }, [ chunkIndex, noteIndex, text ]);
+  }, [ chunkIndex, isTheNoteDefinitionChunk, noteIndex, text ]);
 
   useEffect(() => {
     setEditInputValue(text);
