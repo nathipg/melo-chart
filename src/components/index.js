@@ -18,3 +18,5 @@ export * from './SaveChartOption';
 export * from './Song';
 export * from './SongList';
 export * from './TextArea';
+export * from './UserNameWithTag';
+export * from './UsersAutocomplete';

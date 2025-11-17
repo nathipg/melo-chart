@@ -9,7 +9,7 @@ export const renderSongs = (songs = []) => {
   if(!songs.length) {
     return (
       <li data-testid={TEST_IDS.EMPTY_LIST_MESSAGE}>
-        {t('No songs here. What about adding one?')}
+        {t('No songs here')}
       </li>
     );
   }

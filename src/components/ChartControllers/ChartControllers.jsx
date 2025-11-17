@@ -6,11 +6,13 @@ import { Button, ButtonConstants } from '@/components';
 import { DeleteSongOption } from './DeleteSongOption';
 import { NewNotesOption } from './NewNotesOption';
 import { NewPitchesOption } from './NewPitchesOption';
+import { ShareWithOption } from './ShareWithOption';
 import { TrimOptions } from './TrimOptions';
 
 import style from './ChartControllers.module.scss';
 
 const ChartControllers = (props) => {
+  const { song } = props;
   const { notesFnsRef, generateChartDialogFnsRef, deleteSongDialogFnsRef } = props;
 
   const { t } = useTranslation();
@@ -32,6 +34,12 @@ const ChartControllers = (props) => {
       </div>
 
       <div className={style.Section}>
+        <ShareWithOption
+          songId={song.id}
+        />
+      </div>
+
+      <div className={style.Section}>
         <Button
           category={ButtonConstants.ButtonCategories.DANGER}
           onClick={() => generateChartDialogFnsRef.current?.show()}
@@ -40,6 +48,7 @@ const ChartControllers = (props) => {
         </Button>
 
         <DeleteSongOption
+          song={song}
           deleteSongDialogFnsRef={deleteSongDialogFnsRef}
         />
       </div>

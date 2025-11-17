@@ -11,10 +11,10 @@ const GrowlContainer = () => {
 
   return (
     <div className={style.GrowlContainer}>
-      {growls.map(toast => (
+      {growls.map(growl => (
         <Growl
-          key={toast.id}
-          {...toast}
+          key={growl.id}
+          {...growl}
         />
       ))}
     </div>

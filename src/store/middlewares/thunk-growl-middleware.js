@@ -13,6 +13,8 @@ export const thunkGrowlMiddleware = (store) => (next) => (action) => {
     const message = t(httpMessage) || action.error.message;
     const dispatchGrowl = growlUtils.growlDispatcher(store.dispatch);
 
+    console.error(action);
+
     dispatchGrowl(growlUtils.createErrorGrowl(message));
   } else if(isFulfilled(action)) {
     const httpMessage = httpMessages[action.type];

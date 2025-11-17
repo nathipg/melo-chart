@@ -1,20 +1,17 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { REQUEST_STATUS } from '@/constants';
-import i18n from '@/i18n';
 import { usersService } from '@/services';
 
 import { USER_SLICE_NAME } from '../constants';
 
-const { t } = i18n;
-
 // Initial State
 const initialState = {
   loggedUser: null,
+  publicUsers: null,
 
   loggedUserStatus: REQUEST_STATUS.IDLE,
-  loggedUserError: null,
-
+  publicUsersStatus: REQUEST_STATUS.IDLE,
   firebaseOnAuthStateChangedStatus: REQUEST_STATUS.IDLE,
 };
 
@@ -28,6 +25,7 @@ const reducers = {
 // Async Thunk
 const asyncThunk = {
   loadUser: createAsyncThunk(`${USER_SLICE_NAME}/loadUser`, async (user) => await usersService.loadUser(user)),
+  loadPublicUsers: createAsyncThunk(`${USER_SLICE_NAME}/loadPublicUsers`, async () => await usersService.loadPublicUsers()),
 };
 
 // Extra Reducers
@@ -40,9 +38,21 @@ const extraReducers = (builder) => {
       state.loggedUserStatus = REQUEST_STATUS.SUCCEEDED;
       state.loggedUser = action.payload;
     })
-    .addCase(asyncThunk.loadUser.rejected, (state, action) => {
+    .addCase(asyncThunk.loadUser.rejected, (state) => {
       state.loggedUserStatus = REQUEST_STATUS.FAILED;
-      state.loggedUserError = t(`error-message.logged-user.${action.error.code}`);
+    })
+  ;
+
+  builder
+    .addCase(asyncThunk.loadPublicUsers.pending, (state) => {
+      state.publicUsersStatus = REQUEST_STATUS.LOADING;
+    })
+    .addCase(asyncThunk.loadPublicUsers.fulfilled, (state, action) => {
+      state.publicUsersStatus = REQUEST_STATUS.SUCCEEDED;
+      state.publicUsers = action.payload;
+    })
+    .addCase(asyncThunk.loadPublicUsers.rejected, (state) => {
+      state.publicUsersStatus = REQUEST_STATUS.FAILED;
     })
   ;
 };
@@ -51,6 +61,9 @@ const extraReducers = (builder) => {
 const selectors = {
   selectLoggedUser: state => {
     return state.users.loggedUser;
+  },
+  selectPublicUsers: state => {
+    return state.users.publicUsers;
   },
   isLoggedIn: state => {
     return !!state.users.loggedUser;

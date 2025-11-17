@@ -10,7 +10,7 @@
     "auth/missing-password": "Invalid email and/or password",
     "auth/invalid-credential": "Invalid email and/or password"
   },
-  "songs/saveSong/fulfilled": "Song saved",
+  "songs/saveSong/fulfilled": "Saved",
   "songs/saveSong/rejected": {
     "permission-denied": "You don't have permission to save songs",
     "auth/network-request-failed": "Network Error: Please, check your network connection"

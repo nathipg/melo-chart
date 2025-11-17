@@ -46,6 +46,12 @@
   }
 }
 
+.FlexVerticalCenterWithGap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .MenuOptionsContainer {
   padding: 0.5rem 1rem;
   background: colors.$lightgray;

@@ -4,13 +4,20 @@ App created to map the melody of songs
 
 ## TODO
 
+- Importante
+  - Adicionar paginação nas músicas
+  - Adicionar busca nas músicas
+
+- Pedido usuário
+  - Fazer a feature de compartilhar música no Melo Chart (Com websocket)
+  - Colocar opção de ter escalas prontas (poder esticar pra baixo e pra cima)
+  - Colocar anúncio no rodapé do Melo Chart
+
 - General
   - Improve load screen
   - Add option to share all songs with other user
   - Add password reset
   - Add password confirmation
-  - Add alias to src to vite config and update imports
-  - Update eslint groups
 
 - Chart
   - Add option to define sections

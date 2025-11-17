@@ -1,5 +1,9 @@
 import { firebaseService } from './firebase';
 
+export const loadPublicUsers = async () => {
+  return await firebaseService.user.loadPublicUsers();
+};
+
 export const loadUser = async (userData) => {
   const { uid } = userData;
   return await firebaseService.user.loadUser(uid);

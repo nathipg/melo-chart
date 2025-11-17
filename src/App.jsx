@@ -23,6 +23,7 @@ const App = () => {
     onAuthStateChanged(firebaseService.auth.auth, (user) => {
       if (user) {
         dispatch(UserSlice.actions.loadUser(user));
+        dispatch(UserSlice.actions.loadPublicUsers());
       }
 
       dispatch(UserSlice.actions.completeFirebaseOnAuthStateChangedStatus());

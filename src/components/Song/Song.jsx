@@ -41,6 +41,7 @@ const Song = (props) => {
       />
 
       <ConfigSongDialog
+        song={song}
         configSongDialogFnsRef={configSongDialogFnsRef}
         generateChartDialogFnsRef={generateChartDialogFnsRef}
         deleteSongDialogFnsRef={deleteSongDialogFnsRef}

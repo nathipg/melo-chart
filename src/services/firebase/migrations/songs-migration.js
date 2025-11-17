@@ -1,9 +1,7 @@
-import { firebaseService } from '.';
+import { firebaseService } from '..';
 
 const migrateSongsFromUser = async (uid) => {
   const user = await firebaseService.user.loadUser(uid);
-
-  console.log(uid, user.email, user.songs.length);
 
   user.songs.map(song => {
     firebaseService.song.addSong({

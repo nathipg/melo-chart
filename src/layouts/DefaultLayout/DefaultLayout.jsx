@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router';
 
-import { BarsIcon, Button, ButtonConstants, GrowlContainer, Link, MeloChartIcon } from '@/components';
+import { BarsIcon, Button, ButtonConstants, GrowlContainer, Link, MeloChartIcon, UserNameWithTag } from '@/components';
 import { UserSlice } from '@/store/slices';
 
 import style from './DefaultLayout.module.scss';
@@ -14,6 +14,7 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const isLoggedIn = useSelector(UserSlice.selectors.isLoggedIn);
+  const loggedUser = useSelector(UserSlice.selectors.selectLoggedUser);
 
   const [ menuOpened, setMenuOpened ] = useState(false);
 
@@ -39,13 +40,20 @@ const Header = () => {
                     <Link to={{ pathname: '' }}>{t('My songs')}</Link>
                   </li>
                 </ul>
-                <Button
-                  category={ButtonConstants.ButtonCategories.DANGER}
-                  textOnly={true}
-                  onClick={onLogout}
-                >
-                  {t('Sign Out')}
-                </Button>
+
+                <div className={style.FlexVerticalCenterWithGap}>
+                  <UserNameWithTag
+                    username={loggedUser.username}
+                    tag={loggedUser.tag}
+                  />
+                  <Button
+                    category={ButtonConstants.ButtonCategories.DANGER}
+                    textOnly={true}
+                    onClick={onLogout}
+                  >
+                    {t('Sign Out')}
+                  </Button>
+                </div>
               </div>
 
               <div className={style.MenuOptionsExtraSmall}>
@@ -78,6 +86,12 @@ const Header = () => {
                 </Button>
               </li>
             </ul>
+            <div className={style.DivisorTop}>
+              <UserNameWithTag
+                username={loggedUser.username}
+                tag={loggedUser.tag}
+              />
+            </div>
           </div>
         ) : <></>
       }

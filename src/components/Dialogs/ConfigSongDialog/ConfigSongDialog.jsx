@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, ChartControllers, Dialog } from '@/components';
 
 const ConfigSongDialog = (props) => {
+  const { song } = props;
   const { configSongDialogFnsRef, notesFnsRef, generateChartDialogFnsRef, deleteSongDialogFnsRef } = props;
 
   const { t } = useTranslation();
@@ -28,6 +29,7 @@ const ConfigSongDialog = (props) => {
       bodyContent={
         <>
           <ChartControllers
+            song={song}
             notesFnsRef={notesFnsRef}
             generateChartDialogFnsRef={generateChartDialogFnsRef}
             deleteSongDialogFnsRef={deleteSongDialogFnsRef}
