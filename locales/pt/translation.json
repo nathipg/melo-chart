@@ -6,7 +6,11 @@
   "Add": "Adicionar",
   "Loading...": "Carregando...",
   "Song List": "Lista de Músicas",
+  "My Songs": "Minhas Músicas",
+  "Songs Shared With Me": "Músicas compartilhadas comigo",
   "No songs here. What about adding one?": "Nenhuma música aqui. Que tal adicionar uma?",
+  "No songs here": "Nenhuma música aqui",
+  "Unknown User": "Usuário desconhecido",
   "Generate mapping with lyrics": "Gerar mapeamento pela letra",
   "Cancel": "Cancelar",
   "New Notes": "Novas Notas",
@@ -65,7 +69,6 @@
   "Navigate Pitches": "Navegar Alturas",
   "Arrow Up or Arrow Down": "Seta pra Cima ou Seta pra Baixo",
   "Keyboard Shortcuts when Editing Note": "Atalhos no Teclado ao Editar Nota",
-  "Song saved": "Música Salva",
   "Click to define note": "Clique para definir a nota",
   "Drag the note to move it": "Arraste a nota para movê-la",
   "Click to define pitch": "Clique para definir a altura",
@@ -78,5 +81,6 @@
   "Please, add a valid email": "Por favor, insira um email válido",
   "An account with that email already exists": "Já existe uma conta com esse email",
   "Please, insert a password with at least 6 characters": "Por favor, insira uma senha com pelo menos 6 caracteres",
-  "Invalid email and/or password": "Email e/ou senha inválida"
+  "Invalid email and/or password": "Email e/ou senha inválida",
+  "Shared With": "Compartilhado Com"
 }
