@@ -1,5 +1,9 @@
 @use '@/styles/colors.scss';
 
+.DialogHidden {
+  display: none;
+}
+
 .DialogUIBlocker {
   position: fixed;
   top: 0;

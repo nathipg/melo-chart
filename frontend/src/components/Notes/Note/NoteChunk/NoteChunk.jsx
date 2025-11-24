@@ -1,3 +1,4 @@
+import { useAbly, useChannel } from 'ably/react';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -25,12 +26,39 @@ const NoteChunk = (props) => {
     onOpenContextMenu,
     onEditNoteChunkText,
     onEditNoteDefinitionChunkText,
+    songId,
   } = props;
 
   const { t } = useTranslation();
 
+  const ably = useAbly();
+
   const [ editMode, setEditMode ] = useState(false);
   const [ editInputValue, setEditInputValue ] = useState(text);
+
+  const { publish } = useChannel('melo-chart-song-updates', (message) => {
+    if(ably.connection.id != message.connectionId) {
+      const { name, data } = message;
+  
+      if(data.id != songId) {
+        return;
+      }
+
+      if(data.noteIndex != noteIndex || data.chunkIndex != chunkIndex) {
+        return;
+      }
+  
+      if(name == 'update-note-chunk-text') {
+        onBlur(data);
+        return;
+      }
+
+      if(name == 'update-note-chunk-position') {
+        onEditNoteChunkText(data);
+        return;
+      }
+    }
+  });
 
   const isTheFirstChunk = useMemo(() => {
     return chunkIndex === 0;
@@ -63,12 +91,19 @@ const NoteChunk = (props) => {
 
     const sourceText = event.dataTransfer.getData('text');
 
-    onEditNoteChunkText({
+    const data = {
       text: sourceText,
       noteIndex,
       chunkIndex,
+    };
+
+    onEditNoteChunkText(data);
+
+    publish('update-note-chunk-position', {
+      id: songId,
+      ...data,
     });
-  }, [ chunkIndex, noteIndex, onEditNoteChunkText ]);
+  }, [ chunkIndex, noteIndex, onEditNoteChunkText, publish, songId ]);
 
   const onDragStart = useCallback((event) => {
     event.dataTransfer.setData('text', text);
@@ -91,6 +126,11 @@ const NoteChunk = (props) => {
       setEditInputValue,
     });
   }, [ chunkIndex, isTheNoteDefinitionChunk, noteIndex, text ]);
+
+  const onBlur = useCallback((data) => {
+    const onBlurFn = isTheNoteDefinitionChunk ? onEditNoteDefinitionChunkText : onEditNoteChunkText;
+    onBlurFn(data);
+  }, [ isTheNoteDefinitionChunk, onEditNoteChunkText, onEditNoteDefinitionChunkText ]);
 
   useEffect(() => {
     setEditInputValue(text);
@@ -174,10 +214,17 @@ const NoteChunk = (props) => {
 
       dropZone.classList.remove(style.HighlightDropZone);
 
-      onEditNoteChunkText({
+      const data = {
         text: sourceText,
         noteIndex,
         chunkIndex: currentChunkIndex,
+      };
+
+      onEditNoteChunkText(data);
+
+      publish('update-note-chunk-position', {
+        id: songId,
+        ...data,
       });
     };
     
@@ -190,7 +237,7 @@ const NoteChunk = (props) => {
       chunkElement?.removeEventListener('touchmove', onTouchMove, { passive: false });
       chunkElement?.removeEventListener('touchend', onTouchEnd, { passive: false });
     };
-  }, [ chunkIndex, noteIndex, onEditNoteChunkText, text ]);
+  }, [ chunkIndex, noteIndex, onEditNoteChunkText, publish, songId, text ]);
   // END Drag n Drop Mobile
 
   return (
@@ -235,12 +282,17 @@ const NoteChunk = (props) => {
             onBlur={() => {
               setEditMode(false);
 
-              const onBlurFn = isTheNoteDefinitionChunk ? onEditNoteDefinitionChunkText : onEditNoteChunkText;
-
-              onBlurFn({
+              const data = {
                 text: editInputValue,
                 noteIndex,
                 chunkIndex,
+              };
+
+              onBlur(data);
+
+              publish('update-note-chunk-text', {
+                id: songId,
+                ...data,
               });
             }}
           />

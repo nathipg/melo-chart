@@ -1,10 +1,11 @@
+import { useAbly, useChannel } from 'ably/react';
 import { memo, useCallback, useImperativeHandle, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonConstants, Dialog, FieldWithLabel, TextArea } from '@/components';
 
 const GenerateChartDialog = (props) => {
-  const { generateChartDialogFnsRef } = props;
+  const { generateChartDialogFnsRef, songId } = props;
   const { onAddWordsAsNotes } = props;
 
   const { t } = useTranslation();
@@ -21,16 +22,37 @@ const GenerateChartDialog = (props) => {
     };
   });
 
+  const ably = useAbly();
+
+  const { publish } = useChannel('melo-chart-song-updates', (message) => {
+    if(ably.connection.id != message.connectionId) {
+      const { name, data } = message;
+      
+      if(data.id != songId) {
+        return;
+      }
+  
+      if(name == 'update-chart-generate-by-lyrics') {
+        onAddWordsAsNotes(data.lyrics);
+      }
+    }
+  });
+
   const breakTextInNote = useCallback((event) => {
     if(!lyricsTextAreaRef.current) {
       return;
     }
   
-    onAddWordsAsNotes(lyricsTextAreaRef.current?.value);
+    const lyrics = lyricsTextAreaRef.current?.value;
+    onAddWordsAsNotes(lyrics);
+    publish('update-chart-generate-by-lyrics', {
+      id: songId,
+      lyrics,
+    });
   
     event.target.value = '';
     setShow(false);
-  }, [ onAddWordsAsNotes ]);
+  }, [ onAddWordsAsNotes, publish, songId ]);
 
   if(!show) {
     return <></>;

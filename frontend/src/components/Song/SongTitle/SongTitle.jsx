@@ -1,3 +1,4 @@
+import { useAbly, useChannel } from 'ably/react';
 import { memo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
@@ -14,8 +15,24 @@ const SongTitle = (props) => {
 
   const dispatch = useDispatch();
 
+  const ably = useAbly();
+
   const [ editMode, setEditMode ] = useState(false);
   const [ title, setTitle ] = useState(originalTitle);
+
+  const { publish } = useChannel('melo-chart-song-updates', (message) => {
+    if(ably.connection.id != message.connectionId) {
+      const { name, data } = message;
+
+      if(name == 'update-song-title') {
+        setTitle(data.title);
+        dispatch(SongSlice.actions.editSongTitle({
+          id: data.id,
+          title: data.title,
+        }));
+      }
+    }
+  });
 
   const onDoubleClickTitle = useCallback(() => {
     setEditMode(true);
@@ -30,11 +47,16 @@ const SongTitle = (props) => {
   const onBlurInput = useCallback(() => {
     setEditMode(false);
 
+    publish('update-song-title', {
+      id,
+      title,
+    });
+
     dispatch(SongSlice.actions.editSongTitle({
       id,
       title,
     }));
-  }, [ dispatch, id, title ]);
+  }, [ dispatch, id, publish, title ]);
 
   const onChangeWrapCheckbox = useCallback((value) => {
     notesFnsRef.current?.setWrapNotes(value);

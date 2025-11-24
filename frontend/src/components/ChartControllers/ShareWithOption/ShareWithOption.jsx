@@ -1,3 +1,4 @@
+import { useAbly, useChannel } from 'ably/react';
 import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,16 +17,45 @@ const ShareWithOption = (props) => {
 
   const song = useSelector(SongSlice.selectors.selectSongById(songId));
 
+  const ably = useAbly();
+  
+  const { publish } = useChannel('melo-chart-song-updates', (message) => {
+    if(ably.connection.id != message.connectionId) {
+      const { name, data } = message;
+      
+      if(data.id != songId) {
+        return;
+      }
+  
+      if(name == 'update-chart-shared-with') {
+        dispatch(SongSlice.actions.editSongEditors({
+          id: data.id,
+          editors: data.editors,
+          editorsData: data.editorsData,
+        }));
+      }
+    }
+  });
+
   const onChangeSelectedUsers = useCallback(async (options) => {
     const selectedEditors = options.map(option => option.value);
     const updatedEditors = [ ...new Set([ song.owner, ...selectedEditors ]) ];
 
-    dispatch(SongSlice.actions.saveSong({
-      ...song,
+    const updatedData = {
       editors: updatedEditors,
       editorsData: options,
+    };
+
+    dispatch(SongSlice.actions.saveSong({
+      ...song,
+      ...updatedData,
     }));
-  }, [ dispatch, song ]);
+    
+    publish('update-chart-shared-with', {
+      id: songId,
+      ...updatedData,
+    });
+  }, [ dispatch, publish, song, songId ]);
 
   return (
     <div className={styles.ShareWithOption}>

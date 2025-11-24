@@ -1,3 +1,4 @@
+import { useAbly, useChannel } from 'ably/react';
 import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -6,9 +7,25 @@ import { Button, ButtonConstants, FieldWithLabel, Input } from '@/components';
 import style from './NewNotesOption.module.scss';
 
 const NewNotesOption = (props) => {
-  const { notesFnsRef } = props;
+  const { notesFnsRef, songId } = props;
 
   const { t } = useTranslation();
+
+  const ably = useAbly();
+    
+  const { publish } = useChannel('melo-chart-song-updates', (message) => {
+    if(ably.connection.id != message.connectionId) {
+      const { name, data } = message;
+        
+      if(data.id != songId) {
+        return;
+      }
+    
+      if(name == 'update-chart-add-multiple-notes') {
+        onAddMultipleNotes(data.qty);
+      }
+    }
+  });
 
   const onAddMultipleNotes = useCallback((qty) => {
     notesFnsRef.current?.addMultipleNotes(qty);
@@ -17,8 +34,14 @@ const NewNotesOption = (props) => {
   const onSubmitAddMultipleNotes = useCallback((event) => {
     event.preventDefault();
 
-    onAddMultipleNotes(+event.target.qty.value);
-  }, [ onAddMultipleNotes ]);
+    const qty = +event.target.qty.value;
+
+    onAddMultipleNotes(qty);
+    publish('update-chart-add-multiple-notes', {
+      id: songId,
+      qty,
+    });
+  }, [ onAddMultipleNotes, publish, songId ]);
 
   return (
     <form className={style.NewNotesOption} onSubmit={onSubmitAddMultipleNotes}>

@@ -36,6 +36,7 @@ const Song = (props) => {
       </div>
 
       <Notes
+        songId={song.id}
         notes={song.notes}
         notesFnsRef={notesFnsRef}
       />

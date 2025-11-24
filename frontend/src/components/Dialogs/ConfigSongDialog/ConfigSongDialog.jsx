@@ -19,12 +19,9 @@ const ConfigSongDialog = (props) => {
     };
   });
 
-  if(!show) {
-    return <></>;
-  }
-
   return (
     <Dialog
+      show={show}
       title={t('Configure Song')}
       bodyContent={
         <>

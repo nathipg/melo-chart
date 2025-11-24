@@ -59,6 +59,7 @@ const Chart = () => {
       <GenerateChartDialog
         generateChartDialogFnsRef={generateChartDialogFnsRef}
         onAddWordsAsNotes={onAddWordsAsNotes}
+        songId={song?.id}
       />
     </div>
   );

@@ -22,14 +22,17 @@ const ChartControllers = (props) => {
       <div className={style.Section}>
         <NewNotesOption
           notesFnsRef={notesFnsRef}
+          songId={song.id}
         />
 
         <NewPitchesOption
           notesFnsRef={notesFnsRef}
+          songId={song.id}
         />
 
         <TrimOptions
           notesFnsRef={notesFnsRef}
+          songId={song.id}
         />
       </div>
 

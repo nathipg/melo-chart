@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 import style from './Dialog.module.scss';
 
 const Dialog = (props) => {
-  const { bodyContent, footerContent, title, size = '' } = props;
+  const { show = true, bodyContent, footerContent, title, size = '' } = props;
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -15,7 +15,7 @@ const Dialog = (props) => {
   }, []);
 
   return createPortal(
-    <div className={style.DialogUIBlocker}>
+    <div className={`${style.DialogUIBlocker} ${show ? '' : style.DialogHidden}`}>
       <div className={style.Dialog} data-size={size}>
         <div className={style.DialogHeader}>
           <h2>{title}</h2>

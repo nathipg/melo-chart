@@ -21,7 +21,19 @@ const reducers = {
     const { payload: songData } = action;
 
     const song = state.songs.find(song => song.id === songData.id);
-    song.title = songData.title;
+    if(song) {
+      song.title = songData.title;
+    }
+  },
+  editSongEditors: (state, action) => {
+    const { payload: songData } = action;
+
+    const song = state.songs.find(song => song.id === songData.id);
+
+    if(song) {
+      song.editors = songData.editors;
+      song.editorsData = songData.editorsData;
+    }
   },
   clearSaveSongStatus: (state) => {
     state.saveSongStatus = REQUEST_STATUS.IDLE;

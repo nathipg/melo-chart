@@ -1,3 +1,4 @@
+import { useAbly, useChannel } from 'ably/react';
 import { memo, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -22,10 +23,30 @@ import { Note } from './Note';
 
 import style from './Notes.module.scss';
 
+const SOCKET_EVENT_NAME_MAPPER = Object.freeze({
+  ADD_PITCH_ABOVE: 'add-pitch-above',
+  ADD_PITCH_BELOW: 'add-pitch-below',
+  ADD_NOTE_BEFORE: 'add-note-before',
+  ADD_NOTE_AFTER: 'add-note-after',
+  REMOVE_PITCH: 'remove-pitch',
+  REMOVE_NOTE: 'remove-note',
+});
+
+const SOCKET_EVENT_FN_MAPPER = Object.freeze({
+  [SOCKET_EVENT_NAME_MAPPER.ADD_PITCH_ABOVE]: addPitchAtNoteTop,
+  [SOCKET_EVENT_NAME_MAPPER.ADD_PITCH_BELOW]: addPitchAtNoteBottom,
+  [SOCKET_EVENT_NAME_MAPPER.ADD_NOTE_BEFORE]: addNoteBefore,
+  [SOCKET_EVENT_NAME_MAPPER.ADD_NOTE_AFTER]: addNoteAfter,
+  [SOCKET_EVENT_NAME_MAPPER.REMOVE_PITCH]: removePitch,
+  [SOCKET_EVENT_NAME_MAPPER.REMOVE_NOTE]: removeNote,
+});
+
 const Notes = (props) => {
-  const { notes: initialNotes, notesFnsRef } = props;
+  const { notes: initialNotes, notesFnsRef, songId } = props;
 
   const { t } = useTranslation();
+
+  const ably = useAbly();
 
   const [ notes, setNotes ] = useState(initialNotes);
   const [ wrapNotes, setWrapNotes ] = useState(true);
@@ -34,30 +55,57 @@ const Notes = (props) => {
   const contextMenuFnsRef = useRef(null);
   const notesContainerRef = useRef(null);
 
+  const { publish } = useChannel('melo-chart-song-updates', (message) => {
+    if(ably.connection.id != message.connectionId) {
+      const { name, data } = message;
+
+      if(data.id != songId) {
+        return;
+      }
+
+      const fn = SOCKET_EVENT_FN_MAPPER[name] || (() => null);
+      fn({
+        contextMenuData: data.contextMenuData,
+        setNotes,
+      });
+    }
+  });
+
+  const publishContextMenuEvent = useCallback((eventName, contextMenuData) => {
+    publish(eventName, {
+      id: songId,
+      contextMenuData,
+    });
+  }, [ publish, songId ]);
+
   const contextMenuItems = useMemo(() => {
     return [
       {
         label: t('Add Pitch Above'),
         onClick: (contextMenuData) => {
           addPitchAtNoteTop({ contextMenuData, setNotes });
+          publishContextMenuEvent(SOCKET_EVENT_NAME_MAPPER.ADD_PITCH_ABOVE, contextMenuData);
         },
       },
       {
         label: t('Add Pitch Below'),
         onClick: (contextMenuData) => {
           addPitchAtNoteBottom({ contextMenuData, setNotes });
+          publishContextMenuEvent(SOCKET_EVENT_NAME_MAPPER.ADD_PITCH_BELOW, contextMenuData);
         },
       },
       {
         label: t('Add Note Before'),
         onClick: (contextMenuData) => {
           addNoteBefore({ contextMenuData, setNotes });
+          publishContextMenuEvent(SOCKET_EVENT_NAME_MAPPER.ADD_NOTE_BEFORE, contextMenuData);
         },
       },
       {
         label: t('Add Note After'),
         onClick: (contextMenuData) => {
           addNoteAfter({ contextMenuData, setNotes });
+          publishContextMenuEvent(SOCKET_EVENT_NAME_MAPPER.ADD_NOTE_AFTER, contextMenuData);
         },
       },
       {
@@ -65,6 +113,7 @@ const Notes = (props) => {
         type: 'danger',
         onClick: (contextMenuData) => {
           removePitch({ contextMenuData, setNotes });
+          publishContextMenuEvent(SOCKET_EVENT_NAME_MAPPER.REMOVE_PITCH, contextMenuData);
         },
       },
       {
@@ -72,10 +121,11 @@ const Notes = (props) => {
         type: 'danger',
         onClick: (contextMenuData) => {
           removeNote({ contextMenuData, setNotes });
+          publishContextMenuEvent(SOCKET_EVENT_NAME_MAPPER.REMOVE_NOTE, contextMenuData);
         },
       },
     ];
-  }, [ t ]);
+  }, [ publishContextMenuEvent, t ]);
 
   useImperativeHandle(notesFnsRef, () => {
     return {
@@ -152,6 +202,7 @@ const Notes = (props) => {
               nextNoteNoteIndex={1}
               contextMenuFnsRef={contextMenuFnsRef}
               isTheNoteDefinitionChunk={true}
+              songId={songId}
             />
           );
         })}
@@ -178,6 +229,7 @@ const Notes = (props) => {
               hasNextNote={hasNextNote}
               nextNoteNoteIndex={nextNoteNoteIndex}
               contextMenuFnsRef={contextMenuFnsRef}
+              songId={songId}
             />
           );
         })}
