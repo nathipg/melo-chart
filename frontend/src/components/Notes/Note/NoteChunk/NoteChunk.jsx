@@ -3,6 +3,7 @@ import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Input } from '@/components';
+import { SOCKET_CHANNEL, SOCKET_EVENT_NAME_MAPPER } from '@/constants';
 
 import { EDIT_CHUNK_KEY_DOWN_EVENT_FN_MAPPER } from './constants';
 import { onDragOver } from './functions';
@@ -27,6 +28,7 @@ const NoteChunk = (props) => {
     onEditNoteChunkText,
     onEditNoteDefinitionChunkText,
     songId,
+    setChangesLog,
   } = props;
 
   const { t } = useTranslation();
@@ -36,7 +38,7 @@ const NoteChunk = (props) => {
   const [ editMode, setEditMode ] = useState(false);
   const [ editInputValue, setEditInputValue ] = useState(text);
 
-  const { publish } = useChannel('melo-chart-song-updates', (message) => {
+  const { publish } = useChannel(SOCKET_CHANNEL, (message) => {
     if(ably.connection.id != message.connectionId) {
       const { name, data } = message;
   
@@ -44,16 +46,31 @@ const NoteChunk = (props) => {
         return;
       }
 
+      if(name == SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_CHANGES_LOG) {
+        data.changesLog?.forEach(changeLog => {
+          const { action, data } = changeLog;
+
+          if(action == SOCKET_EVENT_NAME_MAPPER.UPDATE_NOTE_CHUNK_TEXT) {
+            onBlur(data);
+          }
+
+          if(action == SOCKET_EVENT_NAME_MAPPER.UPDATE_NOTE_CHUNK_POSITION) {
+            onEditNoteChunkText(data);
+          }
+        });
+        return;
+      }
+
       if(data.noteIndex != noteIndex || data.chunkIndex != chunkIndex) {
         return;
       }
   
-      if(name == 'update-note-chunk-text') {
+      if(name == SOCKET_EVENT_NAME_MAPPER.UPDATE_NOTE_CHUNK_TEXT) {
         onBlur(data);
         return;
       }
 
-      if(name == 'update-note-chunk-position') {
+      if(name == SOCKET_EVENT_NAME_MAPPER.UPDATE_NOTE_CHUNK_POSITION) {
         onEditNoteChunkText(data);
         return;
       }
@@ -99,11 +116,23 @@ const NoteChunk = (props) => {
 
     onEditNoteChunkText(data);
 
-    publish('update-note-chunk-position', {
+    const publishData = {
       id: songId,
       ...data,
+    };
+
+    setChangesLog((currentChangesLog) => {
+      return [
+        ...currentChangesLog,
+        {
+          action: SOCKET_EVENT_NAME_MAPPER.UPDATE_NOTE_CHUNK_POSITION,
+          data: publishData,
+        },
+      ];
     });
-  }, [ chunkIndex, noteIndex, onEditNoteChunkText, publish, songId ]);
+
+    publish(SOCKET_EVENT_NAME_MAPPER.UPDATE_NOTE_CHUNK_POSITION, publishData);
+  }, [ chunkIndex, noteIndex, onEditNoteChunkText, publish, setChangesLog, songId ]);
 
   const onDragStart = useCallback((event) => {
     event.dataTransfer.setData('text', text);
@@ -222,10 +251,22 @@ const NoteChunk = (props) => {
 
       onEditNoteChunkText(data);
 
-      publish('update-note-chunk-position', {
+      const publishData = {
         id: songId,
         ...data,
+      };
+
+      setChangesLog((currentChangesLog) => {
+        return [
+          ...currentChangesLog,
+          {
+            action: SOCKET_EVENT_NAME_MAPPER.UPDATE_NOTE_CHUNK_POSITION,
+            data: publishData,
+          },
+        ];
       });
+
+      publish(SOCKET_EVENT_NAME_MAPPER.UPDATE_NOTE_CHUNK_POSITION, publishData);
     };
     
     chunkElement?.addEventListener('touchstart', onTouchStart, { passive: false });
@@ -237,7 +278,7 @@ const NoteChunk = (props) => {
       chunkElement?.removeEventListener('touchmove', onTouchMove, { passive: false });
       chunkElement?.removeEventListener('touchend', onTouchEnd, { passive: false });
     };
-  }, [ chunkIndex, noteIndex, onEditNoteChunkText, publish, songId, text ]);
+  }, [ chunkIndex, noteIndex, onEditNoteChunkText, publish, setChangesLog, songId, text ]);
   // END Drag n Drop Mobile
 
   return (
@@ -290,10 +331,22 @@ const NoteChunk = (props) => {
 
               onBlur(data);
 
-              publish('update-note-chunk-text', {
+              const publishData = {
                 id: songId,
                 ...data,
+              };
+
+              setChangesLog((currentChangesLog) => {
+                return [
+                  ...currentChangesLog,
+                  {
+                    action: SOCKET_EVENT_NAME_MAPPER.UPDATE_NOTE_CHUNK_TEXT,
+                    data: publishData,
+                  },
+                ];
               });
+
+              publish(SOCKET_EVENT_NAME_MAPPER.UPDATE_NOTE_CHUNK_TEXT, publishData);
             }}
           />
           : displayedText

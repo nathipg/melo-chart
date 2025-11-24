@@ -3,25 +3,39 @@ import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonConstants, FieldWithLabel, Input } from '@/components';
+import { SOCKET_CHANNEL, SOCKET_EVENT_NAME_MAPPER } from '@/constants';
 
 import style from './NewPitchesOption.module.scss';
 
 const NewPitchesOption = (props) => {
-  const { notesFnsRef, songId } = props;
+  const { notesFnsRef, songId, setChangesLog } = props;
 
   const { t } = useTranslation();
 
   const ably = useAbly();
   
-  const { publish } = useChannel('melo-chart-song-updates', (message) => {
+  const { publish } = useChannel(SOCKET_CHANNEL, (message) => {
     if(ably.connection.id != message.connectionId) {
       const { name, data } = message;
       
       if(data.id != songId) {
         return;
       }
+
+      if(name == SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_CHANGES_LOG) {
+        data.changesLog?.forEach(changeLog => {
+          const { action, data } = changeLog;
+
+          if(action == SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_ADD_MULTIPLE_PITCHES) {
+            onAddMultiplePitches(data.qty);
+            return;
+          }
+        });
+
+        return;
+      }
   
-      if(name == 'update-chart-add-multiple-pitches') {
+      if(name == SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_ADD_MULTIPLE_PITCHES) {
         onAddMultiplePitches(data.qty);
       }
     }
@@ -37,11 +51,24 @@ const NewPitchesOption = (props) => {
     const qty = +event.target.qty.value;
 
     onAddMultiplePitches(qty);
-    publish('update-chart-add-multiple-pitches', {
+
+    const publishData = {
       id: songId,
       qty,
+    };
+
+    setChangesLog((currentChangesLog) => {
+      return [
+        ...currentChangesLog,
+        {
+          action: SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_ADD_MULTIPLE_PITCHES,
+          data: publishData,
+        },
+      ];
     });
-  }, [ onAddMultiplePitches, publish, songId ]);
+
+    publish(SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_ADD_MULTIPLE_PITCHES, publishData);
+  }, [ onAddMultiplePitches, publish, setChangesLog, songId ]);
 
   return (
     <form className={style.NewPitchesOption} onSubmit={onSubmitAddMultiplePitches}>

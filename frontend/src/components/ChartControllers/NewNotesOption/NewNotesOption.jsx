@@ -3,25 +3,39 @@ import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonConstants, FieldWithLabel, Input } from '@/components';
+import { SOCKET_CHANNEL, SOCKET_EVENT_NAME_MAPPER } from '@/constants';
 
 import style from './NewNotesOption.module.scss';
 
 const NewNotesOption = (props) => {
-  const { notesFnsRef, songId } = props;
+  const { notesFnsRef, songId, setChangesLog } = props;
 
   const { t } = useTranslation();
 
   const ably = useAbly();
     
-  const { publish } = useChannel('melo-chart-song-updates', (message) => {
+  const { publish } = useChannel(SOCKET_CHANNEL, (message) => {
     if(ably.connection.id != message.connectionId) {
       const { name, data } = message;
         
       if(data.id != songId) {
         return;
       }
+
+      if(name == SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_CHANGES_LOG) {
+        data.changesLog?.forEach(changeLog => {
+          const { action, data } = changeLog;
+
+          if(action == SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_ADD_MULTIPLE_NOTES) {
+            onAddMultipleNotes(data.qty);
+            return;
+          }
+        });
+
+        return;
+      }
     
-      if(name == 'update-chart-add-multiple-notes') {
+      if(name == SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_ADD_MULTIPLE_NOTES) {
         onAddMultipleNotes(data.qty);
       }
     }
@@ -37,11 +51,24 @@ const NewNotesOption = (props) => {
     const qty = +event.target.qty.value;
 
     onAddMultipleNotes(qty);
-    publish('update-chart-add-multiple-notes', {
+
+    const publishData = {
       id: songId,
       qty,
+    };
+
+    setChangesLog((currentChangesLog) => {
+      return [
+        ...currentChangesLog,
+        {
+          action: SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_ADD_MULTIPLE_NOTES,
+          data: publishData,
+        },
+      ];
     });
-  }, [ onAddMultipleNotes, publish, songId ]);
+
+    publish(SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_ADD_MULTIPLE_NOTES, publishData);
+  }, [ onAddMultipleNotes, publish, setChangesLog, songId ]);
 
   return (
     <form className={style.NewNotesOption} onSubmit={onSubmitAddMultipleNotes}>

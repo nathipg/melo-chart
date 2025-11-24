@@ -13,7 +13,7 @@ import style from './ChartControllers.module.scss';
 
 const ChartControllers = (props) => {
   const { song } = props;
-  const { notesFnsRef, generateChartDialogFnsRef, deleteSongDialogFnsRef } = props;
+  const { notesFnsRef, generateChartDialogFnsRef, deleteSongDialogFnsRef, setChangesLog } = props;
 
   const { t } = useTranslation();
 
@@ -23,22 +23,26 @@ const ChartControllers = (props) => {
         <NewNotesOption
           notesFnsRef={notesFnsRef}
           songId={song.id}
+          setChangesLog={setChangesLog}
         />
 
         <NewPitchesOption
           notesFnsRef={notesFnsRef}
           songId={song.id}
+          setChangesLog={setChangesLog}
         />
 
         <TrimOptions
           notesFnsRef={notesFnsRef}
           songId={song.id}
+          setChangesLog={setChangesLog}
         />
       </div>
 
       <div className={style.Section}>
         <ShareWithOption
           songId={song.id}
+          setChangesLog={setChangesLog}
         />
       </div>
 

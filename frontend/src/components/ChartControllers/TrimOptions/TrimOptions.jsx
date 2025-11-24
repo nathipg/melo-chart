@@ -3,17 +3,18 @@ import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button, ButtonConstants } from '@/components';
+import { SOCKET_CHANNEL, SOCKET_EVENT_NAME_MAPPER } from '@/constants';
 
 import style from './TrimOptions.module.scss';
 
 const TrimOptions = (props) => {
-  const { notesFnsRef, songId } = props;
+  const { notesFnsRef, songId, setChangesLog } = props;
 
   const { t } = useTranslation();
 
   const ably = useAbly();
 
-  const { publish } = useChannel('melo-chart-song-updates', (message) => {
+  const { publish } = useChannel(SOCKET_CHANNEL, (message) => {
     if(ably.connection.id != message.connectionId) {
       const { name, data } = message;
     
@@ -21,7 +22,20 @@ const TrimOptions = (props) => {
         return;
       }
 
-      if(name == 'update-chart-trim') {
+      if(name == SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_CHANGES_LOG) {
+        data.changesLog?.forEach(changeLog => {
+          const { action } = changeLog;
+
+          if(action == SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_TRIM) {
+            trimChart();
+            return;
+          }
+        });
+
+        return;
+      }
+
+      if(name == SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_TRIM) {
         trimChart();
       }
     }
@@ -42,10 +56,22 @@ const TrimOptions = (props) => {
 
   const onTrimChart = useCallback(() => {
     trimChart();
-    publish('update-chart-trim', {
+    const publishData = {
       id: songId,
+    };
+
+    setChangesLog((currentChangesLog) => {
+      return [
+        ...currentChangesLog,
+        {
+          action: SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_TRIM,
+          data: publishData,
+        },
+      ];
     });
-  }, [ publish, songId, trimChart ]);
+
+    publish(SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_TRIM, publishData);
+  }, [ publish, setChangesLog, songId, trimChart ]);
 
   return (
     <div className={style.TrimOptions}>

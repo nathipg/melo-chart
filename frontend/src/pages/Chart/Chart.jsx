@@ -1,8 +1,10 @@
-import { memo, useCallback, useRef } from 'react';
+import { useAbly, useChannel } from 'ably/react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, useBlocker, useSearchParams } from 'react-router';
 
 import { GenerateChartDialog, LeaveChartPageConfirmDialog, Song } from '@/components';
+import { SOCKET_CHANNEL, SOCKET_EVENT_NAME_MAPPER } from '@/constants';
 import { SongSlice } from '@/store/slices';
 
 import style from './Chart.module.scss';
@@ -10,12 +12,15 @@ import style from './Chart.module.scss';
 const Chart = () => {
   const notesFnsRef = useRef(null);
   const generateChartDialogFnsRef = useRef(null);
+  const hasRequestedChanges = useRef(false);
 
   const [ searchParams ] = useSearchParams();
 
   const songId = searchParams.get('id') || null;
 
   const song = useSelector(SongSlice.selectors.selectSongById(songId));
+
+  const [ changesLog, setChangesLog ] = useState([]);
 
   const onAddWordsAsNotes = useCallback((songText) => {
     notesFnsRef.current?.addWordsAsNotes(songText);
@@ -36,6 +41,41 @@ const Chart = () => {
 
   const blocker = useBlocker(shouldConfirmLeavePage);
 
+  const ably = useAbly();
+  
+  const { publish } = useChannel(SOCKET_CHANNEL, (message) => {
+    if(ably.connection.id != message.connectionId) {
+      const { name, data } = message;
+      
+      if(data.id != songId) {
+        return;
+      }
+
+      if(name == SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_REQUEST_CHANGES) {
+        publish(SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_CHANGES_LOG, {
+          id: songId,
+          changesLog,
+        });
+        return;
+      }
+
+      if(name == SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_CHANGES_LOG) {
+        setChangesLog(data.changesLog);
+        return;
+      }
+    }
+  });
+
+  useEffect(() => {
+    if(!hasRequestedChanges.current) {
+      publish(SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_REQUEST_CHANGES, {
+        id: songId,
+      });
+
+      hasRequestedChanges.current = true;
+    }
+  }, [ publish, songId ]);
+
   return (
     <div className={style.Chart}>
       {
@@ -44,6 +84,7 @@ const Chart = () => {
             notesFnsRef={notesFnsRef}
             generateChartDialogFnsRef={generateChartDialogFnsRef}
             song={song}
+            setChangesLog={setChangesLog}
           />
         ) : (
           <Navigate to="/" />
@@ -60,6 +101,7 @@ const Chart = () => {
         generateChartDialogFnsRef={generateChartDialogFnsRef}
         onAddWordsAsNotes={onAddWordsAsNotes}
         songId={song?.id}
+        setChangesLog={setChangesLog}
       />
     </div>
   );

@@ -3,6 +3,7 @@ import { memo, useCallback, useEffect, useImperativeHandle, useMemo, useRef, use
 import { useTranslation } from 'react-i18next';
 
 import { ContextMenu } from '@/components';
+import { SOCKET_CHANNEL, SOCKET_EVENT_NAME_MAPPER } from '@/constants';
 import { convertRemToPixels } from '@/utils';
 
 import {
@@ -23,15 +24,6 @@ import { Note } from './Note';
 
 import style from './Notes.module.scss';
 
-const SOCKET_EVENT_NAME_MAPPER = Object.freeze({
-  ADD_PITCH_ABOVE: 'add-pitch-above',
-  ADD_PITCH_BELOW: 'add-pitch-below',
-  ADD_NOTE_BEFORE: 'add-note-before',
-  ADD_NOTE_AFTER: 'add-note-after',
-  REMOVE_PITCH: 'remove-pitch',
-  REMOVE_NOTE: 'remove-note',
-});
-
 const SOCKET_EVENT_FN_MAPPER = Object.freeze({
   [SOCKET_EVENT_NAME_MAPPER.ADD_PITCH_ABOVE]: addPitchAtNoteTop,
   [SOCKET_EVENT_NAME_MAPPER.ADD_PITCH_BELOW]: addPitchAtNoteBottom,
@@ -42,7 +34,7 @@ const SOCKET_EVENT_FN_MAPPER = Object.freeze({
 });
 
 const Notes = (props) => {
-  const { notes: initialNotes, notesFnsRef, songId } = props;
+  const { notes: initialNotes, notesFnsRef, songId, setChangesLog } = props;
 
   const { t } = useTranslation();
 
@@ -55,11 +47,25 @@ const Notes = (props) => {
   const contextMenuFnsRef = useRef(null);
   const notesContainerRef = useRef(null);
 
-  const { publish } = useChannel('melo-chart-song-updates', (message) => {
+  const { publish } = useChannel(SOCKET_CHANNEL, (message) => {
     if(ably.connection.id != message.connectionId) {
       const { name, data } = message;
 
       if(data.id != songId) {
+        return;
+      }
+
+      if(name == SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_CHANGES_LOG) {
+        data.changesLog?.forEach(changeLog => {
+          const { action, data } = changeLog;
+
+          const fn = SOCKET_EVENT_FN_MAPPER[action] || (() => null);
+          fn({
+            contextMenuData: data.contextMenuData,
+            setNotes,
+          });
+        });
+
         return;
       }
 
@@ -72,11 +78,23 @@ const Notes = (props) => {
   });
 
   const publishContextMenuEvent = useCallback((eventName, contextMenuData) => {
-    publish(eventName, {
+    const publishData = {
       id: songId,
       contextMenuData,
+    };
+
+    setChangesLog((currentChangesLog) => {
+      return [
+        ...currentChangesLog,
+        {
+          action: eventName,
+          data: publishData,
+        },
+      ];
     });
-  }, [ publish, songId ]);
+
+    publish(eventName, publishData);
+  }, [ publish, setChangesLog, songId ]);
 
   const contextMenuItems = useMemo(() => {
     return [
@@ -134,6 +152,9 @@ const Notes = (props) => {
       },
       getNotes() {
         return [ ...notes ];
+      },
+      setNotes(notes) {
+        setNotes(notes);
       },
       addMultipleNotes(qty) {
         addMultipleNotes({ setNotes, qty });
@@ -203,6 +224,7 @@ const Notes = (props) => {
               contextMenuFnsRef={contextMenuFnsRef}
               isTheNoteDefinitionChunk={true}
               songId={songId}
+              setChangesLog={setChangesLog}
             />
           );
         })}
@@ -230,6 +252,7 @@ const Notes = (props) => {
               nextNoteNoteIndex={nextNoteNoteIndex}
               contextMenuFnsRef={contextMenuFnsRef}
               songId={songId}
+              setChangesLog={setChangesLog}
             />
           );
         })}

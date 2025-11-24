@@ -9,7 +9,7 @@ import { isRequestLoading } from '@/utils';
 import style from './SaveChartOption.module.scss';
 
 const SaveChartOption = (props) => {
-  const { songId, notesFnsRef } = props;
+  const { songId, notesFnsRef, setChangesLog } = props;
 
   const { t } = useTranslation();
 
@@ -27,7 +27,9 @@ const SaveChartOption = (props) => {
       title: updatedTitle,
       notes: updatedNotes,
     }));
-  }, [ dispatch, notesFnsRef, song ]);
+
+    setChangesLog([]);
+  }, [ dispatch, notesFnsRef, setChangesLog, song ]);
 
   return (
     <div className={style.SaveChartOption}>

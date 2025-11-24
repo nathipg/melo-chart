@@ -8,7 +8,7 @@ import { NoteChunk } from './NoteChunk';
 import style from './Note.module.scss';
 
 const Note = (props) => {
-  const { note, noteIndex, nextNoteNoteIndex, hasNextNote, isTheNoteDefinitionChunk, setNotes, contextMenuFnsRef, songId } = props;
+  const { note, noteIndex, nextNoteNoteIndex, hasNextNote, isTheNoteDefinitionChunk, setNotes, contextMenuFnsRef, songId, setChangesLog } = props;
 
   const onOpenContextMenu = useCallback((data) => {
     contextMenuFnsRef.current?.setContextMenuData(data);
@@ -42,6 +42,7 @@ const Note = (props) => {
             onEditNoteChunkText={onEditNoteChunkText}
             onEditNoteDefinitionChunkText={onEditNoteDefinitionChunkText}
             songId={songId}
+            setChangesLog={setChangesLog}
           />
         );
       })}

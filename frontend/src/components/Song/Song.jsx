@@ -8,7 +8,7 @@ import { SongTitle } from './SongTitle/SongTitle';
 import style from './Song.module.scss';
 
 const Song = (props) => {
-  const { notesFnsRef, generateChartDialogFnsRef, song } = props;
+  const { notesFnsRef, generateChartDialogFnsRef, song, setChangesLog } = props;
 
   const { t } = useTranslation();
 
@@ -32,6 +32,7 @@ const Song = (props) => {
           id={song.id}
           title={song.title}
           notesFnsRef={notesFnsRef}
+          setChangesLog={setChangesLog}
         />
       </div>
 
@@ -39,6 +40,7 @@ const Song = (props) => {
         songId={song.id}
         notes={song.notes}
         notesFnsRef={notesFnsRef}
+        setChangesLog={setChangesLog}
       />
 
       <ConfigSongDialog
@@ -47,6 +49,7 @@ const Song = (props) => {
         generateChartDialogFnsRef={generateChartDialogFnsRef}
         deleteSongDialogFnsRef={deleteSongDialogFnsRef}
         notesFnsRef={notesFnsRef}
+        setChangesLog={setChangesLog}
       />
 
       <DeleteSongConfirmDialog
