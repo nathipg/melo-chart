@@ -212,7 +212,7 @@ const Notes = (props) => {
   return (
     <div className={style.ChartContainer}>
       <div className={style.ScaleContainer}>
-        {scales.map((scaleIndex) => {
+        {scales.map((_, scaleIndex) => {
           return (
             <Note
               key={`${scale.id}-${scaleIndex}`}

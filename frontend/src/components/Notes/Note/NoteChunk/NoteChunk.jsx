@@ -315,6 +315,7 @@ const NoteChunk = (props) => {
         editMode ?
           <Input
             autoFocus
+            autocomplete="off"
             type="text"
             name="note-chunk-edit-input"
             value={editInputValue}
