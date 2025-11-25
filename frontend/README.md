@@ -9,9 +9,9 @@ App created to map the melody of songs
   - Adicionar busca nas músicas
 
 - Pedido usuário
-  - Fazer a feature de compartilhar música no Melo Chart (Com websocket)
   - Colocar opção de ter escalas prontas (poder esticar pra baixo e pra cima)
   - Colocar anúncio no rodapé do Melo Chart
+  - Desfazer?
 
 - General
   - Improve load screen
