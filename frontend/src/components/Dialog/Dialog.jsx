@@ -7,12 +7,12 @@ const Dialog = (props) => {
   const { show = true, bodyContent, footerContent, title, size = '' } = props;
 
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = show ? 'hidden' : '';
 
     return () => {
       document.body.style.overflow = '';
     };
-  }, []);
+  }, [ show ]);
 
   return createPortal(
     <div className={`${style.DialogUIBlocker} ${show ? '' : style.DialogHidden}`}>
