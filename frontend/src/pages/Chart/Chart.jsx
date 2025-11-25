@@ -1,7 +1,8 @@
 import { useAbly, useChannel } from 'ably/react';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { Navigate, useBlocker, useSearchParams } from 'react-router';
+import { useBlocker, useSearchParams } from 'react-router';
 
 import { GenerateChartDialog, LeaveChartPageConfirmDialog, Song } from '@/components';
 import { SOCKET_CHANNEL, SOCKET_EVENT_NAME_MAPPER } from '@/constants';
@@ -10,6 +11,8 @@ import { SongSlice } from '@/store/slices';
 import style from './Chart.module.scss';
 
 const Chart = () => {
+  const { t } = useTranslation();
+  
   const notesFnsRef = useRef(null);
   const generateChartDialogFnsRef = useRef(null);
   const hasRequestedChanges = useRef(false);
@@ -87,7 +90,7 @@ const Chart = () => {
             setChangesLog={setChangesLog}
           />
         ) : (
-          <Navigate to="/" />
+          <div>{t('Song not found')}</div>
         )
       }
 
