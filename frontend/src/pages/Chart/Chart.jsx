@@ -22,6 +22,7 @@ const Chart = () => {
   const songId = searchParams.get('id') || null;
 
   const song = useSelector(SongSlice.selectors.selectSongById(songId));
+  const isSongsLoaded = useSelector(SongSlice.selectors.selectIsSongsLoaded);
 
   const [ changesLog, setChangesLog ] = useState([]);
 
@@ -90,7 +91,7 @@ const Chart = () => {
             setChangesLog={setChangesLog}
           />
         ) : (
-          <div>{t('Song not found')}</div>
+          <div>{isSongsLoaded ? t('Song not found') : t('Loading...')}</div>
         )
       }
 

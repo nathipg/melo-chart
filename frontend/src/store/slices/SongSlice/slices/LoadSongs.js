@@ -43,6 +43,9 @@ const selectors = {
   selectSongsStatus: (state) => {
     return state.songs.songsStatus;
   },
+  selectIsSongsLoaded: (state) => {
+    return [ REQUEST_STATUS.SUCCEEDED, REQUEST_STATUS.FAILED ].includes(state.songs.loadSongsStatus);
+  },
 };
 
 export const LoadSongs = {
