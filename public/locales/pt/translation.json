@@ -7,7 +7,6 @@
   "Loading...": "Carregando...",
   "Song List": "Lista de Músicas",
   "My Songs": "Minhas Músicas",
-  "Songs Shared With Me": "Músicas compartilhadas comigo",
   "No songs here. What about adding one?": "Nenhuma música aqui. Que tal adicionar uma?",
   "No songs here": "Nenhuma música aqui",
   "Unknown User": "Usuário desconhecido",
@@ -81,6 +80,5 @@
   "Please, add a valid email": "Por favor, insira um email válido",
   "An account with that email already exists": "Já existe uma conta com esse email",
   "Please, insert a password with at least 6 characters": "Por favor, insira uma senha com pelo menos 6 caracteres",
-  "Invalid email and/or password": "Email e/ou senha inválida",
-  "Shared With": "Compartilhado Com"
+  "Invalid email and/or password": "Email e/ou senha inválida"
 }

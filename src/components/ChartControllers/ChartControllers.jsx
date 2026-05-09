@@ -6,7 +6,6 @@ import { Button, ButtonConstants } from '@/components';
 import { DeleteSongOption } from './DeleteSongOption';
 import { NewNotesOption } from './NewNotesOption';
 import { NewPitchesOption } from './NewPitchesOption';
-import { ShareWithOption } from './ShareWithOption';
 import { TrimOptions } from './TrimOptions';
 
 import style from './ChartControllers.module.scss';
@@ -23,10 +22,6 @@ const ChartControllers = (props) => {
         <NewNotesOption notesFnsRef={notesFnsRef} />
         <NewPitchesOption notesFnsRef={notesFnsRef} />
         <TrimOptions notesFnsRef={notesFnsRef} />
-      </div>
-
-      <div className={style.Section}>
-        <ShareWithOption songId={song.id} />
       </div>
 
       <div className={style.Section}>

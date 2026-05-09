@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { SongSlice, UserSlice } from '@/store/slices';
 
-import { renderSharedWithMeSongs, renderSongs } from './functions';
+import { renderSongs } from './functions';
 
 import style from './SongList.module.scss';
 
@@ -18,22 +18,12 @@ const SongList = () => {
     return songs.filter(song => song.owner == loggedUser?.uid);
   }, [ loggedUser?.uid, songs ]);
 
-  const songsSharedWithMe = useMemo(() => {
-    return songs.filter(song => song.owner != loggedUser?.uid);
-  }, [ loggedUser?.uid, songs ]);
-
   return (
     <>
       <div className={style.SongListContainer}>
         <h2>{t('My Songs')}</h2>
         <ul className={style.SongList}>
           {renderSongs(mySongs)}
-        </ul>
-      </div>
-      <div className={style.SongListContainer}>
-        <h2>{t('Songs Shared With Me')}</h2>
-        <ul className={style.SongList}>
-          {renderSharedWithMeSongs(songsSharedWithMe)}
         </ul>
       </div>
     </>

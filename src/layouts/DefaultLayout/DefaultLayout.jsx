@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router';
 
-import { BarsIcon, Button, ButtonConstants, GrowlContainer, Link, MeloChartIcon, UserNameWithTag } from '@/components';
+import { BarsIcon, Button, ButtonConstants, GrowlContainer, Link, MeloChartIcon } from '@/components';
 import { UserSlice } from '@/store/slices';
 
 import style from './DefaultLayout.module.scss';
@@ -42,10 +42,7 @@ const Header = () => {
                 </ul>
 
                 <div className={style.FlexVerticalCenterWithGap}>
-                  <UserNameWithTag
-                    username={loggedUser.username}
-                    tag={loggedUser.tag}
-                  />
+                  <span>{loggedUser.username}</span>
                   <Button
                     category={ButtonConstants.ButtonCategories.DANGER}
                     textOnly={true}
@@ -87,10 +84,7 @@ const Header = () => {
               </li>
             </ul>
             <div className={style.DivisorTop}>
-              <UserNameWithTag
-                username={loggedUser.username}
-                tag={loggedUser.tag}
-              />
+              <span>{loggedUser.username}</span>
             </div>
           </div>
         ) : <></>
