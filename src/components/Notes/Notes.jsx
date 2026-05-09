@@ -1,9 +1,7 @@
-import { useAbly, useChannel } from 'ably/react';
 import { memo, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ContextMenu } from '@/components';
-import { SOCKET_CHANNEL, SOCKET_EVENT_NAME_MAPPER } from '@/constants';
 import { convertRemToPixels } from '@/utils';
 
 import {
@@ -24,21 +22,10 @@ import { Note } from './Note';
 
 import style from './Notes.module.scss';
 
-const SOCKET_EVENT_FN_MAPPER = Object.freeze({
-  [SOCKET_EVENT_NAME_MAPPER.ADD_PITCH_ABOVE]: addPitchAtNoteTop,
-  [SOCKET_EVENT_NAME_MAPPER.ADD_PITCH_BELOW]: addPitchAtNoteBottom,
-  [SOCKET_EVENT_NAME_MAPPER.ADD_NOTE_BEFORE]: addNoteBefore,
-  [SOCKET_EVENT_NAME_MAPPER.ADD_NOTE_AFTER]: addNoteAfter,
-  [SOCKET_EVENT_NAME_MAPPER.REMOVE_PITCH]: removePitch,
-  [SOCKET_EVENT_NAME_MAPPER.REMOVE_NOTE]: removeNote,
-});
-
 const Notes = (props) => {
-  const { notes: initialNotes, notesFnsRef, songId, setChangesLog } = props;
+  const { notes: initialNotes, notesFnsRef, songId } = props;
 
   const { t } = useTranslation();
-
-  const ably = useAbly();
 
   const [ notes, setNotes ] = useState(initialNotes);
   const [ wrapNotes, setWrapNotes ] = useState(true);
@@ -47,83 +34,30 @@ const Notes = (props) => {
   const contextMenuFnsRef = useRef(null);
   const notesContainerRef = useRef(null);
 
-  const { publish } = useChannel(SOCKET_CHANNEL, (message) => {
-    if(ably.connection.id != message.connectionId) {
-      const { name, data } = message;
-
-      if(data.id != songId) {
-        return;
-      }
-
-      if(name == SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_CHANGES_LOG) {
-        data.changesLog?.forEach(changeLog => {
-          const { action, data } = changeLog;
-
-          const fn = SOCKET_EVENT_FN_MAPPER[action] || (() => null);
-          fn({
-            contextMenuData: data.contextMenuData,
-            setNotes,
-          });
-        });
-
-        return;
-      }
-
-      const fn = SOCKET_EVENT_FN_MAPPER[name] || (() => null);
-      fn({
-        contextMenuData: data.contextMenuData,
-        setNotes,
-      });
-    }
-  });
-
-  const publishContextMenuEvent = useCallback((eventName, contextMenuData) => {
-    const publishData = {
-      id: songId,
-      contextMenuData,
-    };
-
-    setChangesLog((currentChangesLog) => {
-      return [
-        ...currentChangesLog,
-        {
-          action: eventName,
-          data: publishData,
-        },
-      ];
-    });
-
-    publish(eventName, publishData);
-  }, [ publish, setChangesLog, songId ]);
-
   const contextMenuItems = useMemo(() => {
     return [
       {
         label: t('Add Pitch Above'),
         onClick: (contextMenuData) => {
           addPitchAtNoteTop({ contextMenuData, setNotes });
-          publishContextMenuEvent(SOCKET_EVENT_NAME_MAPPER.ADD_PITCH_ABOVE, contextMenuData);
         },
       },
       {
         label: t('Add Pitch Below'),
         onClick: (contextMenuData) => {
           addPitchAtNoteBottom({ contextMenuData, setNotes });
-          publishContextMenuEvent(SOCKET_EVENT_NAME_MAPPER.ADD_PITCH_BELOW, contextMenuData);
         },
       },
       {
         label: t('Add Note Before'),
         onClick: (contextMenuData) => {
           addNoteBefore({ contextMenuData, setNotes });
-          publishContextMenuEvent(SOCKET_EVENT_NAME_MAPPER.ADD_NOTE_BEFORE, contextMenuData);
         },
       },
       {
         label: t('Add Note After'),
         onClick: (contextMenuData) => {
           addNoteAfter({ contextMenuData, setNotes });
-          publishContextMenuEvent(SOCKET_EVENT_NAME_MAPPER.ADD_NOTE_AFTER, contextMenuData);
         },
       },
       {
@@ -131,7 +65,6 @@ const Notes = (props) => {
         type: 'danger',
         onClick: (contextMenuData) => {
           removePitch({ contextMenuData, setNotes });
-          publishContextMenuEvent(SOCKET_EVENT_NAME_MAPPER.REMOVE_PITCH, contextMenuData);
         },
       },
       {
@@ -139,11 +72,10 @@ const Notes = (props) => {
         type: 'danger',
         onClick: (contextMenuData) => {
           removeNote({ contextMenuData, setNotes });
-          publishContextMenuEvent(SOCKET_EVENT_NAME_MAPPER.REMOVE_NOTE, contextMenuData);
         },
       },
     ];
-  }, [ publishContextMenuEvent, t ]);
+  }, [ t ]);
 
   useImperativeHandle(notesFnsRef, () => {
     return {
@@ -224,7 +156,6 @@ const Notes = (props) => {
               contextMenuFnsRef={contextMenuFnsRef}
               isTheNoteDefinitionChunk={true}
               songId={songId}
-              setChangesLog={setChangesLog}
             />
           );
         })}
@@ -252,7 +183,6 @@ const Notes = (props) => {
               nextNoteNoteIndex={nextNoteNoteIndex}
               contextMenuFnsRef={contextMenuFnsRef}
               songId={songId}
-              setChangesLog={setChangesLog}
             />
           );
         })}

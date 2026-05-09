@@ -1,58 +1,20 @@
-import { useAbly, useChannel } from 'ably/react';
 import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { FieldWithLabel, UsersAutocomplete } from '@/components';
-import { SOCKET_CHANNEL, SOCKET_EVENT_NAME_MAPPER } from '@/constants';
 import { SongSlice } from '@/store/slices';
 
 import styles from './ShareWithOption.module.scss';
 
 const ShareWithOption = (props) => {
-  const { songId, setChangesLog } = props;
+  const { songId } = props;
 
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
 
   const song = useSelector(SongSlice.selectors.selectSongById(songId));
-
-  const ably = useAbly();
-  
-  const { publish } = useChannel(SOCKET_CHANNEL, (message) => {
-    if(ably.connection.id != message.connectionId) {
-      const { name, data } = message;
-      
-      if(data.id != songId) {
-        return;
-      }
-
-      if(name == SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_CHANGES_LOG) {
-        data.changesLog?.forEach(changeLog => {
-          const { action, data } = changeLog;
-
-          if(action == SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_SHARED_WITH) {
-            dispatch(SongSlice.actions.editSongEditors({
-              id: data.id,
-              editors: data.editors,
-              editorsData: data.editorsData,
-            }));
-          }
-        });
-
-        return;
-      }
-  
-      if(name == SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_SHARED_WITH) {
-        dispatch(SongSlice.actions.editSongEditors({
-          id: data.id,
-          editors: data.editors,
-          editorsData: data.editorsData,
-        }));
-      }
-    }
-  });
 
   const onChangeSelectedUsers = useCallback(async (options) => {
     const selectedEditors = options.map(option => option.value);
@@ -67,24 +29,7 @@ const ShareWithOption = (props) => {
       ...song,
       ...updatedData,
     }));
-
-    const publishData = {
-      id: songId,
-      ...updatedData,
-    };
-
-    setChangesLog((currentChangesLog) => {
-      return [
-        ...currentChangesLog,
-        {
-          action: SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_SHARED_WITH,
-          data: publishData,
-        },
-      ];
-    });
-    
-    publish(SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_SHARED_WITH, publishData);
-  }, [ dispatch, publish, setChangesLog, song, songId ]);
+  }, [ dispatch, song ]);
 
   return (
     <div className={styles.ShareWithOption}>

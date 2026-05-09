@@ -1,9 +1,7 @@
-import { useAbly, useChannel } from 'ably/react';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Input } from '@/components';
-import { SOCKET_CHANNEL, SOCKET_EVENT_NAME_MAPPER } from '@/constants';
 
 import { EDIT_CHUNK_KEY_DOWN_EVENT_FN_MAPPER } from './constants';
 import { onDragOver } from './functions';
@@ -28,54 +26,12 @@ const NoteChunk = (props) => {
     onEditNoteChunkText,
     onEditNoteDefinitionChunkText,
     songId,
-    setChangesLog,
   } = props;
 
   const { t } = useTranslation();
 
-  const ably = useAbly();
-
   const [ editMode, setEditMode ] = useState(false);
   const [ editInputValue, setEditInputValue ] = useState(text);
-
-  const { publish } = useChannel(SOCKET_CHANNEL, (message) => {
-    if(ably.connection.id != message.connectionId) {
-      const { name, data } = message;
-  
-      if(data.id != songId) {
-        return;
-      }
-
-      if(name == SOCKET_EVENT_NAME_MAPPER.UPDATE_CHART_CHANGES_LOG) {
-        data.changesLog?.forEach(changeLog => {
-          const { action, data } = changeLog;
-
-          if(action == SOCKET_EVENT_NAME_MAPPER.UPDATE_NOTE_CHUNK_TEXT) {
-            onBlur(data);
-          }
-
-          if(action == SOCKET_EVENT_NAME_MAPPER.UPDATE_NOTE_CHUNK_POSITION) {
-            onEditNoteChunkText(data);
-          }
-        });
-        return;
-      }
-
-      if(data.noteIndex != noteIndex || data.chunkIndex != chunkIndex) {
-        return;
-      }
-  
-      if(name == SOCKET_EVENT_NAME_MAPPER.UPDATE_NOTE_CHUNK_TEXT) {
-        onBlur(data);
-        return;
-      }
-
-      if(name == SOCKET_EVENT_NAME_MAPPER.UPDATE_NOTE_CHUNK_POSITION) {
-        onEditNoteChunkText(data);
-        return;
-      }
-    }
-  });
 
   const isTheFirstChunk = useMemo(() => {
     return chunkIndex === 0;
@@ -115,24 +71,7 @@ const NoteChunk = (props) => {
     };
 
     onEditNoteChunkText(data);
-
-    const publishData = {
-      id: songId,
-      ...data,
-    };
-
-    setChangesLog((currentChangesLog) => {
-      return [
-        ...currentChangesLog,
-        {
-          action: SOCKET_EVENT_NAME_MAPPER.UPDATE_NOTE_CHUNK_POSITION,
-          data: publishData,
-        },
-      ];
-    });
-
-    publish(SOCKET_EVENT_NAME_MAPPER.UPDATE_NOTE_CHUNK_POSITION, publishData);
-  }, [ chunkIndex, noteIndex, onEditNoteChunkText, publish, setChangesLog, songId ]);
+  }, [ chunkIndex, noteIndex, onEditNoteChunkText ]);
 
   const onDragStart = useCallback((event) => {
     event.dataTransfer.setData('text', text);
@@ -250,23 +189,6 @@ const NoteChunk = (props) => {
       };
 
       onEditNoteChunkText(data);
-
-      const publishData = {
-        id: songId,
-        ...data,
-      };
-
-      setChangesLog((currentChangesLog) => {
-        return [
-          ...currentChangesLog,
-          {
-            action: SOCKET_EVENT_NAME_MAPPER.UPDATE_NOTE_CHUNK_POSITION,
-            data: publishData,
-          },
-        ];
-      });
-
-      publish(SOCKET_EVENT_NAME_MAPPER.UPDATE_NOTE_CHUNK_POSITION, publishData);
     };
     
     chunkElement?.addEventListener('touchstart', onTouchStart, { passive: false });
@@ -278,7 +200,7 @@ const NoteChunk = (props) => {
       chunkElement?.removeEventListener('touchmove', onTouchMove, { passive: false });
       chunkElement?.removeEventListener('touchend', onTouchEnd, { passive: false });
     };
-  }, [ chunkIndex, noteIndex, onEditNoteChunkText, publish, setChangesLog, songId, text ]);
+  }, [ chunkIndex, noteIndex, onEditNoteChunkText, songId, text ]);
   // END Drag n Drop Mobile
 
   return (
@@ -315,7 +237,7 @@ const NoteChunk = (props) => {
         editMode ?
           <Input
             autoFocus
-            autocomplete="off"
+            autoComplete="off"
             type="text"
             name="note-chunk-edit-input"
             value={editInputValue}
@@ -331,23 +253,6 @@ const NoteChunk = (props) => {
               };
 
               onBlur(data);
-
-              const publishData = {
-                id: songId,
-                ...data,
-              };
-
-              setChangesLog((currentChangesLog) => {
-                return [
-                  ...currentChangesLog,
-                  {
-                    action: SOCKET_EVENT_NAME_MAPPER.UPDATE_NOTE_CHUNK_TEXT,
-                    data: publishData,
-                  },
-                ];
-              });
-
-              publish(SOCKET_EVENT_NAME_MAPPER.UPDATE_NOTE_CHUNK_TEXT, publishData);
             }}
           />
           : displayedText
