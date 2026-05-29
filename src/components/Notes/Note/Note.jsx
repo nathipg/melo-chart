@@ -28,21 +28,29 @@ const Note = (props) => {
         const hasRightBorder = hasNextNote ? shouldAddRightBorderOnNoteChunk(chunkIndex, currentNoteNoteIndex, nextNoteNoteIndex) : false;
 
         return (
-          <NoteChunk
-            note={note}
-            chunk={chunk}
-            key={chunk.id}
-            chunkIndex={chunkIndex}
-            noteIndex={noteIndex}
-            filledNoteIndex={currentNoteNoteIndex}
-            text={chunk.text}
-            hasRightBorder={hasRightBorder}
-            isTheNoteDefinitionChunk={isTheNoteDefinitionChunk}
-            onOpenContextMenu={onOpenContextMenu}
-            onEditNoteChunkText={onEditNoteChunkText}
-            onEditNoteDefinitionChunkText={onEditNoteDefinitionChunkText}
-            songId={songId}
-          />
+          <div style={{position: 'relative'}}>
+            <strong style={{
+              position: 'absolute',
+              display: 'block',
+              marginLeft: '50%',
+              transform: 'translate(-50%, -1rem)',
+            }}>{noteIndex}</strong>
+            <NoteChunk
+              note={note}
+              chunk={chunk}
+              key={chunk.id}
+              chunkIndex={chunkIndex}
+              noteIndex={noteIndex}
+              filledNoteIndex={currentNoteNoteIndex}
+              text={chunk.text}
+              hasRightBorder={hasRightBorder}
+              isTheNoteDefinitionChunk={isTheNoteDefinitionChunk}
+              onOpenContextMenu={onOpenContextMenu}
+              onEditNoteChunkText={onEditNoteChunkText}
+              onEditNoteDefinitionChunkText={onEditNoteDefinitionChunkText}
+              songId={songId}
+            />
+          </div>
         );
       })}
     </div>
